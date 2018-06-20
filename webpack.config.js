@@ -83,8 +83,8 @@ const ttfLoaderConfiguration = {
   include: [
     path.resolve(appDirectory, './src/assets/fonts'),
     path.resolve(appDirectory, 'node_modules/react-native-vector-icons'),
-    // Enable loading Roboto font
-    path.resolve(appDirectory, 'node_modules/native-base/Fonts')
+    // Load Roboto font
+    path.resolve(appDirectory, 'fonts')
   ]
 }
 

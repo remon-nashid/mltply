@@ -10,12 +10,22 @@ body {
 
 @font-face {
   font-family: 'Roboto';
-  src: url('~native-base/Fonts/Roboto.ttf') format('truetype');
+  src: url('../fonts/Roboto.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Roboto_medium';
-  src: url('~native-base/Fonts/Roboto_medium.ttf') format('truetype');
+  src: url('../fonts/Roboto-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto Mono';
+  src: url('../fonts/RobotoMono.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto Mono Medium';
+  src: url('../fonts/RobotoMono-Medium.ttf') format('truetype');
 }
 
 @font-face {
