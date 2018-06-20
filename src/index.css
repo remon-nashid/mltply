@@ -14,8 +14,13 @@ body {
 }
 
 @font-face {
+  font-family: 'Roboto_medium';
+  src: url('~native-base/Fonts/Roboto_medium.ttf') format('truetype');
+}
+
+@font-face {
   /*font-family: 'MaterialCommunityIcons';*/
-  font-family: "Material Design Icons";
-  src: url("~react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf")
-    format("truetype");
+  font-family: 'Material Design Icons';
+  src: url('~react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf')
+    format('truetype');
 }
