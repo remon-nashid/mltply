@@ -10,8 +10,18 @@
     "babel-plugin-transform-imports": "^1.4.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "css-loader": "^0.28.7",
+    "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-universe": "^1.0.7",
+    "eslint-plugin-flowtype": "^2.49.3",
+    "eslint-plugin-prettier": "^2.6.0",
     "file-loader": "^1.1.7",
+    "flow-bin": "^0.74.0",
+    "husky": "^0.14.3",
     "jest-expo": "~28.0.0",
+    "lint-staged": "^7.2.0",
+    "prettier": "^1.13.5",
+    "pretty-quick": "^1.6.0",
     "react-native-scripts": "^1.14.0",
     "react-test-renderer": "16.3.1",
     "style-loader": "^0.21.0",
@@ -25,7 +35,9 @@
     "ios": "react-native-scripts ios",
     "test": "jest",
     "web": "webpack-dev-server -d --config ./webpack.config.js  --inline --hot --colors --content-base public/ --history-api-fallback",
-    "build": "NODE_ENV=production webpack -p --config ./webpack.config.js"
+    "build": "NODE_ENV=production webpack -p --config ./webpack.config.js",
+    "precommit": "pretty-quick --staged",
+    "flow": "./node_modules/.bin/flow"
   },
   "jest": {
     "preset": "jest-expo"

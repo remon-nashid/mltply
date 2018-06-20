@@ -30,6 +30,7 @@
 <PROJECT_ROOT>/node_modules/react-native/Libraries/polyfills/.*
 
 ; Ignore various node_modules
+<PROJECT_ROOT>/node_modules/.*
 <PROJECT_ROOT>/node_modules/react-native-gesture-handler/.*
 <PROJECT_ROOT>/node_modules/expo/.*
 <PROJECT_ROOT>/node_modules/react-navigation/.*
@@ -69,7 +70,5 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowIssue\\((\\(>=0\\.\\(5[0-6]\\|[1-4][0-9]\\|
 suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
 suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 
-unsafe.enable_getters_and_setters=true
-
 [version]
-^0.56.0
+^0.74.0
