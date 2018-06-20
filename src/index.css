@@ -3,3 +3,19 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+/*
+ The following is necessary for fonts & icons to work. See https://github.com/GeekyAnts/NativeBase-KitchenSink/tree/web-support
+ */
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('~native-base/Fonts/Roboto.ttf') format('truetype');
+}
+
+@font-face {
+  /*font-family: 'MaterialCommunityIcons';*/
+  font-family: "Material Design Icons";
+  src: url("~react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf")
+    format("truetype");
+}
