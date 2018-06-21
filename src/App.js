@@ -9,8 +9,8 @@ import {
   StyleProvider,
   Text
 } from 'native-base'
-import getTheme from '../native-base-theme/components'
-import material from '../native-base-theme/variables/material'
+import getTheme from './native-base-theme/components'
+import material from './native-base-theme/variables/material'
 
 export default class App extends React.Component {
   render() {
