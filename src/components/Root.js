@@ -4,7 +4,15 @@ import React from 'react'
 import { Text, Footer, FooterTab, Button, Icon } from 'native-base'
 import { createBottomTabNavigator } from 'react-navigation'
 
-const HomeScreen = () => <Text>Home</Text>
+import ScreenTemplate from './ScreenTemplate'
+
+const Screen = () => <Text>assd</Text>
+
+const HomeScreen = () => (
+  <ScreenTemplate>
+    <Screen />
+  </ScreenTemplate>
+)
 const AssetsScreen = () => <Text>Assets</Text>
 const TargetPortfolioScreen = () => <Text>Target</Text>
 const SettingsScreen = () => <Text>Settings</Text>
@@ -25,7 +33,6 @@ const RouteIconsMap = {
 
 export default createBottomTabNavigator(RouteConfigs, {
   tabBarComponent: props => {
-    console.log(props)
     return (
       <Footer>
         <FooterTab>
