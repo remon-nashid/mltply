@@ -4,18 +4,11 @@ import React from 'react'
 import { Text, Footer, FooterTab, Button, Icon } from 'native-base'
 import { createBottomTabNavigator } from 'react-navigation'
 
-import ScreenTemplate from './ScreenTemplate'
+import HomeScreen from './HomeScreen'
+import SettingsScreen from './SettingsScreen'
 
-const Screen = () => <Text>assd</Text>
-
-const HomeScreen = () => (
-  <ScreenTemplate>
-    <Screen />
-  </ScreenTemplate>
-)
 const AssetsScreen = () => <Text>Assets</Text>
 const TargetPortfolioScreen = () => <Text>Target</Text>
-const SettingsScreen = () => <Text>Settings</Text>
 
 const RouteConfigs = {
   Home: HomeScreen,
@@ -32,6 +25,7 @@ const RouteIconsMap = {
 }
 
 export default createBottomTabNavigator(RouteConfigs, {
+  initialRouteName: 'Settings',
   tabBarComponent: props => {
     return (
       <Footer>

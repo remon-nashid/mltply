@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react'
-import { Container, Header, Content, Body, Title } from 'native-base'
+import { Container, Header, Content, Left, Body, Title } from 'native-base'
 
 export default ({ children }: { children: React.Node }) => (
   <Container>
@@ -10,8 +10,6 @@ export default ({ children }: { children: React.Node }) => (
         <Title>mltply</Title>
       </Body>
     </Header>
-    <Content>
-      <Body>{children}</Body>
-    </Content>
+    <Content>{children}</Content>
   </Container>
 )
