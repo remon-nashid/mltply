@@ -1,7 +1,7 @@
 // @flow
 
-import { _symbolSelector } from '../ducks/_stateSelectors'
-
+import { _symbolSelector } from './_stateSelectors'
+import type { Asset } from './assets'
 export const groupAssetsBySymbolReducer = (acc: Array<Asset>, asset) => {
   let i: number = acc.findIndex(item => item.symbol === asset.symbol)
   if (i > -1) {

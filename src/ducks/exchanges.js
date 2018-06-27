@@ -5,9 +5,9 @@ import { combineReducers } from 'redux'
 import ccxt, { AuthenticationError, NetworkError } from 'ccxt'
 import uuidv4 from 'uuid/v4'
 
+import type { Dispatch } from 'redux'
 import { save, removeBySource } from './assets'
 
-import type { Dispatch } from 'redux'
 import type { Asset } from './assets'
 import type { ExtractReturn } from '../types'
 
@@ -32,10 +32,10 @@ export type Exchange = {
 /********************
  * Action creators
  *******************/
-const POST = 'my-app/exchanges/POST',
-  REMOVE = 'my-app/exchanges/REMOVE',
-  SHOW_FORM = 'my-app/exchanges/SHOW_FORM',
-  CLOSE_FORM = 'my-app/exchanges/CLOSE_FORM'
+const POST = 'mltply/exchanges/POST',
+  REMOVE = 'mltply/exchanges/REMOVE',
+  SHOW_FORM = 'mltply/exchanges/SHOW_FORM',
+  CLOSE_FORM = 'mltply/exchanges/CLOSE_FORM'
 
 export function postExchange(exchange: Exchange) {
   return { type: POST, exchange }
@@ -53,9 +53,9 @@ export function showForm(id?: string) {
   return { type: SHOW_FORM, id }
 }
 
-const REQUEST_SEND = 'my-app/exchanges/REQUEST_SEND',
-  REUQUEST_SUCCESSFUL = 'my-app/exchanges/REUQUEST_SUCCESSFUL',
-  REQUEST_FAILED = 'my-app/exchanges/REQUEST_FAILED'
+const REQUEST_SEND = 'mltply/exchanges/REQUEST_SEND'
+const REUQUEST_SUCCESSFUL = 'mltply/exchanges/REUQUEST_SUCCESSFUL'
+const REQUEST_FAILED = 'mltply/exchanges/REQUEST_FAILED'
 
 export function requestSend() {
   return { type: REQUEST_SEND }
@@ -69,10 +69,10 @@ export function requestFailed(error: string) {
   return { type: REQUEST_FAILED, error }
 }
 
-const BALANCE_RECEIVED = 'my-app/exchanges/BALANCE_RECEIVED',
-  BALANCE_LOAD = 'my-app/exchanges/BALANCE_LOAD',
-  BALANCE_ERROR = 'my-app/exchanges/BALANCE_ERROR',
-  SAVE_CCXT_EXCHANGE = 'my-app/exchanges/SAVE_CCXT_EXCHANGE'
+const BALANCE_RECEIVED = 'mltply/exchanges/BALANCE_RECEIVED',
+  BALANCE_LOAD = 'mltply/exchanges/BALANCE_LOAD',
+  BALANCE_ERROR = 'mltply/exchanges/BALANCE_ERROR',
+  SAVE_CCXT_EXCHANGE = 'mltply/exchanges/SAVE_CCXT_EXCHANGE'
 
 export function balanceLoad(exchange: Exchange) {
   return { type: BALANCE_LOAD, exchange }

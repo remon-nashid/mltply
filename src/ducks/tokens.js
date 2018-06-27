@@ -13,20 +13,21 @@ export type Token = {
   name: string,
   inBaseFiat: number
 }
-export type Action =
-  | ExtractReturn<typeof received>
-  | ExtractReturn<typeof reset>
 
 export const RECEIVED = 'mltply/tokens/RECEIVED'
 export const RESET = 'mltply/tokens/RESET'
 
-export function received(data: Object | Array<any>) {
+export function received(data: Object) {
   return { type: RECEIVED, data }
 }
 
 export function reset() {
   return { type: RESET }
 }
+
+export type Action =
+  | ExtractReturn<typeof received>
+  | ExtractReturn<typeof reset>
 
 // FIXME proxy all requests for now. That will free us from caching 3rd party
 // resources on mobiles.
@@ -68,6 +69,7 @@ export function filterTokens(
     .filter(tokenMatch(keyword))
     .filter(token => exclude.findIndex(value => value === token.Id) === -1)
     .sort((a, b) => (a.Id <= b.Id ? -1 : 1))
+    .splice(0, 50)
 }
 
 // FIXME refactor into resource specific code
@@ -125,13 +127,19 @@ export function fetchResource(key: string, url: string): Function {
   }
 }
 
-type State = {}
-const initialState = {}
+type State = {
+  filter?: string,
+  data: {}
+}
+const initialState = {
+  filter: undefined,
+  data: {}
+}
 const reducer = (state: State = initialState, action: Action) => {
   const { type, data } = action
   switch (type) {
     case RECEIVED:
-      return { ...state, ...data }
+      return { ...state, data: { ...state.data, ...data } }
 
     case RESET:
       /*

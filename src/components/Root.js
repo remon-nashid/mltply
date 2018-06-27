@@ -6,8 +6,8 @@ import { createBottomTabNavigator } from 'react-navigation'
 
 import HomeScreen from './HomeScreen'
 import SettingsScreen from './SettingsScreen'
+import AssetsScreen from './AssetsScreen'
 
-const AssetsScreen = () => <Text>Assets</Text>
 const TargetPortfolioScreen = () => <Text>Target</Text>
 
 const RouteConfigs = {
@@ -25,7 +25,7 @@ const RouteIconsMap = {
 }
 
 export default createBottomTabNavigator(RouteConfigs, {
-  initialRouteName: 'Settings',
+  initialRouteName: 'Assets',
   tabBarComponent: props => {
     return (
       <Footer>

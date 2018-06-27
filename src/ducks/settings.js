@@ -4,8 +4,8 @@ import config from '../../config'
 
 import type { ExtractReturn } from '../types'
 
-export const SAVE_SETTING = 'my-app/settings/SAVE_SETTING'
-export const RESET = 'my-app/settings/RESET'
+export const SAVE_SETTING = 'mltply/settings/SAVE_SETTING'
+export const RESET = 'mltply/settings/RESET'
 
 export function saveSetting(key: string, value: string) {
   return { type: SAVE_SETTING, key, value }

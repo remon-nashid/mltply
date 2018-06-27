@@ -7,14 +7,14 @@ export type Allocation = {
 }
 export type TargetPortfolio = {}
 
-export const SAVE = 'my-app/targetPortfolio/SAVE'
-export const ADD = 'my-app/targetPortfolio/ADD'
-export const REMOVE = 'my-app/targetPortfolio/REMOVE'
-export const RESET = 'my-app/targetPortfolio/RESET'
-export const INCREMENT = 'my-app/targetPortfolio/INCREMENT'
-export const DECREMENT = 'my-app/targetPortfolio/DECREMENT'
-export const MAX = 'my-app/targetPortfolio/MAX'
-// export const INITIATE = 'my-app/targetPortfolio/INITIATE'
+export const SAVE = 'mltply/targetPortfolio/SAVE'
+export const ADD = 'mltply/targetPortfolio/ADD'
+export const REMOVE = 'mltply/targetPortfolio/REMOVE'
+export const RESET = 'mltply/targetPortfolio/RESET'
+export const INCREMENT = 'mltply/targetPortfolio/INCREMENT'
+export const DECREMENT = 'mltply/targetPortfolio/DECREMENT'
+export const MAX = 'mltply/targetPortfolio/MAX'
+// export const INITIATE = 'mltply/targetPortfolio/INITIATE'
 
 export function save(targetPortfolio: TargetPortfolio) {
   return { type: SAVE, targetPortfolio }
@@ -140,7 +140,7 @@ const reducer = (state: State = initialState, action: Action): State => {
       return _validate(state, nextState)
 
     /*
-      {type: 'my-app/targetPortfolio/ADD', symbol: 'AEON', percentage: 0}
+      {type: 'mltply/targetPortfolio/ADD', symbol: 'AEON', percentage: 0}
       */
     case ADD:
       nextState = { ...state }
@@ -152,7 +152,7 @@ const reducer = (state: State = initialState, action: Action): State => {
       return _validate(state, nextState)
 
     /*
-      {type: 'my-app/targetPortfolio/REMOVE', symbol: 'BTC'}
+      {type: 'mltply/targetPortfolio/REMOVE', symbol: 'BTC'}
       */
     case REMOVE:
       nextState = { ...state }
@@ -188,7 +188,7 @@ const reducer = (state: State = initialState, action: Action): State => {
       }
       return _validate(state, nextState)
     /*
-    {type: 'my-app/targetPortfolio/RESET'}
+    {type: 'mltply/targetPortfolio/RESET'}
     */
     case RESET:
       return initialState

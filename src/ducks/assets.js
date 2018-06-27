@@ -1,26 +1,26 @@
 // @flow
 
-type Asset = {
+export type Asset = {
   symbol: string,
   amount: number,
   sourceId: string
 }
 type State = Array<Asset>
 
-const SAVE = 'my-app/assets/SAVE'
-const REMOVE = 'my-app/assets/REMOVE'
-const REMOVE_BY_SOURCE = 'my-app/assets/REMOVE_BY_SOURCE'
-const RESET = 'my-app/assets/RESET'
+const SAVE = 'mltply/assets/SAVE'
+const REMOVE = 'mltply/assets/REMOVE'
+const REMOVE_BY_SOURCE = 'mltply/assets/REMOVE_BY_SOURCE'
+const RESET = 'mltply/assets/RESET'
 
 /*
-{type: 'my-app/assets/SAVE', sourceId: 'manual', symbol: 'BTC', amount: 1.1}
+{type: 'mltply/assets/SAVE', sourceId: 'manual', symbol: 'BTC', amount: 1.1}
 */
 export function save(sourceId: string, symbol: string, amount: number) {
   return { type: SAVE, sourceId, symbol, amount }
 }
 
 /*
-{type: 'my-app/assets/REMOVE', symbol: 'BTC', sourceId: 'manual'}
+{type: 'mltply/assets/REMOVE', symbol: 'BTC', sourceId: 'manual'}
 */
 export function remove(sourceId: string, symbol: string) {
   return { type: REMOVE, sourceId, symbol }
@@ -31,7 +31,7 @@ export function removeBySource(sourceId: string) {
 }
 
 /*
-{type: 'my-app/assets/RESET'}
+{type: 'mltply/assets/RESET'}
 */
 const initialState = []
 export function reset() {
