@@ -39,16 +39,16 @@ export type ExchangeProps = {
  * Action creators
  *******************/
 const SAVE_EXCHANGE = 'mltply/exchanges/SAVE_EXCHANGE'
-const REMOVE = 'mltply/exchanges/REMOVE'
+const DELETE_CONNECTION = 'mltply/exchanges/DELETE_CONNECTION'
 // SHOW_FORM = 'mltply/exchanges/SHOW_FORM',
 // CLOSE_FORM = 'mltply/exchanges/CLOSE_FORM'
 
-export function saveExchange(connection: ExchangeConnection) {
+export function saveConnection(connection: ExchangeConnection) {
   return { type: SAVE_EXCHANGE, connection }
 }
 
-export function removeExchange(id: string) {
-  return { type: REMOVE, id }
+export function deleteConnection(id: string) {
+  return { type: DELETE_CONNECTION, id }
 }
 
 // export function closeForm() {
@@ -108,10 +108,10 @@ export function resetExchangeProps() {
 }
 
 export type Action =
-  | ExtractReturn<typeof saveExchange>
+  | ExtractReturn<typeof saveConnection>
   // | ExtractReturn<typeof showForm>
   // | ExtractReturn<typeof closeForm>
-  | ExtractReturn<typeof removeExchange>
+  | ExtractReturn<typeof deleteConnection>
   | ExtractReturn<typeof authenticating>
   | ExtractReturn<typeof authSuccessful>
   | ExtractReturn<typeof authFailed>
@@ -190,7 +190,7 @@ export function authenticate(connection: ExchangeConnection) {
     dispatch(ccxtRequest(connection, 'fetchBalance'))
       .then(response => {
         dispatch(authSuccessful(response))
-        dispatch(saveExchange(connection))
+        dispatch(saveConnection(connection))
         dispatch(loadBalance(connection))
       })
       .catch(ex => {
@@ -275,7 +275,7 @@ function uiReducer(state: uiState = initialState.ui, action: Action): uiState {
     case AUTH_SUCCESSFUL:
       return Object.assign({}, state, {
         loading: false,
-        editing: false,
+        // editing: false,
         error: undefined
       })
 
@@ -287,10 +287,10 @@ function uiReducer(state: uiState = initialState.ui, action: Action): uiState {
       return nextState
     }
 
-    case REMOVE:
-      return Object.assign({}, state, {
-        editing: state.editing === action.id ? false : state.editing
-      })
+    // case DELETE_CONNECTION:
+    //   return Object.assign({}, state, {
+    //     editing: state.editing === action.id ? false : state.editing
+    //   })
 
     default:
       return state
@@ -310,7 +310,7 @@ function connectionsReducer(
       return nextState
     }
 
-    case REMOVE:
+    case DELETE_CONNECTION:
       return state.filter(item => item.id !== id)
 
     case BALANCE_RECEIVED: {

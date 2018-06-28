@@ -11,7 +11,7 @@ import {
   appendTokenDetailsMapper
 } from '../ducks/_modifiers'
 
-import type { Asset } from './assets'
+import type { ExchangeProps } from './exchanges'
 
 type HistoricalBalance = { balance: number, changePercentage: number }
 
@@ -210,4 +210,12 @@ export const _getCurrentPortfolio = (
   }
 
   return currentPortfolio
+}
+
+export const _lookupExchangeProps = (
+  exchangeProps: Array<ExchangeProps>,
+  prop: string,
+  value: string
+) => {
+  return exchangeProps.find(props => props[prop] === value)
 }
