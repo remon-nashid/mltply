@@ -146,7 +146,7 @@ export function ccxtRequest(
   operation: string
 ): Function {
   return function(dispatch: Dispatch<any>, getState): Promise<any> {
-    const credentials = {
+    let credentials = {
       ...connection.credentials,
       enableRateLimit: true
     }
