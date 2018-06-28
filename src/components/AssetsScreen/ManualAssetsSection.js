@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { H3, Button, Icon, Text, View, ListItem } from 'native-base'
+import { Button, Icon, Text, View, ListItem } from 'native-base'
 import { FlatList } from 'react-native'
 import { connect } from 'react-redux'
 
@@ -95,6 +95,7 @@ class Screen extends React.Component<Props, State> {
           if (toAdd) {
             items.push(
               <AssetEditForm
+                key={'AddAsset'}
                 cancelHandler={this._cancelHander}
                 saveHandler={this._saveHandler}
                 symbol={toAdd}
@@ -104,6 +105,7 @@ class Screen extends React.Component<Props, State> {
           items.push(
             <Button
               block
+              key={'TokenPicker'}
               onPress={() =>
                 navigation.navigate('TokenPicker', {
                   selectHandler: this._selectHandler,

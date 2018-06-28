@@ -2,15 +2,14 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { View } from 'native-base'
+import { FlatList } from 'react-native'
+import { Button, Text, Icon, View } from 'native-base'
 
-import { save, remove } from '../../ducks/assets'
-
-import type { Asset } from '../../ducks/assets'
+import type { ExchangeConnection } from '../../ducks/exchanges'
 
 type Props = {
   navigation: any,
-  assets: Array<Asset>,
+  connections: Array<ExchangeConnection>,
   save: Function,
   remove: Function
 }
@@ -18,23 +17,34 @@ type State = {}
 
 class Screen extends React.Component<Props, State> {
   render() {
-    return <View />
+    const { connections, navigation } = this.props
+    return (
+      <FlatList
+        style={{ marginTop: 15 }}
+        data={connections}
+        keyExtractor={(item, index) => item.id}
+        renderItem={({ item }) => <View />}
+        ListFooterComponent={() => {
+          return (
+            <Button block onPress={() => navigation.navigate('ExchangeForm')}>
+              <Text>Connect an exchange</Text>
+              <Icon type="MaterialCommunityIcons" name="plus" />
+            </Button>
+          )
+        }}
+      />
+    )
   }
 }
 
 const mapStateToProps = state => {
   return {
-    assets: state.assets.filter(asset => asset.sourceId !== 'manual')
+    connections: state.exchanges.connections
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    save: (sourceId: string, symbol: string, amount: number) =>
-      dispatch(save(sourceId, symbol, Number(amount))),
-    remove: (sourceId: string, symbol: string) =>
-      dispatch(remove(sourceId, symbol))
-  }
+  return {}
 }
 
 export default connect(

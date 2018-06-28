@@ -5,13 +5,15 @@ import { createStackNavigator } from 'react-navigation'
 
 import ScreenTemplate from '../ScreenTemplate'
 import ManualAssetsSection from './ManualAssetsSection'
+import ExchangesSection from './ExchangesSection'
+import ExchangeFormScreen from './ExchangeFormScreen'
 import TokenPickerScreen from '../TokenPickerScreen'
 import { HR } from '../misc'
 
 const Screen = ({ navigation }: { navigation: any }) => (
   <ScreenTemplate>
     <ManualAssetsSection navigation={navigation} />
-    <HR />
+    <ExchangesSection navigation={navigation} />
   </ScreenTemplate>
 )
 
@@ -23,7 +25,14 @@ export default createStackNavigator(
     TokenPicker: {
       screen: TokenPickerScreen,
       path: '/tokenPicker'
+    },
+    ExchangeForm: {
+      screen: ExchangeFormScreen,
+      path: '/exchangeForm'
     }
   },
-  { headerMode: 'none' }
+  {
+    headerMode: 'none'
+    // initialRouteName: 'ExchangeForm'
+  }
 )
