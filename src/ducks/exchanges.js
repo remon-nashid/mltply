@@ -40,8 +40,6 @@ export type ExchangeProps = {
  *******************/
 const SAVE_EXCHANGE = 'mltply/exchanges/SAVE_EXCHANGE'
 const DELETE_CONNECTION = 'mltply/exchanges/DELETE_CONNECTION'
-// SHOW_FORM = 'mltply/exchanges/SHOW_FORM',
-// CLOSE_FORM = 'mltply/exchanges/CLOSE_FORM'
 
 export function saveConnection(connection: ExchangeConnection) {
   return { type: SAVE_EXCHANGE, connection }
@@ -50,14 +48,6 @@ export function saveConnection(connection: ExchangeConnection) {
 export function deleteConnection(id: string) {
   return { type: DELETE_CONNECTION, id }
 }
-
-// export function closeForm() {
-//   return { type: CLOSE_FORM }
-// }
-
-// export function showForm(id?: string) {
-//   return { type: SHOW_FORM, id }
-// }
 
 const AUTHENTICATING = 'mltply/exchanges/AUTHENTICATING'
 const AUTH_SUCCESSFUL = 'mltply/exchanges/AUTH_SUCCESSFUL'
@@ -109,8 +99,6 @@ export function resetExchangeProps() {
 
 export type Action =
   | ExtractReturn<typeof saveConnection>
-  // | ExtractReturn<typeof showForm>
-  // | ExtractReturn<typeof closeForm>
   | ExtractReturn<typeof deleteConnection>
   | ExtractReturn<typeof authenticating>
   | ExtractReturn<typeof authSuccessful>
@@ -184,7 +172,8 @@ export function ccxtRequest(
   }
 }
 
-export function authenticate(connection: ExchangeConnection) {
+// FIXME find a workaround to passing navigation object.
+export function authenticate(connection: ExchangeConnection, navigation: any) {
   return (dispatch: Dispatch<any>) => {
     dispatch(authenticating())
     dispatch(ccxtRequest(connection, 'fetchBalance'))
@@ -192,6 +181,7 @@ export function authenticate(connection: ExchangeConnection) {
         dispatch(authSuccessful(response))
         dispatch(saveConnection(connection))
         dispatch(loadBalance(connection))
+        navigation.goBack()
       })
       .catch(ex => {
         if (ex instanceof AuthenticationError) {
@@ -234,7 +224,9 @@ export function loadBalance(connection: ExchangeConnection) {
       .catch(err => {
         console.log('err', err)
         // FIXME generic requestFiled
-        dispatch(balanceError(connection, err.messages))
+        dispatch(balanceError(connection, err.messages)).then(() =>
+          console.log('DDDDONE')
+        )
       })
   }
 }
@@ -259,16 +251,6 @@ type uiState = {
 }
 function uiReducer(state: uiState = initialState.ui, action: Action): uiState {
   switch (action.type) {
-    // case SHOW_FORM:
-    //   return Object.assign({}, state, { editing: action.id || true })
-
-    // case CLOSE_FORM:
-    //   return Object.assign({}, state, {
-    //     editing: false,
-    //     messages: undefined,
-    //     error: undefined
-    //   })
-
     case AUTHENTICATING:
       return Object.assign({}, state, { loading: true })
 
@@ -286,11 +268,6 @@ function uiReducer(state: uiState = initialState.ui, action: Action): uiState {
       })
       return nextState
     }
-
-    // case DELETE_CONNECTION:
-    //   return Object.assign({}, state, {
-    //     editing: state.editing === action.id ? false : state.editing
-    //   })
 
     default:
       return state

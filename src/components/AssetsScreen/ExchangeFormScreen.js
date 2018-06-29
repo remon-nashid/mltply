@@ -32,6 +32,8 @@ type Props = {
 
 type State = {
   selected: number,
+  id?: string | null,
+  connection?: ExchangeConnection | null,
   credentials: {
     apiKey: string | false,
     secret: string | false,
@@ -53,21 +55,11 @@ const labelsMap = {
 
 class ExchangesFormScreen extends React.Component<Props, State> {
   exchangeProps: Array<ExchangeProps>
-  initialState: {
-    selected: -1,
-    credentials: {
-      apiKey: false,
-      secret: false,
-      uid: false,
-      login: false,
-      password: false,
-      twofa: false
-    }
-  }
+
   constructor(props: Props) {
     super(props)
     this.exchangeProps = this.props.exchangeProps
-
+    const connection = this.props.navigation.getParam('connection')
     this.state = {
       selected: -1,
       credentials: {
@@ -79,18 +71,33 @@ class ExchangesFormScreen extends React.Component<Props, State> {
         twofa: false
       }
     }
+
+    if (connection) {
+      this.state.credentials = Object.assign(
+        this.state.credentials,
+        connection.credentials
+      )
+      this.state.id = connection.id
+      this.state.selected = -2
+      this.state.connection = connection
+      this.state.name = connection.name
+    }
+
     this._selectExchange = this._selectExchange.bind(this)
     this._handleValChange = this._handleValChange.bind(this)
     this._authenticate = this._authenticate.bind(this)
-    this._goodCredentials = this._goodCredentials.bind(this)
+    this._filterRequiredCreds = this._filterRequiredCreds.bind(this)
+    this._isSavable = this._isSavable.bind(this)
+    this._goBack = this._goBack.bind(this)
   }
 
-  _selectExchange = function(id: number) {
-    id = Number(id)
-    if (id === -1 && id === this.state.selected) {
+  _selectExchange = function(selected: number) {
+    selected = Number(selected)
+
+    if (selected !== -1 && selected !== this.state.selected) {
       const stateNext = {
-        selected: id,
-        credentials: this.exchangeProps[id].requiredCredentials
+        selected,
+        credentials: this.exchangeProps[selected].requiredCredentials
       }
       this.setState(stateNext)
     }
@@ -106,13 +113,25 @@ class ExchangesFormScreen extends React.Component<Props, State> {
 
   _authenticate = function() {
     const selected = this.state.selected
-    const slug = this.exchangeProps[selected].slug
-    const credentials = this._goodCredentials(this.state.credentials)
-    const connection = { id: uuidv4(), slug, credentials }
-    this.props.authenticate(connection)
+    let connection
+    const credentials = this._filterRequiredCreds(this.state.credentials)
+    if (this.state.connection) {
+      connection = {
+        ...this.state.connection,
+        credentials
+      }
+    } else {
+      connection = {
+        id: uuidv4(),
+        slug: this.exchangeProps[selected].slug,
+        name: this.exchangeProps[selected].name,
+        credentials
+      }
+    }
+    this.props.authenticate(connection, this.props.navigation)
   }
 
-  _goodCredentials = function(
+  _filterRequiredCreds = function(
     credentials: ExchangeCredentials
   ): ExchangeCredentials {
     let ret = Object.keys(credentials)
@@ -124,10 +143,27 @@ class ExchangesFormScreen extends React.Component<Props, State> {
     return ret
   }
 
+  /**
+   * A form is not savable (i.e "CONNECT" button is enabled) if:
+   * - An exchange is selected.
+   * - No inputs are empty.
+   */
+  _isSavable = function() {
+    return (
+      this.state.selected !== -1 &&
+      Object.values(this._filterRequiredCreds(this.state.credentials)).find(
+        val => val === '' || val === true
+      ) === undefined
+    )
+  }
+
+  _goBack = function() {
+    this.props.navigation.goBack()
+  }
+
   render() {
     const { navigation, options } = this.props
-    const { selected, credentials } = this.state
-
+    const { selected, credentials, id, name } = this.state
     return (
       <ScreenTemplate backButton navigation={navigation}>
         <Form>
@@ -135,25 +171,28 @@ class ExchangesFormScreen extends React.Component<Props, State> {
             <Label style={{ flex: 1 }}>
               <Text>Exchange</Text>
             </Label>
-            <Picker
-              style={{ flex: 1 }}
-              mode="dialog"
-              prompt="Select exchange"
-              selectedValue={this.state.selected}
-              onValueChange={this._selectExchange}
-            >
-              <Picker.Item
-                key={'unselectable'}
-                label={'-- Select exchange --'}
-                value={-1}
-              />
-              {options.map(({ label, value }) => (
-                <Picker.Item key={value} label={label} value={value} />
-              ))}
-            </Picker>
+            <View style={{ flex: 3 }}>
+              {(id && <Text>{name}</Text>) || (
+                <Picker
+                  mode="dialog"
+                  prompt="Select exchange"
+                  selectedValue={selected}
+                  onValueChange={this._selectExchange}
+                >
+                  <Picker.Item
+                    key={'unselectable'}
+                    label={'-- Select exchange --'}
+                    value={-1}
+                  />
+                  {options.map(({ label, value }) => (
+                    <Picker.Item key={value} label={label} value={value} />
+                  ))}
+                </Picker>
+              )}
+            </View>
           </Item>
 
-          {Object.keys(this._goodCredentials(credentials)).map(key => (
+          {Object.keys(this._filterRequiredCreds(credentials)).map(key => (
             <Item fixedLabel key={key}>
               <Label style={{ flex: 1 }}>
                 <Text>{labelsMap[key] + ' *'}</Text>
@@ -169,27 +208,26 @@ class ExchangesFormScreen extends React.Component<Props, State> {
             </Item>
           ))}
 
-          {selected !== -1 && (
-            <View
-              style={{
-                flexDirection: 'row',
-                padding: 15,
-                justifyContent: 'center'
-              }}
+          <View
+            style={{
+              flexDirection: 'row',
+              padding: 15,
+              justifyContent: 'center'
+            }}
+          >
+            <Button
+              success
+              disabled={!this._isSavable()}
+              style={{ marginRight: 5 }}
+              onPress={this._authenticate}
             >
-              <Button
-                success
-                style={{ marginRight: 5 }}
-                onPress={this._authenticate}
-              >
-                <Text>Connect</Text>
-              </Button>
-              <Button light style={{ marginLeft: 5 }}>
-                <Text>Cancel</Text>
-              </Button>
-              <Button />
-            </View>
-          )}
+              <Text>Connect</Text>
+            </Button>
+            <Button light style={{ marginLeft: 5 }} onPress={this._goBack}>
+              <Text>Cancel</Text>
+            </Button>
+            <Button />
+          </View>
         </Form>
       </ScreenTemplate>
     )
@@ -207,8 +245,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    authenticate: (connection: ExchangeConnection) =>
-      dispatch(authenticate(connection))
+    authenticate: (connection: ExchangeConnection, navigation: any) =>
+      dispatch(authenticate(connection, navigation))
   }
 }
 

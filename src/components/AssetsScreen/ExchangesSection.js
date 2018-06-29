@@ -32,7 +32,7 @@ class Screen extends React.Component<Props, State> {
         renderItem={({ item }) => {
           const props = exchangeProps.find(props => props['slug'] === item.slug)
           if (!props) throw new Error(`Missing props of exchange: ${item.slug}`)
-          console.log(props)
+
           const { name } = props
           const { id } = item
 
@@ -46,7 +46,12 @@ class Screen extends React.Component<Props, State> {
             >
               <Text style={{ flex: 1 }}>{name}</Text>
               <View style={{ flexDirection: 'row' }}>
-                <Button transparent onPress={() => this._edit(symbol)}>
+                <Button
+                  transparent
+                  onPress={() =>
+                    navigation.navigate('ExchangeForm', { connection: item })
+                  }
+                >
                   <Icon type="MaterialCommunityIcons" name="pencil" />
                 </Button>
                 <Button transparent danger onPress={() => deleteConnection(id)}>
