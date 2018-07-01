@@ -1,9 +1,9 @@
 // @flow
 
 import React from 'react'
-import { Label, Form, Item, Input, Picker } from 'native-base'
+import { Label, Form, Item, Picker } from 'native-base'
 
-import ScreenTemplate from './ScreenTemplate'
+import ScreenTemplate from './../ScreenTemplate'
 
 type Props = {
   minAssetBalance: number,

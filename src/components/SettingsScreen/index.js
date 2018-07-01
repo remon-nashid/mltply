@@ -1,11 +1,11 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { fetchResource } from '../ducks/tokens'
+import { fetchResource } from '../../ducks/tokens'
 
 import SettingsForm from './SettingsForm'
-import { saveSetting } from '../ducks/settings'
-import config from '../../config'
+import { saveSetting } from '../../ducks/settings'
+import config from '../../../config'
 
 const mapStateToProps = state => {
   const {
