@@ -12,6 +12,7 @@ import commonColors from './native-base-theme/variables/commonColor'
 import store, { persistor } from './reduxStore'
 import { fetchResource } from './ducks/tokens'
 import { loadBalance, initExchangeProps } from './ducks/exchanges'
+import './globalUtils'
 
 const mapStateToProps = state => {
   return {
