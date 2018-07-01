@@ -105,6 +105,7 @@ class Screen extends React.Component<Props, State> {
           items.push(
             <Button
               block
+              success
               key={'TokenPicker'}
               onPress={() =>
                 navigation.navigate('TokenPicker', {

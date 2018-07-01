@@ -43,7 +43,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "ccxt": "^1.14.288",
+    "ccxt": "^1.14.301",
     "expo": "^28.0.0",
     "expo-web": "^0.0.14",
     "native-base": "^2.6.1",

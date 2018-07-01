@@ -29,7 +29,8 @@ const babelLoaderConfiguration = {
     path.resolve(
       appDirectory,
       'node_modules/react-native-keyboard-aware-scroll-view'
-    )
+    ),
+    path.resolve(appDirectory, 'node_modules/static-container')
   ],
   use: {
     loader: 'babel-loader',

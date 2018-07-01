@@ -63,7 +63,11 @@ class Screen extends React.Component<Props, State> {
         }}
         ListFooterComponent={() => {
           return (
-            <Button block onPress={() => navigation.navigate('ExchangeForm')}>
+            <Button
+              block
+              success
+              onPress={() => navigation.navigate('ExchangeForm')}
+            >
               <Text>Connect an exchange</Text>
               <Icon type="MaterialCommunityIcons" name="plus" />
             </Button>

@@ -2,7 +2,7 @@
 
 import { Platform } from 'react-native'
 import { combineReducers } from 'redux'
-import ccxt, { AuthenticationError, NetworkError } from 'ccxt'
+import ccxt, { AuthenticationError, NetworkError, BaseError } from 'ccxt'
 
 import type { Dispatch } from 'redux'
 import { save, removeBySource } from './assets'
@@ -38,11 +38,11 @@ export type ExchangeProps = {
 /********************
  * Action creators
  *******************/
-const SAVE_EXCHANGE = 'mltply/exchanges/SAVE_EXCHANGE'
+const SAVE_CONNECTION = 'mltply/exchanges/SAVE_CONNECTION'
 const DELETE_CONNECTION = 'mltply/exchanges/DELETE_CONNECTION'
 
 export function saveConnection(connection: ExchangeConnection) {
-  return { type: SAVE_EXCHANGE, connection }
+  return { type: SAVE_CONNECTION, connection }
 }
 
 export function deleteConnection(id: string) {
@@ -52,6 +52,7 @@ export function deleteConnection(id: string) {
 const AUTHENTICATING = 'mltply/exchanges/AUTHENTICATING'
 const AUTH_SUCCESSFUL = 'mltply/exchanges/AUTH_SUCCESSFUL'
 const AUTH_FAILED = 'mltply/exchanges/AUTH_FAILED'
+const RESET_UI = 'mltply/exchanges/RESET_UI'
 
 export function authenticating() {
   return { type: AUTHENTICATING }
@@ -63,6 +64,10 @@ export function authSuccessful(response: mixed) {
 
 export function authFailed(error: string) {
   return { type: AUTH_FAILED, error }
+}
+
+export function resetUI() {
+  return { type: RESET_UI }
 }
 
 const BALANCE_RECEIVED = 'mltply/exchanges/BALANCE_RECEIVED',
@@ -105,6 +110,7 @@ export type Action =
   | ExtractReturn<typeof authFailed>
   | ExtractReturn<typeof loadingBalance>
   | ExtractReturn<typeof balanceError>
+  | ExtractReturn<typeof resetUI>
   | ExtractReturn<typeof initExchangeProps>
   | ExtractReturn<typeof resetExchangeProps>
 
@@ -184,20 +190,20 @@ export function authenticate(connection: ExchangeConnection, navigation: any) {
         navigation.goBack()
       })
       .catch(ex => {
+        console.log(ex)
         if (ex instanceof AuthenticationError) {
           dispatch(
-            authFailed(
-              `Authentication Error: ${ex.message}. Check your credentials`
-            )
+            authFailed(`Authentication Error. Please check your credentials.`)
           )
         } else if (ex instanceof NetworkError) {
-          // FIXME generic requestFiled
-          dispatch(authFailed(`Network Error: ${ex.message}. Tru again later`))
-        } else {
-          // FIXME generic requestFiled
-          dispatch(authFailed(ex.message))
+          dispatch(authFailed(`Network Error. Try again later.`))
+        } else if (ex instanceof BaseError) {
+          dispatch(
+            authFailed(
+              `An error has occurred while connecting. Please check your credentials.`
+            )
+          )
         }
-        throw ex
       })
   }
 }
@@ -223,10 +229,7 @@ export function loadBalance(connection: ExchangeConnection) {
       })
       .catch(err => {
         console.log('err', err)
-        // FIXME generic requestFiled
-        dispatch(balanceError(connection, err.messages)).then(() =>
-          console.log('DDDDONE')
-        )
+        dispatch(balanceError(connection, err.messages))
       })
   }
 }
@@ -239,14 +242,12 @@ export const initialState = {
   connections: [],
   ui: {
     loading: false
-    //  editing: false
   },
   pool: {}
 }
 
 type uiState = {
   loading: boolean,
-  // editing?: string | boolean,
   error?: string
 }
 function uiReducer(state: uiState = initialState.ui, action: Action): uiState {
@@ -257,7 +258,6 @@ function uiReducer(state: uiState = initialState.ui, action: Action): uiState {
     case AUTH_SUCCESSFUL:
       return Object.assign({}, state, {
         loading: false,
-        // editing: false,
         error: undefined
       })
 
@@ -268,6 +268,9 @@ function uiReducer(state: uiState = initialState.ui, action: Action): uiState {
       })
       return nextState
     }
+
+    case RESET_UI:
+      return initialState.ui
 
     default:
       return state
@@ -281,7 +284,7 @@ function connectionsReducer(
 ): connectionsState {
   let { connection, id, error } = action
   switch (action.type) {
-    case SAVE_EXCHANGE: {
+    case SAVE_CONNECTION: {
       let nextState = state.filter(item => item.id !== connection.id)
       nextState.push(connection)
       return nextState

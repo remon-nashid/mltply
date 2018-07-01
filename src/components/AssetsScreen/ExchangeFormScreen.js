@@ -10,12 +10,17 @@ import {
   Text,
   Input,
   Button,
-  View
+  View,
+  Spinner,
+  Card,
+  Content
 } from 'native-base'
 import uuidv4 from 'uuid/v4'
 
-import { authenticate } from '../../ducks/exchanges'
+import { authenticate, resetUI } from '../../ducks/exchanges'
 import ScreenTemplate from '../ScreenTemplate'
+// FIXME avoid accessing theme variables directly.
+import commonColors from '../../native-base-theme/variables/commonColor'
 
 import type {
   ExchangeProps,
@@ -24,10 +29,13 @@ import type {
 } from '../../ducks/exchanges'
 
 type Props = {
+  error?: string | null,
+  loading: boolean,
   navigation: any,
   options: Array<{ label: string, value: string }>,
   exchangeProps: Array<ExchangeProps>,
-  authenticate: Function
+  authenticate: Function,
+  resetUI: Function
 }
 
 type State = {
@@ -55,6 +63,7 @@ const labelsMap = {
 
 class ExchangesFormScreen extends React.Component<Props, State> {
   exchangeProps: Array<ExchangeProps>
+  _sub: any
 
   constructor(props: Props) {
     super(props)
@@ -89,6 +98,16 @@ class ExchangesFormScreen extends React.Component<Props, State> {
     this._filterRequiredCreds = this._filterRequiredCreds.bind(this)
     this._isSavable = this._isSavable.bind(this)
     this._goBack = this._goBack.bind(this)
+  }
+
+  componentDidMount() {
+    this._sub = this.props.navigation.addListener('willBlur', payload => {
+      // Reset form loader and error before navigating away
+      this.props.resetUI()
+    })
+  }
+  componentWillUnmount() {
+    this._sub.remove()
   }
 
   _selectExchange = function(selected: number) {
@@ -159,21 +178,35 @@ class ExchangesFormScreen extends React.Component<Props, State> {
 
   _goBack = function() {
     this.props.navigation.goBack()
+    this.props.resetUI()
   }
 
   render() {
-    const { navigation, options } = this.props
+    const { navigation, options, loading, error } = this.props
     const { selected, credentials, id, name } = this.state
     return (
-      <ScreenTemplate backButton navigation={navigation}>
+      <ScreenTemplate backButton={this._goBack} navigation={navigation}>
+        {error && (
+          <Card
+            style={{
+              backgroundColor: commonColors.brandDanger,
+              borderColor: '#973a37'
+            }}
+          >
+            <Content padder>
+              <Text style={{ color: 'white' }}>{error}</Text>
+            </Content>
+          </Card>
+        )}
         <Form>
           <Item inlineLabel>
             <Label style={{ flex: 1 }}>
               <Text>Exchange</Text>
             </Label>
-            <View style={{ flex: 3 }}>
+            <View style={{ flex: 3, paddingTop: 15, paddingBottom: 15 }}>
               {(id && <Text>{name}</Text>) || (
                 <Picker
+                  style={{ marginRight: 10 }}
                   mode="dialog"
                   prompt="Select exchange"
                   selectedValue={selected}
@@ -198,7 +231,7 @@ class ExchangesFormScreen extends React.Component<Props, State> {
                 <Text>{labelsMap[key] + ' *'}</Text>
               </Label>
               <Input
-                style={{ flex: 3 }}
+                style={{ flex: 3, background: 'rgb(255, 255, 255, 0.7)' }}
                 placeholder={labelsMap[key]}
                 onChangeText={this._handleValChange(key)}
                 value={
@@ -217,11 +250,17 @@ class ExchangesFormScreen extends React.Component<Props, State> {
           >
             <Button
               success
-              disabled={!this._isSavable()}
-              style={{ marginRight: 5 }}
+              disabled={loading || !this._isSavable()}
+              style={{
+                marginRight: 5,
+                minWidth: 100,
+                justifyContent: 'center'
+              }}
               onPress={this._authenticate}
             >
-              <Text>Connect</Text>
+              {(loading && (
+                <Spinner color="rgba(255, 255, 255, 0.6)">loading</Spinner>
+              )) || <Text>Connect</Text>}
             </Button>
             <Button light style={{ marginLeft: 5 }} onPress={this._goBack}>
               <Text>Cancel</Text>
@@ -239,14 +278,17 @@ const mapStateToProps = state => {
     options: state.exchanges.props.map((exProps, i) => {
       return { value: i, label: exProps.name }
     }),
-    exchangeProps: state.exchanges.props
+    exchangeProps: state.exchanges.props,
+    loading: state.exchanges.ui.loading,
+    error: state.exchanges.ui.error
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     authenticate: (connection: ExchangeConnection, navigation: any) =>
-      dispatch(authenticate(connection, navigation))
+      dispatch(authenticate(connection, navigation)),
+    resetUI: () => dispatch(resetUI())
   }
 }
 

@@ -2385,9 +2385,9 @@ caseless@~0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
 
-ccxt@^1.14.288:
-  version "1.14.288"
-  resolved "https://registry.yarnpkg.com/ccxt/-/ccxt-1.14.288.tgz#cf818c1a440d42109595f2ed19a94e68b6148eec"
+ccxt@^1.14.301:
+  version "1.14.301"
+  resolved "https://registry.yarnpkg.com/ccxt/-/ccxt-1.14.301.tgz#cf76aa45e8e78b65794af6e4a723609fe1b44175"
   dependencies:
     cloudscraper "1.4.1"
     crypto-js "3.1.9-1"

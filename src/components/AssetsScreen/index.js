@@ -8,7 +8,6 @@ import ManualAssetsSection from './ManualAssetsSection'
 import ExchangesSection from './ExchangesSection'
 import ExchangeFormScreen from './ExchangeFormScreen'
 import TokenPickerScreen from '../TokenPickerScreen'
-import { HR } from '../misc'
 
 const Screen = ({ navigation }: { navigation: any }) => (
   <ScreenTemplate>
@@ -33,6 +32,5 @@ export default createStackNavigator(
   },
   {
     headerMode: 'none'
-    // initialRouteName: 'ExchangeForm'
   }
 )
