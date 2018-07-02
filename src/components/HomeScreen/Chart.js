@@ -2,6 +2,7 @@
 import React from 'react'
 import { View } from 'native-base'
 import { VictoryPie, VictoryTheme, VictoryLabel } from 'victory-native'
+import config from '../../../config'
 
 const Chart = ({
   chartData
@@ -13,7 +14,7 @@ const Chart = ({
       theme={VictoryTheme.material}
       labels={({ x, y }) => {
         // Avoid displaying overlappig labels for lesser assets.
-        return y > 5 ? `${x}\n${y.toFixed(2)}%` : ''
+        return y >= config.chartLabelThreshold ? `${x}\n${y.toFixed(2)}%` : ''
       }}
       data={chartData}
       sortKey="y"

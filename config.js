@@ -61,5 +61,6 @@ export default {
     minimumBalanceOptions: [1, 10, 100]
   },
   ccxtRateLimit: 1000,
-  corsProxyURL: 'http://localhost:8080/'
+  corsProxyURL: 'http://localhost:8080/',
+  chartLabelThreshold: 2
 }

@@ -157,7 +157,7 @@ export const _getHistoricalBalances = (
 
   let historicalBalances = groupedAssets.reduce(
     (acc, item) => {
-      if (item.history) {
+      if (item['1h']) {
         acc.current.balance += item.value
         acc.tf1h.balance += item.historicalBalance['1h']
         acc.tf1d.balance += item.historicalBalance['1d']

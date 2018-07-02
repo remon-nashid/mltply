@@ -36,15 +36,15 @@ export const appendTokenDetailsMapper = (tokensData: {}) => {
       amount,
       price: tokenDetails.price,
       value: tokenDetails.price * amount,
-      history: tokenDetails.history
+      ...tokenDetails.history
     }
   }
 }
 
 export const appendHistoricalAmountMapper = (asset: Asset) => {
-  if ('history' in asset && asset.history !== undefined) {
-    asset.historicalBalance = Object.keys(asset.history).reduce((acc, key) => {
-      acc[key] = (asset.value * 100) / (100 + asset.history[key])
+  if ('1h' in asset) {
+    asset.historicalBalance = ['1h', '1d', '7d'].reduce((acc, key) => {
+      acc[key] = (asset.value * 100) / (100 + asset[key])
       return acc
     }, {})
   }
