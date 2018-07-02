@@ -2,6 +2,10 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  /* Center and limit page width */
+  max-width: 1200px;
+  margin: 0 auto !important;
+  float: none !important;
 }
 
 /*

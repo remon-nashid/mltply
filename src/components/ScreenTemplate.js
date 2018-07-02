@@ -15,21 +15,23 @@ import {
 export default ({
   children,
   backButton = false,
-  navigation
+  navigation,
+  ...props
 }: {
   children: React.Node,
   backButton?: boolean,
-  navigation: any
+  navigation?: any
 }) => (
-  <Container>
+  <Container {...props}>
     <Header>
-      {backButton && (
-        <Left>
-          <Button transparent onPress={() => navigation.goBack()}>
-            <Icon type="MaterialCommunityIcons" name="arrow-left" />
-          </Button>
-        </Left>
-      )}
+      {backButton &&
+        navigation && (
+          <Left>
+            <Button transparent onPress={() => navigation.goBack()}>
+              <Icon type="MaterialCommunityIcons" name="arrow-left" />
+            </Button>
+          </Left>
+        )}
       <Body>
         <Title>mltply</Title>
       </Body>

@@ -10100,13 +10100,21 @@ victory-native@^0.18.2:
     victory-core "^24.0.1"
     victory-pie "^16.0.1"
 
-victory-pie@^16.0.1:
+victory-pie@^16.0.1, victory-pie@^16.1.0:
   version "16.1.0"
   resolved "https://registry.yarnpkg.com/victory-pie/-/victory-pie-16.1.0.tgz#12216935bef911c427f3316c80b15b9ca6563252"
   dependencies:
     d3-shape "^1.0.0"
     lodash "^4.17.5"
     victory-core "^24.0.0"
+
+victory@^0.27.2:
+  version "0.27.2"
+  resolved "https://registry.yarnpkg.com/victory/-/victory-0.27.2.tgz#1e6cdef88b29466befea194f26788549befa0ea3"
+  dependencies:
+    victory-chart "^27.1.0"
+    victory-core "^24.0.0"
+    victory-pie "^16.1.0"
 
 vm-browserify@0.0.4:
   version "0.0.4"

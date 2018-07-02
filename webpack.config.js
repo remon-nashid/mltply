@@ -136,7 +136,8 @@ module.exports = {
       // NativeBase web support https://github.com/GeekyAnts/native-base-docs/blob/master/docs/GetStarted.md
       'react-native/Libraries/Renderer/shims/ReactNativePropRegistry':
         'react-native-web/dist/modules/ReactNativePropRegistry',
-      'react-native': 'react-native-web'
+      'react-native': 'react-native-web',
+      'victory-native': 'victory'
     }
   }
 }

@@ -1,12 +1,32 @@
 // @flow
 
-import React from 'react'
-import { View } from 'react-native'
+import { connect } from 'react-redux'
+import { _getHistoricalBalances, _getAllocations } from '../../ducks/_selectors'
+import Screen from './Screen'
 
-import ScreenTemplate from './ScreenTemplate'
+const mapStateToProps = state => {
+  const {
+    assets,
+    settings: { minAssetBalance }
+  } = state
+  const tokensData = state.tokens.data
 
-export default () => (
-  <ScreenTemplate>
-    <View />
-  </ScreenTemplate>
-)
+  const allocations = _getAllocations(assets, tokensData, minAssetBalance)
+  return {
+    chartData: allocations.map(({ symbol, percentage }) => ({
+      x: symbol,
+      y: percentage
+    })),
+    allocations,
+    historicalBalances: _getHistoricalBalances(
+      assets,
+      tokensData,
+      minAssetBalance
+    )
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  {}
+)(Screen)

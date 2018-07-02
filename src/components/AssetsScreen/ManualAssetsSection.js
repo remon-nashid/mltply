@@ -74,7 +74,7 @@ class Screen extends React.Component<Props, State> {
                     <Icon type="MaterialCommunityIcons" name="pencil" />
                   </Button>
                   <Button transparent danger onPress={() => remove(symbol)}>
-                    <Icon type="MaterialCommunityIcons" name="delete" danger />
+                    <Icon type="MaterialCommunityIcons" name="delete" />
                   </Button>
                 </View>
               </ListItem>

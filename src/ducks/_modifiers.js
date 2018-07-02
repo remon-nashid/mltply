@@ -2,7 +2,12 @@
 
 import { _symbolSelector } from './_selectors'
 import type { Asset } from './assets'
-export const groupAssetsBySymbolReducer = (acc: Array<Asset>, asset) => {
+import type { Allocation } from './_selectors'
+
+export const groupAssetsBySymbolReducer = (
+  acc: Array<Allocation>,
+  asset: Asset
+) => {
   let i: number = acc.findIndex(item => item.symbol === asset.symbol)
   if (i > -1) {
     acc[i].amount += asset.amount
@@ -18,29 +23,28 @@ export const appendPercentageMapper = (totalBalance: number) => {
   return function(asset: Asset) {
     return {
       ...asset,
-      percentage: (asset.inBaseFiat * 100) / totalBalance
+      percentage: (asset.value * 100) / totalBalance
     }
   }
 }
 
-export const appendTokenDetailsMapper = exchangeRates => {
-  return ({ sourceId, symbol, amount }: Asset) => {
-    const tokenDetails = _symbolSelector(exchangeRates, symbol)
+export const appendTokenDetailsMapper = (tokensData: {}) => {
+  return ({ sourceId, symbol, amount }: Allocation) => {
+    const tokenDetails = _symbolSelector(tokensData, symbol)
     return {
       symbol,
       amount,
       price: tokenDetails.price,
-      inBaseFiat: tokenDetails.price * amount,
+      value: tokenDetails.price * amount,
       history: tokenDetails.history
     }
   }
 }
 
 export const appendHistoricalAmountMapper = (asset: Asset) => {
-  console.log(asset)
   if ('history' in asset && asset.history !== undefined) {
     asset.historicalBalance = Object.keys(asset.history).reduce((acc, key) => {
-      acc[key] = (asset.inBaseFiat * 100) / (100 + asset.history[key])
+      acc[key] = (asset.value * 100) / (100 + asset.history[key])
       return acc
     }, {})
   }
@@ -49,11 +53,11 @@ export const appendHistoricalAmountMapper = (asset: Asset) => {
 
 export const minAssetBalanceFilter = (minAssetBalance: number) => {
   return (asset: Asset) => {
-    return asset.inBaseFiat > minAssetBalance
+    return asset.value > minAssetBalance
   }
 }
 
 export const totalBalanceReducer = (acc: number = 0, item: Asset) => {
-  acc += item.inBaseFiat ? item.inBaseFiat : 0.0
+  acc += item.value ? item.value : 0.0
   return acc
 }

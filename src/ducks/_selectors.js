@@ -11,9 +11,22 @@ import {
   appendTokenDetailsMapper
 } from '../ducks/_modifiers'
 
-import type { ExchangeProps } from './exchanges'
+import type { Asset } from './assets'
 
-type HistoricalBalance = { balance: number, changePercentage: number }
+export type Allocation = {
+  symbol: string,
+  amount: number,
+  price: number,
+  value: number,
+  percentage: number,
+  history: {
+    '1h': number,
+    '1d': number,
+    '7d': number
+  }
+}
+
+export type HistoricalBalance = { balance: number, changePercentage: number }
 
 export type HistoricalBalances = {
   current: HistoricalBalance,
@@ -22,22 +35,22 @@ export type HistoricalBalances = {
   tf7d: HistoricalBalance
 }
 
-export function _symbolSelector(rates: Object = {}, symbol: string) {
+export function _symbolSelector(tokensData: Object = {}, symbol: string) {
   // FIXME
-  return rates.hasOwnProperty(symbol) ? rates[symbol] : { price: 0 }
+  return tokensData.hasOwnProperty(symbol) ? tokensData[symbol] : { price: 0 }
 }
 
 export function _getMergedPortfolio(
-  assets,
-  targetPortfolio,
-  exchangeRates,
-  minAssetBalance
+  assets: Array<Asset>,
+  tokensData: {},
+  minAssetBalance: number,
+  targetPortfolio: {}
 ) {
   const { portfolio } = targetPortfolio
 
   const currentPortfolio = _getCurrentPortfolio(
     assets,
-    exchangeRates,
+    tokensData,
     minAssetBalance
   )
 
@@ -66,23 +79,19 @@ export function _getMergedPortfolio(
 }
 
 export function _getTradeRecommendations(
-  assets,
-  targetPortfolio,
-  exchangeRates,
-  minAssetBalance
+  assets: Array<Asset>,
+  tokensData: {},
+  minAssetBalance: number,
+  targetPortfolio: {}
 ): Array<string> {
   const calc = _getMergedPortfolio(
     assets,
-    targetPortfolio,
-    exchangeRates,
-    minAssetBalance
+    tokensData,
+    minAssetBalance,
+    targetPortfolio
   )
 
-  let groupedAssets = assets
-    .reduce(groupAssetsBySymbolReducer, [])
-    .map(appendTokenDetailsMapper(exchangeRates))
-    .filter(minAssetBalanceFilter(minAssetBalance))
-
+  let groupedAssets = _groupAssetsBySymbol(assets, tokensData, minAssetBalance)
   const totalBalance = groupedAssets.reduce(totalBalanceReducer, 0)
   groupedAssets = groupedAssets.map(appendPercentageMapper(totalBalance))
 
@@ -97,7 +106,7 @@ export function _getTradeRecommendations(
         ? `${direction} ${price.toFixed(2)} worth of assets less than %1`
         : ''
     } else {
-      const tokenObj = _symbolSelector(exchangeRates, symbol)
+      const tokenObj = _symbolSelector(tokensData, symbol)
       const units = (price / tokenObj.price).toFixed(2)
       return diff
         ? `${direction} ${units} ${symbol} for ${price.toFixed(2)}`
@@ -106,21 +115,28 @@ export function _getTradeRecommendations(
   })
 }
 
-export const _getTotalBalance = (assets, exchangeRates, minAssetBalance) => {
-  let groupedAssets = assets
+export const _groupAssetsBySymbol = (
+  assets: Array<Asset>,
+  tokensData: {},
+  minAssetBalance: number
+) => {
+  return assets
     .reduce(groupAssetsBySymbolReducer, [])
-    .map(appendTokenDetailsMapper(exchangeRates))
+    .map(appendTokenDetailsMapper(tokensData))
     .filter(minAssetBalanceFilter(minAssetBalance))
+}
 
+export const _getTotalBalance = (assets, tokensData, minAssetBalance) => {
+  let groupedAssets = _groupAssetsBySymbol(assets, tokensData, minAssetBalance)
   return groupedAssets.reduce(totalBalanceReducer, 0)
 }
 
-export const _getBalance = (assets, exchangeRates, minAssetBalance) => {
-  let groupedAssets = assets
-    .reduce(groupAssetsBySymbolReducer, [])
-    .map(appendTokenDetailsMapper(exchangeRates))
-    .filter(minAssetBalanceFilter(minAssetBalance))
-
+export const _getAllocations = (
+  assets: Array<Asset>,
+  tokensData: {},
+  minAssetBalance: number
+): Array<Allocation> => {
+  let groupedAssets = _groupAssetsBySymbol(assets, tokensData, minAssetBalance)
   const totalBalance = groupedAssets.reduce(totalBalanceReducer, 0)
 
   return groupedAssets
@@ -129,15 +145,11 @@ export const _getBalance = (assets, exchangeRates, minAssetBalance) => {
 }
 
 export const _getHistoricalBalances = (
-  assets,
-  exchangeRates,
-  minAssetBalance
+  assets: Array<Asset>,
+  tokensData: {},
+  minAssetBalance: number
 ) => {
-  let groupedAssets = assets
-    .reduce(groupAssetsBySymbolReducer, [])
-    .map(appendTokenDetailsMapper(exchangeRates))
-    .filter(minAssetBalanceFilter(minAssetBalance))
-
+  let groupedAssets = _groupAssetsBySymbol(assets, tokensData, minAssetBalance)
   const totalBalance = groupedAssets.reduce(totalBalanceReducer, 0)
   groupedAssets = groupedAssets
     .map(appendPercentageMapper(totalBalance))
@@ -146,7 +158,7 @@ export const _getHistoricalBalances = (
   let historicalBalances = groupedAssets.reduce(
     (acc, item) => {
       if (item.history) {
-        acc.current.balance += item.inBaseFiat
+        acc.current.balance += item.value
         acc.tf1h.balance += item.historicalBalance['1h']
         acc.tf1d.balance += item.historicalBalance['1d']
         acc.tf7d.balance += item.historicalBalance['7d']
@@ -178,14 +190,11 @@ export const _getHistoricalBalances = (
 }
 
 export const _getCurrentPortfolio = (
-  assets,
-  exchangeRates,
-  minAssetBalance
+  assets: Array<Asset>,
+  tokensData: {},
+  minAssetBalance: number
 ) => {
-  let groupedAssets = assets
-    .reduce(groupAssetsBySymbolReducer, [])
-    .map(appendTokenDetailsMapper(exchangeRates))
-    .filter(minAssetBalanceFilter(minAssetBalance))
+  let groupedAssets = _groupAssetsBySymbol(assets, tokensData, minAssetBalance)
 
   const totalBalance = groupedAssets.reduce(totalBalanceReducer, 0)
   groupedAssets = groupedAssets.map(appendPercentageMapper(totalBalance))
@@ -210,12 +219,4 @@ export const _getCurrentPortfolio = (
   }
 
   return currentPortfolio
-}
-
-export const _lookupExchangeProps = (
-  exchangeProps: Array<ExchangeProps>,
-  prop: string,
-  value: string
-) => {
-  return exchangeProps.find(props => props[prop] === value)
 }

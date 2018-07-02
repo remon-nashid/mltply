@@ -11,7 +11,7 @@ export type Token = {
   slug: string,
   symbol: string,
   name: string,
-  inBaseFiat: number
+  value: number
 }
 
 export const RECEIVED = 'mltply/tokens/RECEIVED'
