@@ -31,6 +31,16 @@ export default createStackNavigator(
     }
   },
   {
-    headerMode: 'none'
+    headerMode: 'none',
+    // Prevents StackNavigator from having "backgroundColor: '#E9E9EF'".
+    // See https://github.com/react-navigation/react-navigation/issues/2713#issuecomment-338260122
+    cardStyle: {
+      backgroundColor: 'white'
+    },
+    transitionConfig: (): Object => ({
+      containerStyle: {
+        backgroundColor: 'transparent'
+      }
+    })
   }
 )
