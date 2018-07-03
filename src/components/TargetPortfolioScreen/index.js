@@ -7,7 +7,7 @@ import Screen from './Screen'
 
 export default createStackNavigator(
   {
-    AssetsHome: {
+    TargetPortfolioHome: {
       screen: Screen
     },
     TokenPicker: {

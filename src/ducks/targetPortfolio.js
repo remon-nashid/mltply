@@ -14,7 +14,6 @@ export const RESET = 'mltply/targetPortfolio/RESET'
 export const INCREMENT = 'mltply/targetPortfolio/INCREMENT'
 export const DECREMENT = 'mltply/targetPortfolio/DECREMENT'
 export const MAX = 'mltply/targetPortfolio/MAX'
-// export const INITIATE = 'mltply/targetPortfolio/INITIATE'
 
 export function save(targetPortfolio: TargetPortfolio) {
   return { type: SAVE, targetPortfolio }
@@ -179,7 +178,7 @@ const reducer = (state: State = initialState, action: Action): State => {
       }
       return _validate(state, nextState)
 
-    case MAX:
+    case MAX: {
       nextState = { ...state }
       const { unallocated } = state
       nextState.portfolio = {
@@ -187,6 +186,7 @@ const reducer = (state: State = initialState, action: Action): State => {
         [symbol]: nextState.portfolio[symbol] + unallocated
       }
       return _validate(state, nextState)
+    }
     /*
     {type: 'mltply/targetPortfolio/RESET'}
     */

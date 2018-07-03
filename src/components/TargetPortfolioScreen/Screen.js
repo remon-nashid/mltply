@@ -16,9 +16,7 @@ import {
   decrement,
   max
 } from '../../ducks/targetPortfolio'
-import TargetPortfolioComponent from './TargetPortfolio'
-
-import type { TargetPortfolio } from '../../ducks/targetPortfolio'
+import TargetPortfolio from './TargetPortfolio'
 
 const mapStateToProps = state => {
   const {
@@ -60,9 +58,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    reset: (targetPortfolio: TargetPortfolio) => dispatch(reset()),
-    initiate: (targetPortfolio: TargetPortfolio) =>
-      dispatch(save(targetPortfolio)),
+    reset: (targetPortfolio: {}) => dispatch(reset()),
+    initiate: (targetPortfolio: {}) => dispatch(save(targetPortfolio)),
     increment: (symbol: string) => dispatch(increment(symbol)),
     decrement: (symbol: string) => dispatch(decrement(symbol)),
     remove: (symbol: string) => dispatch(remove(symbol)),
@@ -89,4 +86,4 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
   mergeProps
-)(TargetPortfolioComponent)
+)(TargetPortfolio)

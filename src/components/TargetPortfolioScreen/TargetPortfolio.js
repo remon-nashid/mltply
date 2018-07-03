@@ -3,14 +3,13 @@
 import React, { PureComponent } from 'react'
 import { StyleSheet, FlatList } from 'react-native'
 import { View, Text, Button } from 'native-base'
-import type { TargetPortfolio } from '../ducks/targetPortfolio'
 import ScreenTemplate from '../ScreenTemplate'
 import { LongPressButton } from '../misc'
 
 type Props = {
-  portfolio: TargetPortfolio,
+  portfolio: {},
   reset: Function,
-  navigation: {},
+  navigation: any,
   add: Function,
   initiate: Function,
   increment: Function,
@@ -28,20 +27,23 @@ type Props = {
   decrementEnabled: boolean
 }
 
-function selectHandler(add: Function, percentage: number) {
-  return function(selected: string) {
-    this.props.navigation.goBack()
-    add(selected)
-  }
-}
-
 const styles = StyleSheet.create({
   review: { backgroundColor: 'rgba(255, 255, 0, 0.2)' },
   complete: { backgroundColor: 'rgba(0, 255, 0, 0.2)' },
   empty: { backgroundColor: 'rgba(0, 0, 0, 0.0)' }
 })
 
-export default class TargetPortfolioComponent extends PureComponent<Props> {
+export default class TargetPortfolio extends PureComponent<Props> {
+  constructor(props) {
+    super(props)
+    this._selectHandler = this._selectHandler.bind(this)
+  }
+
+  _selectHandler = function(selected: string) {
+    console.log(this.props)
+    this.props.navigation.goBack()
+    this.props.add(selected)
+  }
   render() {
     const {
       navigation,
@@ -51,7 +53,6 @@ export default class TargetPortfolioComponent extends PureComponent<Props> {
       increment,
       decrement,
       remove,
-      add,
       portfolio,
       initiateEnabled,
       addEnabled,
@@ -72,7 +73,7 @@ export default class TargetPortfolioComponent extends PureComponent<Props> {
             disabled={!addEnabled}
             onPress={() =>
               navigation.navigate('TokenPicker', {
-                selectHandler: selectHandler(add)
+                selectHandler: this._selectHandler
               })
             }
           >
@@ -169,6 +170,7 @@ export default class TargetPortfolioComponent extends PureComponent<Props> {
           (recommendations.length > 0 && (
             <FlatList
               data={recommendations}
+              keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => <Text>{item}</Text>}
             />
           ))}
