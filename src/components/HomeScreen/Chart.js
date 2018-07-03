@@ -27,7 +27,8 @@ const Chart = ({
       labelRadius={135}
       style={{
         labels: {
-          fontFamily: 'Roboto Mono, monospace'
+          fontFamily: 'Roboto Mono, monospace',
+          fontSize: 10
         }
       }}
     />

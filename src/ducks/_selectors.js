@@ -43,10 +43,8 @@ export function _getMergedPortfolio(
   assets: Array<Asset>,
   tokensData: {},
   minAssetBalance: number,
-  targetPortfolio: {}
+  portfolio: {}
 ) {
-  const { portfolio } = targetPortfolio
-
   const currentPortfolio = _getCurrentPortfolio(
     assets,
     tokensData,
@@ -81,13 +79,13 @@ export function _getTradeRecommendations(
   assets: Array<Asset>,
   tokensData: {},
   minAssetBalance: number,
-  targetPortfolio: {}
+  portfolio: {}
 ): Array<string> {
   const calc = _getMergedPortfolio(
     assets,
     tokensData,
     minAssetBalance,
-    targetPortfolio
+    portfolio
   )
 
   let groupedAssets = _groupAssetsBySymbol(assets, tokensData, minAssetBalance)

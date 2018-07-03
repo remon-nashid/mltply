@@ -26,7 +26,8 @@ const mapStateToProps = state => {
     targetPortfolio,
     settings: { minAssetBalance }
   } = state
-  const { status } = targetPortfolio
+
+  const { status, portfolio } = targetPortfolio
   const tokensData = state.tokens.data
 
   const currentPortfolio = _getCurrentPortfolio(
@@ -45,12 +46,7 @@ const mapStateToProps = state => {
     }
   }
 
-  let calc = _getMergedPortfolio(
-    assets,
-    targetPortfolio,
-    tokensData,
-    minAssetBalance
-  )
+  let calc = _getMergedPortfolio(assets, tokensData, minAssetBalance, portfolio)
 
   let recommendations = _getTradeRecommendations(
     assets,
@@ -59,11 +55,7 @@ const mapStateToProps = state => {
     minAssetBalance
   )
 
-  return {
-    ...targetPortfolio,
-    portfolio: calc,
-    recommendations
-  }
+  return { ...targetPortfolio, portfolio: calc, recommendations }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
