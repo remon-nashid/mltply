@@ -186,7 +186,7 @@ export default class Table extends React.PureComponent<Props> {
           return descending ? b[orderBy] - a[orderBy] : a[orderBy] - b[orderBy]
         })}
         extraData={[orderBy, descending]}
-        KEYExtractor={(item, index) => item.symbol}
+        keyExtractor={(item, index) => item.symbol}
         ListHeaderComponent={() =>
           this._header(orderBy, descending, pressHandler)
         }

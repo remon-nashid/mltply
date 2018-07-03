@@ -24,6 +24,12 @@ const Chart = ({
       // Guarantees non-cropped labels
       // https://github.com/FormidableLabs/victory/issues/669#issuecomment-317295602
       labelComponent={<VictoryLabel renderInPortal />}
+      labelRadius={135}
+      style={{
+        labels: {
+          fontFamily: 'Roboto Mono, monospace'
+        }
+      }}
     />
   </View>
 )

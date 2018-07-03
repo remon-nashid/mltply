@@ -19,11 +19,11 @@ export const groupAssetsBySymbolReducer = (
   return acc
 }
 
-export const appendPercentageMapper = (totalBalance: number) => {
+export const appendPercentageMapper = (totalValue: number) => {
   return function(asset: Asset) {
     return {
       ...asset,
-      percentage: (asset.value * 100) / totalBalance
+      percentage: (asset.value * 100) / totalValue
     }
   }
 }
@@ -43,7 +43,7 @@ export const appendTokenDetailsMapper = (tokensData: {}) => {
 
 export const appendHistoricalAmountMapper = (asset: Asset) => {
   if ('1h' in asset) {
-    asset.historicalBalance = ['1h', '1d', '7d'].reduce((acc, key) => {
+    asset.historicalValue = ['1h', '1d', '7d'].reduce((acc, key) => {
       acc[key] = (asset.value * 100) / (100 + asset[key])
       return acc
     }, {})

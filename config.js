@@ -1,12 +1,6 @@
 // @flow
 
 export default {
-  defaultHistoricalBalance: {
-    current: { balance: 0 },
-    tf1h: { balance: 0 },
-    tf1d: { balance: 0 },
-    tf7d: { balance: 0 }
-  },
   targetPortfolio: {
     smallGroup: 'Other (< 1%)'
   },

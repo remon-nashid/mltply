@@ -1,14 +1,18 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { _getHistoricalBalances, _getAllocations } from '../../ducks/_selectors'
+import {
+  _getHistorialValues,
+  _getAllocations,
+  _getTotalValue
+} from '../../ducks/_selectors'
 import { sort } from '../../ducks/home'
 import Screen from './Screen'
 
 const mapStateToProps = state => {
   const {
     assets,
-    settings: { minAssetBalance },
+    settings: { minAssetBalance, baseFiat },
     home: { orderBy, descending }
   } = state
   const tokensData = state.tokens.data
@@ -20,13 +24,11 @@ const mapStateToProps = state => {
       y: percentage
     })),
     allocations,
-    historicalBalances: _getHistoricalBalances(
-      assets,
-      tokensData,
-      minAssetBalance
-    ),
+    historicalValues: _getHistorialValues(assets, tokensData, minAssetBalance),
+    totalValue: _getTotalValue(assets, tokensData, minAssetBalance),
     orderBy,
-    descending
+    descending,
+    baseFiat
   }
 }
 

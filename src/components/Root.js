@@ -10,21 +10,21 @@ import AssetsScreen from './AssetsScreen'
 import TargetPortfolioScreen from './TargetPortfolioScreen'
 
 const RouteConfigs = {
-  Home: HomeScreen,
+  Portfolio: HomeScreen,
   Assets: AssetsScreen,
   TargetPortfolio: TargetPortfolioScreen,
   Settings: SettingsScreen
 }
 
 const RouteIconsMap = {
-  Home: <Icon type="MaterialCommunityIcons" name="home-outline" />,
+  Portfolio: <Icon type="MaterialCommunityIcons" name="chart-donut" />,
   Assets: <Icon type="MaterialCommunityIcons" name="coins" />,
   TargetPortfolio: <Icon type="MaterialCommunityIcons" name="target" />,
   Settings: <Icon type="MaterialCommunityIcons" name="settings" />
 }
 
 export default createBottomTabNavigator(RouteConfigs, {
-  initialRouteName: 'Home',
+  initialRouteName: 'PORTFOLIO',
   tabBarComponent: props => {
     return (
       <Footer>

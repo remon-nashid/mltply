@@ -26,13 +26,12 @@ export type Allocation = {
   }
 }
 
-export type HistoricalBalance = { balance: number, changePercentage: number }
+export type HistoricalValue = { value: number, changePercentage: number }
 
-export type HistoricalBalances = {
-  current: HistoricalBalance,
-  tf1h: HistoricalBalance,
-  tf1d: HistoricalBalance,
-  tf7d: HistoricalBalance
+export type HistoricalValues = {
+  '1h': HistoricalValue,
+  '1d': HistoricalValue,
+  '7d': HistoricalValue
 }
 
 export function _symbolSelector(tokensData: Object = {}, symbol: string) {
@@ -92,14 +91,14 @@ export function _getTradeRecommendations(
   )
 
   let groupedAssets = _groupAssetsBySymbol(assets, tokensData, minAssetBalance)
-  const totalBalance = groupedAssets.reduce(totalBalanceReducer, 0)
-  groupedAssets = groupedAssets.map(appendPercentageMapper(totalBalance))
+  const totalValue = groupedAssets.reduce(totalBalanceReducer, 0)
+  groupedAssets = groupedAssets.map(appendPercentageMapper(totalValue))
 
   return Object.keys(calc).map(symbol => {
     const { diff } = calc[symbol]
 
     const direction = diff > 0 ? 'Buy' : 'Sell'
-    let price = Math.abs((diff * totalBalance) / 100)
+    let price = Math.abs((diff * totalValue) / 100)
 
     if (symbol === config.targetPortfolio.smallGroup) {
       return diff
@@ -126,7 +125,7 @@ export const _groupAssetsBySymbol = (
     .filter(minAssetBalanceFilter(minAssetBalance))
 }
 
-export const _getTotalBalance = (assets, tokensData, minAssetBalance) => {
+export const _getTotalValue = (assets, tokensData, minAssetBalance) => {
   let groupedAssets = _groupAssetsBySymbol(assets, tokensData, minAssetBalance)
   return groupedAssets.reduce(totalBalanceReducer, 0)
 }
@@ -137,56 +136,51 @@ export const _getAllocations = (
   minAssetBalance: number
 ): Array<Allocation> => {
   let groupedAssets = _groupAssetsBySymbol(assets, tokensData, minAssetBalance)
-  const totalBalance = groupedAssets.reduce(totalBalanceReducer, 0)
+  const totalValue = groupedAssets.reduce(totalBalanceReducer, 0)
 
   return groupedAssets
-    .map(appendPercentageMapper(totalBalance))
+    .map(appendPercentageMapper(totalValue))
     .map(appendHistoricalAmountMapper)
 }
 
-export const _getHistoricalBalances = (
+export const _getHistorialValues = (
   assets: Array<Asset>,
   tokensData: {},
   minAssetBalance: number
 ) => {
   let groupedAssets = _groupAssetsBySymbol(assets, tokensData, minAssetBalance)
-  const totalBalance = groupedAssets.reduce(totalBalanceReducer, 0)
+  const totalValue = groupedAssets.reduce(totalBalanceReducer, 0)
   groupedAssets = groupedAssets
-    .map(appendPercentageMapper(totalBalance))
+    .map(appendPercentageMapper(totalValue))
     .map(appendHistoricalAmountMapper)
 
-  let historicalBalances = groupedAssets.reduce(
+  let historicalValues = groupedAssets.reduce(
     (acc, item) => {
       if (item['1h']) {
-        acc.current.balance += item.value
-        acc.tf1h.balance += item.historicalBalance['1h']
-        acc.tf1d.balance += item.historicalBalance['1d']
-        acc.tf7d.balance += item.historicalBalance['7d']
+        acc['1h'].value += item.historicalValue['1h']
+        acc['1d'].value += item.historicalValue['1d']
+        acc['7d'].value += item.historicalValue['7d']
       }
       return acc
     },
     {
-      current: { balance: 0 },
-      tf1h: { balance: 0 },
-      tf1d: { balance: 0 },
-      tf7d: { balance: 0 }
+      '1h': { value: 0 },
+      '1d': { value: 0 },
+      '7d': { value: 0 }
     }
   )
 
   // Calculate change percentages.
-  historicalBalances = Object.keys(historicalBalances).reduce(
-    (historicalBalances, key) => {
-      if (key !== 'current') {
-        historicalBalances[key].changePercentage =
-          ((totalBalance - historicalBalances[key].balance) * 100) /
-          totalBalance
-      }
-      return historicalBalances
+  historicalValues = Object.keys(historicalValues).reduce(
+    (historicalValues, key) => {
+      historicalValues[key].changePercentage =
+        ((totalValue - historicalValues[key].value) * 100) / totalValue
+      return historicalValues
     },
-    historicalBalances
+    historicalValues
   )
 
-  return historicalBalances
+  return historicalValues
 }
 
 export const _getCurrentPortfolio = (
@@ -196,8 +190,8 @@ export const _getCurrentPortfolio = (
 ) => {
   let groupedAssets = _groupAssetsBySymbol(assets, tokensData, minAssetBalance)
 
-  const totalBalance = groupedAssets.reduce(totalBalanceReducer, 0)
-  groupedAssets = groupedAssets.map(appendPercentageMapper(totalBalance))
+  const totalValue = groupedAssets.reduce(totalBalanceReducer, 0)
+  groupedAssets = groupedAssets.map(appendPercentageMapper(totalValue))
 
   let currentPortfolio = groupedAssets
     .map(({ symbol, percentage }) => {

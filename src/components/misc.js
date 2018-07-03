@@ -15,6 +15,38 @@ export const HR = () => (
   />
 )
 
+export const NumericText = ({
+  children,
+  fractionDigits = 2,
+  percentage = false,
+  style
+}: {
+  children: number,
+  fractionDigits?: number,
+  percentage?: boolean,
+  style?: {}
+}) => (
+  <Text style={[{ fontFamily: 'Roboto Mono, monospace' }, style]}>
+    {children.toLocaleString(undefined, {
+      maximumFractionDigits: fractionDigits,
+      minimumFractionDigits: fractionDigits
+    })}
+    {percentage && '%'}
+  </Text>
+)
+
+export const MonoText = ({
+  children,
+  style
+}: {
+  children: string,
+  style?: {}
+}) => (
+  <Text style={[{ fontFamily: 'Roboto Mono, monospace' }, style]}>
+    {children}
+  </Text>
+)
+
 export class LongPressButton extends React.PureComponent {
   timer = null
   constructor() {

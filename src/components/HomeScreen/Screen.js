@@ -6,6 +6,7 @@ import { View } from 'native-base'
 import ScreenTemplate from '../ScreenTemplate'
 import Chart from './Chart'
 import Table from './Table'
+import Values from './Values'
 
 import type { Allocation } from '../../ducks/_selectors'
 
@@ -14,7 +15,9 @@ type Props = {
   chartData: Array<{ x: string, y: number }>,
   orderBy: string,
   descending: boolean,
-  pressHandler: Function
+  pressHandler: Function,
+  totalValue: number,
+  baseFiat: string
 }
 
 export default class Screen extends React.PureComponent<Props> {
@@ -24,11 +27,20 @@ export default class Screen extends React.PureComponent<Props> {
       chartData,
       orderBy,
       descending,
-      pressHandler
+      pressHandler,
+      historicalValues,
+      totalValue,
+      baseFiat
     } = this.props
+
     return (
       <ScreenTemplate>
         <View style={{ alignItems: 'center' }}>
+          <Values
+            baseFiat={baseFiat}
+            totalValue={totalValue}
+            historicalValues={historicalValues}
+          />
           <Chart chartData={chartData} />
           <Table
             orderBy={orderBy}
