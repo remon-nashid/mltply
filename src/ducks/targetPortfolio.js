@@ -62,7 +62,6 @@ const _sum = (targetPortfolio: TargetPortfolio): number => {
 export type State = {
   portfolio: any,
   status: 'complete' | 'review' | 'empty',
-  messages: Array<string>,
   sum: number,
   resetEnabled: boolean,
   initiateEnabled: boolean,
@@ -77,10 +76,9 @@ export type State = {
 export const initialState: State = {
   portfolio: undefined,
   status: 'empty',
-  messages: [],
   sum: 0,
   resetEnabled: false,
-  initiateEnabled: false,
+  initiateEnabled: true,
   addEnabled: true,
   unallocated: 100,
   incrementEnabled: true,
@@ -96,36 +94,36 @@ const _validate = (prevState: State, nextState: State): State => {
   if (Object.values(nextState.portfolio).length === 0) {
     return {
       ...nextState,
-      status: 'empty',
-      messages: [],
-      resetEnabled: false,
       addEnabled: true,
+      resetEnabled: false,
+      initiateEnabled: true,
+      unallocated: 100,
       sum: nextSum,
-      unallocated: 100
+      status: 'empty'
     }
   } else if (nextSum === 100) {
     return {
       ...nextState,
       status: 'complete',
-      messages: [],
       resetEnabled: true,
       addEnabled: false,
       sum: nextSum,
       unallocated,
       incrementEnabled: false,
-      decrementEnabled: true
+      decrementEnabled: true,
+      initiateEnabled: false
     }
   } else if (nextSum < 100) {
     return {
       ...nextState,
       status: 'review',
-      messages: ['Should equal 100%'],
       resetEnabled: true,
       addEnabled: true,
       sum: nextSum,
       unallocated,
       incrementEnabled: true,
-      decrementEnabled: true
+      decrementEnabled: true,
+      initiateEnabled: false
     }
   }
   return nextState

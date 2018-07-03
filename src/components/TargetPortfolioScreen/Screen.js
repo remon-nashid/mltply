@@ -27,7 +27,7 @@ const mapStateToProps = state => {
     settings: { minAssetBalance }
   } = state
 
-  const { status, portfolio } = targetPortfolio
+  const { portfolio, initiateEnabled } = targetPortfolio
   const tokensData = data
 
   const currentPortfolio = _getCurrentPortfolio(
@@ -36,13 +36,9 @@ const mapStateToProps = state => {
     minAssetBalance
   )
 
-  if (status === 'empty') {
+  if (initiateEnabled) {
     if (Object.values(currentPortfolio).length > 0) {
-      return {
-        ...targetPortfolio,
-        initiateEnabled: true,
-        currentPortfolio
-      }
+      return { ...targetPortfolio, currentPortfolio }
     }
   }
 

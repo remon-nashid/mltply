@@ -21,7 +21,6 @@ type Props = {
   initiateEnabled: boolean,
   resetEnabled: boolean,
   addEnabled: boolean,
-  messages: Array<string>,
   status?: string,
   recommendations: Array<string>,
   unallocated: number,
@@ -57,7 +56,6 @@ export default class TargetPortfolio extends PureComponent<Props> {
       mergedPortfolios,
       initiateEnabled,
       addEnabled,
-      messages,
       status,
       recommendations,
       unallocated,
@@ -70,9 +68,7 @@ export default class TargetPortfolio extends PureComponent<Props> {
       <ScreenTemplate>
         <View style={styles[status]}>
           <Text style={{ margin: 10 }}>{`Unallocated: ${unallocated}`}</Text>
-          {!!messages.length > 0 &&
-            messages.map(item => <Text key={item}>{item}</Text>)}
-
+          {status === 'review' && <Text>Error: should be 100%</Text>}
           <Button
             success
             disabled={!addEnabled}
