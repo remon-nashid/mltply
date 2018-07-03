@@ -34,29 +34,39 @@ export type HistoricalValues = {
   '7d': HistoricalValue
 }
 
+export type MergedPortfolios = Array<{
+  symbol: string,
+  target: number,
+  current: number,
+  inTarget: boolean,
+  diff: number
+}>
+
 export function _symbolSelector(tokensData: Object = {}, symbol: string) {
   // FIXME
   return tokensData.hasOwnProperty(symbol) ? tokensData[symbol] : { price: 0 }
 }
 
-export function _getMergedPortfolio(
+export function _getMergedPortfolios(
   assets: Array<Asset>,
   tokensData: {},
   minAssetBalance: number,
   portfolio: {}
-) {
+): MergedPortfolios {
   const currentPortfolio = _getCurrentPortfolio(
     assets,
     tokensData,
     minAssetBalance
   )
 
-  let mergedSymbols = [
+  let mergedSymbols: Array<string> = [
     ...Object.keys(currentPortfolio),
     ...Object.keys(portfolio)
-  ].unique()
+  ].filter((value, index, self) => {
+    return self.indexOf(value) === index
+  })
 
-  const calc = {}
+  const calc: MergedPortfolios = []
   mergedSymbols.forEach(symbol => {
     const inTarget = portfolio.hasOwnProperty(symbol)
     const target = portfolio.hasOwnProperty(symbol) ? portfolio[symbol] : 0
@@ -64,34 +74,18 @@ export function _getMergedPortfolio(
       ? currentPortfolio[symbol]
       : 0
     const diff = target - current
-    calc[symbol] = {
-      target,
-      current,
-      inTarget,
-      diff
-    }
+    calc.push({ symbol, target, current, inTarget, diff })
   })
 
   return calc
 }
 
 export function _getTradeRecommendations(
-  assets: Array<Asset>,
-  tokensData: {},
-  minAssetBalance: number,
-  portfolio: {}
+  mergedPortfolios: MergedPortfolios,
+  totalValue: number,
+  tokensData: {}
 ): Array<string> {
-  const calc = _getMergedPortfolio(
-    assets,
-    tokensData,
-    minAssetBalance,
-    portfolio
-  )
-  const totalValue = _getTotalValue(assets, tokensData, minAssetBalance)
-
-  return Object.keys(calc).map(symbol => {
-    const { diff } = calc[symbol]
-
+  const recommendations = mergedPortfolios.map(({ symbol, diff }) => {
     const direction = diff > 0 ? 'Buy' : 'Sell'
     let price = Math.abs((diff * totalValue) / 100)
 
@@ -107,6 +101,8 @@ export function _getTradeRecommendations(
         : ''
     }
   })
+
+  return recommendations
 }
 
 export const _groupAssetsBySymbol = (

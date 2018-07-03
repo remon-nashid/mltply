@@ -3,12 +3,13 @@
 import { connect } from 'react-redux'
 import {
   _getCurrentPortfolio,
-  _getMergedPortfolio,
-  _getTradeRecommendations
+  _getMergedPortfolios,
+  _getTradeRecommendations,
+  _getTotalValue
 } from '../../ducks/_selectors'
 
 import {
-  save,
+  init,
   reset,
   add,
   remove,
@@ -45,22 +46,27 @@ const mapStateToProps = state => {
     }
   }
 
-  let calc = _getMergedPortfolio(assets, tokensData, minAssetBalance, portfolio)
+  const totalValue = _getTotalValue(assets, tokensData, minAssetBalance)
 
-  let recommendations = _getTradeRecommendations(
+  const mergedPortfolios = _getMergedPortfolios(
     assets,
     tokensData,
     minAssetBalance,
-    targetPortfolio.portfolio
+    portfolio
   )
 
-  return { ...targetPortfolio, portfolio: calc, recommendations }
+  const recommendations =
+    targetPortfolio.status === 'complete'
+      ? _getTradeRecommendations(mergedPortfolios, totalValue, tokensData)
+      : []
+
+  return { ...targetPortfolio, mergedPortfolios, recommendations }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     reset: (targetPortfolio: {}) => dispatch(reset()),
-    initiate: (targetPortfolio: {}) => dispatch(save(targetPortfolio)),
+    initiate: (targetPortfolio: {}) => dispatch(init(targetPortfolio)),
     increment: (symbol: string) => dispatch(increment(symbol)),
     decrement: (symbol: string) => dispatch(decrement(symbol)),
     remove: (symbol: string) => dispatch(remove(symbol)),

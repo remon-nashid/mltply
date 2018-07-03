@@ -1,13 +1,15 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import { StyleSheet, FlatList } from 'react-native'
-import { View, Text, Button } from 'native-base'
+import { FlatList, StyleSheet } from 'react-native'
+import { View, Text, Button, ListItem, Icon } from 'native-base'
 import ScreenTemplate from '../ScreenTemplate'
 import { LongPressButton } from '../misc'
 
+import type { MergedPortfolios } from '../../ducks/_selectors'
+
 type Props = {
-  portfolio: {},
+  mergedPortfolios?: MergedPortfolios,
   reset: Function,
   navigation: any,
   add: Function,
@@ -34,7 +36,7 @@ const styles = StyleSheet.create({
 })
 
 export default class TargetPortfolio extends PureComponent<Props> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
     this._selectHandler = this._selectHandler.bind(this)
   }
@@ -52,7 +54,7 @@ export default class TargetPortfolio extends PureComponent<Props> {
       increment,
       decrement,
       remove,
-      portfolio,
+      mergedPortfolios,
       initiateEnabled,
       addEnabled,
       messages,
@@ -92,30 +94,20 @@ export default class TargetPortfolio extends PureComponent<Props> {
               <Text>INITIATE</Text>
             </Button>
           )}
-          {status !== 'empty' &&
-            portfolio && (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between'
-                }}
-              >
-                <Text style={{ fontWeight: 'bold', flex: 1 }}>Asset</Text>
-                <Text style={{ fontWeight: 'bold', flex: 1 }}>Current</Text>
-                <Text style={{ fontWeight: 'bold', flex: 1 }}>Target</Text>
-                <Text style={{ fontWeight: 'bold', flex: 1 }}>Actions</Text>
-              </View>
-            )}
-          {portfolio &&
-            Object.keys(portfolio).map(key => {
-              const { target, inTarget, current } = portfolio[key]
+          {mergedPortfolios && (
+            <ListItem>
+              <Text style={{ fontWeight: 'bold', flex: 1 }}>Asset</Text>
+              <Text style={{ fontWeight: 'bold', flex: 1 }}>Current</Text>
+              <Text style={{ fontWeight: 'bold', flex: 1 }}>Target</Text>
+              <Text style={{ fontWeight: 'bold', flex: 1 }}>Actions</Text>
+            </ListItem>
+          )}
+          {mergedPortfolios &&
+            mergedPortfolios.map(({ symbol, target, inTarget, current }) => {
               return (
-                <View
-                  key={key}
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between'
-                  }}
+                <ListItem
+                  style={{ paddingTop: 0, paddingBottom: 0 }}
+                  key={symbol}
                 >
                   <Text
                     style={{
@@ -123,7 +115,7 @@ export default class TargetPortfolio extends PureComponent<Props> {
                       color: inTarget ? 'black' : 'rgba(0,0,0, 0.3)'
                     }}
                   >
-                    {key}
+                    {symbol}
                   </Text>
                   <Text
                     style={{
@@ -141,42 +133,49 @@ export default class TargetPortfolio extends PureComponent<Props> {
                   >
                     {target}
                   </Text>
-                  <View style={{ flexDirection: 'row' }}>
+                  <View style={{ flex: 1, flexDirection: 'row' }}>
                     <Button
+                      transparent
                       disabled={!inTarget || !incrementEnabled}
-                      onPress={() => max(key)}
+                      onPress={() => max(symbol)}
                     >
                       <Text>MAX</Text>
                     </Button>
                     <LongPressButton
+                      transparent
                       disabled={!inTarget || !incrementEnabled}
-                      onPressOrHold={() => increment(key)}
+                      onPressOrHold={() => increment(symbol)}
                     >
-                      <Text>+</Text>
+                      <Icon type="MaterialCommunityIcons" name="plus" />
                     </LongPressButton>
                     <LongPressButton
+                      transparent
                       disabled={!inTarget || !decrementEnabled || target <= 1}
-                      onPressOrHold={() => decrement(key)}
+                      onPressOrHold={() => decrement(symbol)}
                     >
-                      <Text>-</Text>
+                      <Icon type="MaterialCommunityIcons" name="minus" />
                     </LongPressButton>
-                    <Button disabled={!inTarget} onPress={() => remove(key)}>
-                      <Text>REMOVE</Text>
+                    <Button
+                      transparent
+                      danger
+                      disabled={!inTarget}
+                      onPress={() => remove(symbol)}
+                    >
+                      <Icon type="MaterialCommunityIcons" name="delete" />
                     </Button>
                   </View>
-                </View>
+                </ListItem>
               )
             })}
         </View>
 
-        {status === 'complete' &&
-          (recommendations.length > 0 && (
-            <FlatList
-              data={recommendations}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => <Text>{item}</Text>}
-            />
-          ))}
+        {recommendations.length > 0 && (
+          <FlatList
+            data={recommendations}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => <Text>{item}</Text>}
+          />
+        )}
       </ScreenTemplate>
     )
   }

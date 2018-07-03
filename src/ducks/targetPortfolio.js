@@ -7,7 +7,7 @@ export type Allocation = {
 }
 export type TargetPortfolio = {}
 
-export const SAVE = 'mltply/targetPortfolio/SAVE'
+export const INIT = 'mltply/targetPortfolio/INIT'
 export const ADD = 'mltply/targetPortfolio/ADD'
 export const REMOVE = 'mltply/targetPortfolio/REMOVE'
 export const RESET = 'mltply/targetPortfolio/RESET'
@@ -15,8 +15,8 @@ export const INCREMENT = 'mltply/targetPortfolio/INCREMENT'
 export const DECREMENT = 'mltply/targetPortfolio/DECREMENT'
 export const MAX = 'mltply/targetPortfolio/MAX'
 
-export function save(targetPortfolio: TargetPortfolio) {
-  return { type: SAVE, targetPortfolio }
+export function init(targetPortfolio: TargetPortfolio) {
+  return { type: INIT, targetPortfolio }
 }
 
 export function add(symbol: string, percentage: number = 1) {
@@ -44,7 +44,7 @@ export function reset() {
 }
 
 type Action =
-  | ExtractReturn<typeof save>
+  | ExtractReturn<typeof init>
   | ExtractReturn<typeof reset>
   | ExtractReturn<typeof add>
   | ExtractReturn<typeof remove>
@@ -60,7 +60,7 @@ const _sum = (targetPortfolio: TargetPortfolio): number => {
 }
 
 export type State = {
-  portfolio: {},
+  portfolio: any,
   status: 'complete' | 'review' | 'empty',
   messages: Array<string>,
   sum: number,
@@ -70,11 +70,12 @@ export type State = {
   unallocated: number,
   incrementEnabled: boolean,
   decrementEnabled: boolean,
-  recommendations: Array<string>
+  recommendations: Array<string>,
+  editing: boolean
 }
 
 export const initialState: State = {
-  portfolio: {},
+  portfolio: undefined,
   status: 'empty',
   messages: [],
   sum: 0,
@@ -84,7 +85,8 @@ export const initialState: State = {
   unallocated: 100,
   incrementEnabled: true,
   decrementEnabled: false,
-  recommendations: []
+  recommendations: [],
+  editing: true
 }
 
 const _validate = (prevState: State, nextState: State): State => {
@@ -134,7 +136,7 @@ const reducer = (state: State = initialState, action: Action): State => {
   let nextState
 
   switch (action.type) {
-    case SAVE:
+    case INIT:
       nextState = { ...state, portfolio: targetPortfolio }
       return _validate(state, nextState)
 
