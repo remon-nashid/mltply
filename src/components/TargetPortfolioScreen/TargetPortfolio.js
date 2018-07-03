@@ -1,8 +1,10 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import { View, Button, Text, StyleSheet, FlatList } from 'react-native'
+import { StyleSheet, FlatList } from 'react-native'
+import { View, Text, Button } from 'native-base'
 import type { TargetPortfolio } from '../ducks/targetPortfolio'
+import ScreenTemplate from '../ScreenTemplate'
 import { LongPressButton } from '../misc'
 
 type Props = {
@@ -63,7 +65,7 @@ export default class TargetPortfolioComponent extends PureComponent<Props> {
     } = this.props
 
     return (
-      <View>
+      <ScreenTemplate>
         <View style={styles[status]}>
           <Text style={{ margin: 10 }}>{`Unallocated: ${unallocated}`}</Text>
           <Button
@@ -73,10 +75,19 @@ export default class TargetPortfolioComponent extends PureComponent<Props> {
                 selectHandler: selectHandler(add)
               })
             }
-            title="ADD COIN"
-          />
-          {resetEnabled && <Button onPress={reset} title="RESET" />}
-          {initiateEnabled && <Button onPress={initiate} title="INITIATE" />}
+          >
+            <Text>ADD COIN</Text>
+          </Button>
+          {resetEnabled && (
+            <Button onPress={reset}>
+              <Text>RESET</Text>
+            </Button>
+          )}
+          {initiateEnabled && (
+            <Button onPress={initiate}>
+              <Text>INITIATE</Text>
+            </Button>
+          )}
           {status !== 'empty' &&
             portfolio && (
               <View
@@ -126,16 +137,13 @@ export default class TargetPortfolioComponent extends PureComponent<Props> {
                   >
                     {target}
                   </Text>
-                  <View
-                    style={{
-                      flexDirection: 'row'
-                    }}
-                  >
+                  <View style={{ flexDirection: 'row' }}>
                     <Button
                       disabled={!inTarget || !incrementEnabled}
                       onPress={() => max(key)}
-                      title="MAX"
-                    />
+                    >
+                      <Text>MAX</Text>
+                    </Button>
                     <LongPressButton
                       disabled={!inTarget || !incrementEnabled}
                       onPress={() => increment(key)}
@@ -146,11 +154,9 @@ export default class TargetPortfolioComponent extends PureComponent<Props> {
                       onPress={() => decrement(key)}
                       title="-"
                     />
-                    <Button
-                      disabled={!inTarget}
-                      onPress={() => remove(key)}
-                      title="REMOVE"
-                    />
+                    <Button disabled={!inTarget} onPress={() => remove(key)}>
+                      <Text>REMOVE</Text>
+                    </Button>
                   </View>
                 </View>
               )
@@ -166,7 +172,7 @@ export default class TargetPortfolioComponent extends PureComponent<Props> {
               renderItem={({ item }) => <Text>{item}</Text>}
             />
           ))}
-      </View>
+      </ScreenTemplate>
     )
   }
 }

@@ -32,7 +32,7 @@ const mapDispatchToProps = dispatch => {
 
 class App extends React.Component<any> {
   componentDidMount() {
-    // Load fiat and crypto exchange rates.
+    // Load fiat exchange rates.
     const {
       fetchResource,
       baseFiat,
@@ -44,6 +44,8 @@ class App extends React.Component<any> {
       'fiat',
       `https://exchangeratesapi.io/api/latest?base=${baseFiat}`
     )
+
+    // Load crypto info.
     for (let i = 0; i < 3; i++) {
       fetchResource(
         'tokens',

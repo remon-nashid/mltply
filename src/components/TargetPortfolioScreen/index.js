@@ -1,100 +1,31 @@
 // @flow
 
-import { connect } from 'react-redux'
-import {
-  _getCurrentPortfolio,
-  _getMergedPortfolio,
-  _getTradeRecommendations
-} from '../../ducks/_selectors'
+import { createStackNavigator } from 'react-navigation'
 
-import {
-  save,
-  reset,
-  add,
-  remove,
-  increment,
-  decrement,
-  max
-} from '../../ducks/targetPortfolio'
-import TargetPortfolioComponent from './TargetPortfolio'
+import TokenPickerScreen from '../TokenPickerScreen'
+import Screen from './Screen'
 
-import type { TargetPortfolio } from '../../ducks/targetPortfolio'
-
-const mapStateToProps = state => {
-  const {
-    assets,
-    targetPortfolio,
-    settings: { minAssetBalance }
-  } = state
-  const { status } = targetPortfolio
-  const tokensData = state.tokens.data
-
-  const currentPortfolio = _getCurrentPortfolio(
-    assets,
-    tokensData,
-    minAssetBalance
-  )
-
-  if (status === 'empty') {
-    if (Object.values(currentPortfolio).length > 0) {
-      return {
-        ...targetPortfolio,
-        initiateEnabled: true,
-        currentPortfolio
-      }
+export default createStackNavigator(
+  {
+    AssetsHome: {
+      screen: Screen
+    },
+    TokenPicker: {
+      screen: TokenPickerScreen,
+      path: '/tokenPicker'
     }
+  },
+  {
+    headerMode: 'none',
+    // Prevents StackNavigator from having "backgroundColor: '#E9E9EF'".
+    // See https://github.com/react-navigation/react-navigation/issues/2713#issuecomment-338260122
+    cardStyle: {
+      backgroundColor: 'white'
+    },
+    transitionConfig: () => ({
+      containerStyle: {
+        backgroundColor: 'transparent'
+      }
+    })
   }
-
-  let calc = _getMergedPortfolio(
-    assets,
-    targetPortfolio,
-    tokensData,
-    minAssetBalance
-  )
-
-  let recommendations = _getTradeRecommendations(
-    assets,
-    targetPortfolio,
-    tokensData,
-    minAssetBalance
-  )
-
-  return {
-    ...targetPortfolio,
-    portfolio: calc,
-    recommendations
-  }
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    reset: (targetPortfolio: TargetPortfolio) => dispatch(reset()),
-    initiate: (targetPortfolio: TargetPortfolio) =>
-      dispatch(save(targetPortfolio)),
-    increment: (symbol: string) => dispatch(increment(symbol)),
-    decrement: (symbol: string) => dispatch(decrement(symbol)),
-    remove: (symbol: string) => dispatch(remove(symbol)),
-    add: (symbol: string, percentage: number) =>
-      dispatch(add(symbol, percentage)),
-    max: (symbol: string) => dispatch(max(symbol))
-  }
-}
-
-const mergeProps = (propsFromState, propsFromDispatch, ownProps) => {
-  let mergedProps = {
-    ...propsFromState,
-    ...propsFromDispatch,
-    ...ownProps
-  }
-  if (propsFromState.initiateEnabled) {
-    mergedProps.initiate = () =>
-      propsFromDispatch.initiate(propsFromState.currentPortfolio)
-  }
-  return mergedProps
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-  mergeProps
-)(TargetPortfolioComponent)
+)

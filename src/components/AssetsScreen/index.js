@@ -37,7 +37,7 @@ export default createStackNavigator(
     cardStyle: {
       backgroundColor: 'white'
     },
-    transitionConfig: (): Object => ({
+    transitionConfig: () => ({
       containerStyle: {
         backgroundColor: 'transparent'
       }

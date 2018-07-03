@@ -26,6 +26,7 @@ export default ({
     <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
       {Object.keys(historicalValues).map(key => (
         <View
+          key={key}
           style={[
             _changePercentageStyle(historicalValues[key].changePercentage),
             { padding: 10 }
