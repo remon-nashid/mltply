@@ -22,11 +22,12 @@ const mapStateToProps = state => {
   const {
     assets,
     targetPortfolio,
+    tokens: { data },
     settings: { minAssetBalance }
   } = state
 
   const { status, portfolio } = targetPortfolio
-  const tokensData = state.tokens.data
+  const tokensData = data
 
   const currentPortfolio = _getCurrentPortfolio(
     assets,
@@ -48,9 +49,9 @@ const mapStateToProps = state => {
 
   let recommendations = _getTradeRecommendations(
     assets,
-    targetPortfolio,
     tokensData,
-    minAssetBalance
+    minAssetBalance,
+    targetPortfolio.portfolio
   )
 
   return { ...targetPortfolio, portfolio: calc, recommendations }

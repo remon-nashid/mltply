@@ -87,10 +87,7 @@ export function _getTradeRecommendations(
     minAssetBalance,
     portfolio
   )
-
-  let groupedAssets = _groupAssetsBySymbol(assets, tokensData, minAssetBalance)
-  const totalValue = groupedAssets.reduce(totalBalanceReducer, 0)
-  groupedAssets = groupedAssets.map(appendPercentageMapper(totalValue))
+  const totalValue = _getTotalValue(assets, tokensData, minAssetBalance)
 
   return Object.keys(calc).map(symbol => {
     const { diff } = calc[symbol]

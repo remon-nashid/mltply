@@ -40,7 +40,6 @@ export default class TargetPortfolio extends PureComponent<Props> {
   }
 
   _selectHandler = function(selected: string) {
-    console.log(this.props)
     this.props.navigation.goBack()
     this.props.add(selected)
   }
@@ -73,6 +72,7 @@ export default class TargetPortfolio extends PureComponent<Props> {
             messages.map(item => <Text key={item}>{item}</Text>)}
 
           <Button
+            success
             disabled={!addEnabled}
             onPress={() =>
               navigation.navigate('TokenPicker', {
@@ -83,12 +83,12 @@ export default class TargetPortfolio extends PureComponent<Props> {
             <Text>ADD COIN</Text>
           </Button>
           {resetEnabled && (
-            <Button onPress={reset}>
+            <Button danger onPress={reset}>
               <Text>RESET</Text>
             </Button>
           )}
           {initiateEnabled && (
-            <Button onPress={initiate}>
+            <Button success onPress={initiate}>
               <Text>INITIATE</Text>
             </Button>
           )}
