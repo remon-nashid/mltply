@@ -69,6 +69,9 @@ export default class TargetPortfolio extends PureComponent<Props> {
       <ScreenTemplate>
         <View style={styles[status]}>
           <Text style={{ margin: 10 }}>{`Unallocated: ${unallocated}`}</Text>
+          {!!messages.length > 0 &&
+            messages.map(item => <Text key={item}>{item}</Text>)}
+
           <Button
             disabled={!addEnabled}
             onPress={() =>
@@ -147,14 +150,16 @@ export default class TargetPortfolio extends PureComponent<Props> {
                     </Button>
                     <LongPressButton
                       disabled={!inTarget || !incrementEnabled}
-                      onPress={() => increment(key)}
-                      title="+"
-                    />
+                      onPressOrHold={() => increment(key)}
+                    >
+                      <Text>+</Text>
+                    </LongPressButton>
                     <LongPressButton
                       disabled={!inTarget || !decrementEnabled || target <= 1}
-                      onPress={() => decrement(key)}
-                      title="-"
-                    />
+                      onPressOrHold={() => decrement(key)}
+                    >
+                      <Text>-</Text>
+                    </LongPressButton>
                     <Button disabled={!inTarget} onPress={() => remove(key)}>
                       <Text>REMOVE</Text>
                     </Button>
@@ -163,8 +168,6 @@ export default class TargetPortfolio extends PureComponent<Props> {
               )
             })}
         </View>
-        {!!messages.length > 0 &&
-          messages.map(item => <Text key={item}>{item}</Text>)}
 
         {status === 'complete' &&
           (recommendations.length > 0 && (
