@@ -44,7 +44,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "ccxt": "^1.15.5",
+    "ccxt": "^1.15.9",
     "deep-equal": "^1.0.1",
     "expo": "^28.0.0",
     "expo-web": "^0.0.14",
@@ -52,9 +52,9 @@
     "react": "16.4.1",
     "react-art": "16.4.1",
     "react-dom": "16.4.1",
-    "react-native": "^0.55.4",
+    "react-native": "^0.56.0",
     "react-native-web": "^0.8.6",
-    "react-navigation": "^2.5.5",
+    "react-navigation": "^2.6.0",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
     "redux-persist": "^5.10.0",
@@ -63,7 +63,7 @@
     "uuid": "^3.3.2",
     "victory": "^0.27.2",
     "victory-native": "^0.18.2",
-    "webpack": "^4.14.0",
+    "webpack": "^4.15.0",
     "webpack-dev-server": "3.1.4"
   }
 }

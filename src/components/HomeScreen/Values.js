@@ -18,8 +18,8 @@ export default ({
   <View>
     <View style={{ flexDirection: 'row', padding: 15 }}>
       <NumericText style={{ fontSize: 36 }}>{totalValue}</NumericText>
-      <MonoText style={{ fontSize: 36 }}>
-        {' ' + baseFiat.toUpperCase()}
+      <MonoText style={{ fontSize: 36, textTransform: 'uppercase' }}>
+        {' ' + baseFiat}
       </MonoText>
     </View>
 
