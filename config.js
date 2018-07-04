@@ -56,5 +56,6 @@ export default {
   },
   ccxtRateLimit: 1000,
   corsProxyURL: 'http://localhost:8080/',
+  fetchProxy: false,
   chartLabelThreshold: 2
 }

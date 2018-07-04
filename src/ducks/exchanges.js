@@ -304,26 +304,25 @@ function connectionsReducer(
     case BALANCE_RECEIVED: {
       return state.map(item => {
         if (item.id === connection.id) {
-          item.ui = { loading: false }
+          return { ...item, ui: { error: undefined, loading: false } }
         }
         return item
       })
     }
 
     case BALANCE_LOAD: {
-      let nextState = state.map(item => {
+      return state.map(item => {
         if (item.id === connection.id) {
-          item.ui = { loading: true }
+          return { ...item, ui: { ...item.ui, loading: true } }
         }
         return item
       })
-      return nextState
     }
 
     case BALANCE_ERROR: {
       let nextState2 = state.map(item => {
         if (item.id === connection.id) {
-          item.ui = { error, loading: false }
+          return { ...item, ui: { error, loading: false } }
         }
         return item
       })

@@ -28,10 +28,19 @@ const composeEnhancers =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
   compose
 
+let middlewares =
+  process.env.NODE_ENV !== 'production'
+    ? [
+        require('redux-immutable-state-invariant').default({
+          ignore: ['exchanges.pool']
+        }),
+        thunk
+      ]
+    : [thunk]
 let store = createStore(
   persistCombineReducers(persistConfig, reducers),
   undefined,
-  composeEnhancers(applyMiddleware(thunk))
+  composeEnhancers(applyMiddleware(...middlewares))
 )
 
 export const persistor = persistStore(store, undefined, () => {

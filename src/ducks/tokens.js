@@ -32,7 +32,12 @@ export type Action =
 // FIXME proxy all requests for now. That will free us from caching 3rd party
 // resources on mobiles.
 export function proxiedFetch(url: string, ...args: Array<any>) {
-  if (Platform.OS !== 'ios' && Platform.OS !== 'android') {
+  if (
+    Platform.OS !== 'ios' &&
+    Platform.OS !== 'android' &&
+    config.corsProxyURL &&
+    config.fetchProxy
+  ) {
     url = config.corsProxyURL + url
   }
   return fetch(url, ...args)
