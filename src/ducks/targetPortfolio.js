@@ -14,6 +14,8 @@ export const RESET = 'mltply/targetPortfolio/RESET'
 export const INCREMENT = 'mltply/targetPortfolio/INCREMENT'
 export const DECREMENT = 'mltply/targetPortfolio/DECREMENT'
 export const MAX = 'mltply/targetPortfolio/MAX'
+export const EDIT = 'mltply/targetPortfolio/EDIT'
+export const SAVE = 'mltply/targetPortfolio/SAVE'
 
 export function init(targetPortfolio: TargetPortfolio) {
   return { type: INIT, targetPortfolio }
@@ -41,6 +43,14 @@ export function max(symbol: string) {
 
 export function reset() {
   return { type: RESET }
+}
+
+export function edit() {
+  return { type: EDIT }
+}
+
+export function save() {
+  return { type: SAVE }
 }
 
 type Action =
@@ -88,7 +98,15 @@ export const initialState: State = {
 }
 
 const _validate = (prevState: State, nextState: State): State => {
+  // Bail early if one target is <= 0 || sum > 100
   const nextSum = _sum(nextState.portfolio)
+  if (
+    nextSum > 100 ||
+    Object.values(nextState.portfolio).find(val => val === 0) !== undefined
+  ) {
+    return prevState
+  }
+
   const unallocated = 100 - nextSum
 
   if (Object.values(nextState.portfolio).length === 0) {
@@ -134,6 +152,12 @@ const reducer = (state: State = initialState, action: Action): State => {
   let nextState
 
   switch (action.type) {
+    case EDIT:
+      return { ...state, editing: true }
+
+    case SAVE:
+      return { ...state, editing: false }
+
     case INIT:
       nextState = { ...state, portfolio: targetPortfolio }
       return _validate(state, nextState)
@@ -144,10 +168,7 @@ const reducer = (state: State = initialState, action: Action): State => {
     case ADD:
       nextState = { ...state }
       // FIXME check if exists and return error.
-      nextState.portfolio = {
-        ...nextState.portfolio,
-        [symbol]: percentage
-      }
+      nextState.portfolio = { ...nextState.portfolio, [symbol]: percentage }
       return _validate(state, nextState)
 
     /*

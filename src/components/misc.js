@@ -3,7 +3,9 @@
 import React from 'react'
 
 import { StyleSheet } from 'react-native'
-import { View, Text, Button } from 'native-base'
+import { View, Text, Button, Card, Content } from 'native-base'
+// FIXME avoid accessing theme variables directly.
+import commonColors from '../native-base-theme/variables/commonColor'
 
 export const HR = () => (
   <View
@@ -47,6 +49,19 @@ export const MonoText = ({
   </Text>
 )
 
+export const ErrorMessage = ({ children }: { children: string }) => (
+  <Card
+    style={{
+      backgroundColor: commonColors.brandDanger,
+      borderColor: '#973a37'
+    }}
+  >
+    <Content padder>
+      <Text style={{ color: 'white' }}>{children}</Text>
+    </Content>
+  </Card>
+)
+
 export class LongPressButton extends React.PureComponent<{
   onPressOrHold: Function,
   children: any
@@ -61,7 +76,7 @@ export class LongPressButton extends React.PureComponent<{
 
   _handlePress = function() {
     this.props.onPressOrHold()
-    this.timer = setTimeout(this._handlePress, 300)
+    this.timer = setTimeout(this._handlePress, 200)
   }
 
   stopTimer = function() {

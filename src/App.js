@@ -30,35 +30,35 @@ const mapDispatchToProps = dispatch => {
 }
 
 class App extends React.Component<any> {
-  componentDidMount() {
-    // Load fiat exchange rates.
-    const {
-      fetchResource,
-      baseFiat,
-      exchanges,
-      loadBalance,
-      initExchangeProps
-    } = this.props
-    fetchResource(
-      'fiat',
-      `https://exchangeratesapi.io/api/latest?base=${baseFiat}`
-    )
+  // componentDidMount() {
+  //   // Load fiat exchange rates.
+  //   const {
+  //     fetchResource,
+  //     baseFiat,
+  //     exchanges,
+  //     loadBalance,
+  //     initExchangeProps
+  //   } = this.props
+  //   fetchResource(
+  //     'fiat',
+  //     `https://exchangeratesapi.io/api/latest?base=${baseFiat}`
+  //   )
 
-    // Load crypto info.
-    for (let i = 0; i < 3; i++) {
-      fetchResource(
-        'tokens',
-        `https://api.coinmarketcap.com/v2/ticker/?start=${i * 100 +
-          1}&limit=100&convert=${baseFiat}`
-      )
-    }
+  //   // Load crypto info.
+  //   for (let i = 0; i < 3; i++) {
+  //     fetchResource(
+  //       'tokens',
+  //       `https://api.coinmarketcap.com/v2/ticker/?start=${i * 100 +
+  //         1}&limit=100&convert=${baseFiat}`
+  //     )
+  //   }
 
-    // Load exchange balances
-    exchanges.forEach(connection => loadBalance(connection))
+  //   // Load exchange balances
+  //   exchanges.forEach(connection => loadBalance(connection))
 
-    // Create exchange props array.
-    initExchangeProps(ccxt)
-  }
+  //   // Create exchange props array.
+  //   initExchangeProps(ccxt)
+  // }
 
   render() {
     return <Root />

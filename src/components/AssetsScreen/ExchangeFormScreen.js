@@ -19,8 +19,7 @@ import uuidv4 from 'uuid/v4'
 
 import { authenticate, resetUI } from '../../ducks/exchanges'
 import ScreenTemplate from '../ScreenTemplate'
-// FIXME avoid accessing theme variables directly.
-import commonColors from '../../native-base-theme/variables/commonColor'
+import { ErrorMessage } from '../misc'
 
 import type {
   ExchangeProps,
@@ -186,18 +185,7 @@ class ExchangesFormScreen extends React.Component<Props, State> {
     const { selected, credentials, id, name } = this.state
     return (
       <ScreenTemplate backButton={this._goBack} navigation={navigation}>
-        {error && (
-          <Card
-            style={{
-              backgroundColor: commonColors.brandDanger,
-              borderColor: '#973a37'
-            }}
-          >
-            <Content padder>
-              <Text style={{ color: 'white' }}>{error}</Text>
-            </Content>
-          </Card>
-        )}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <Form>
           <Item inlineLabel>
             <Label style={{ flex: 1 }}>

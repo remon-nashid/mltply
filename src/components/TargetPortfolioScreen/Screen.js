@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import {
   _getCurrentPortfolio,
   _getMergedPortfolios,
-  _getTradeRecommendations,
+  _appendRecommendations,
   _getTotalValue
 } from '../../ducks/_selectors'
 
@@ -15,7 +15,9 @@ import {
   remove,
   increment,
   decrement,
-  max
+  max,
+  save,
+  edit
 } from '../../ducks/targetPortfolio'
 import TargetPortfolio from './TargetPortfolio'
 
@@ -24,19 +26,18 @@ const mapStateToProps = state => {
     assets,
     targetPortfolio,
     tokens: { data },
-    settings: { minAssetBalance }
+    settings: { minAssetBalance, baseFiat }
   } = state
 
   const { portfolio, initiateEnabled } = targetPortfolio
   const tokensData = data
 
-  const currentPortfolio = _getCurrentPortfolio(
-    assets,
-    tokensData,
-    minAssetBalance
-  )
-
   if (initiateEnabled) {
+    const currentPortfolio = _getCurrentPortfolio(
+      assets,
+      tokensData,
+      minAssetBalance
+    )
     if (Object.values(currentPortfolio).length > 0) {
       return { ...targetPortfolio, currentPortfolio }
     }
@@ -44,19 +45,22 @@ const mapStateToProps = state => {
 
   const totalValue = _getTotalValue(assets, tokensData, minAssetBalance)
 
-  const mergedPortfolios = _getMergedPortfolios(
+  let mergedPortfolios = _getMergedPortfolios(
     assets,
     tokensData,
     minAssetBalance,
     portfolio
   )
 
-  const recommendations =
-    targetPortfolio.status === 'complete'
-      ? _getTradeRecommendations(mergedPortfolios, totalValue, tokensData)
-      : []
+  if (targetPortfolio.status === 'complete')
+    mergedPortfolios = _appendRecommendations(
+      mergedPortfolios,
+      totalValue,
+      tokensData,
+      baseFiat
+    )
 
-  return { ...targetPortfolio, mergedPortfolios, recommendations }
+  return { ...targetPortfolio, mergedPortfolios }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -68,7 +72,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     remove: (symbol: string) => dispatch(remove(symbol)),
     add: (symbol: string, percentage: number) =>
       dispatch(add(symbol, percentage)),
-    max: (symbol: string) => dispatch(max(symbol))
+    max: (symbol: string) => dispatch(max(symbol)),
+    save: () => dispatch(save()),
+    edit: () => dispatch(edit())
   }
 }
 

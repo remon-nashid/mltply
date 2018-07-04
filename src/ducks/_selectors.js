@@ -39,7 +39,8 @@ export type MergedPortfolios = Array<{
   target: number,
   current: number,
   inTarget: boolean,
-  diff: number
+  diff: number,
+  recommendation?: string
 }>
 
 export function _symbolSelector(tokensData: Object = {}, symbol: string) {
@@ -80,29 +81,31 @@ export function _getMergedPortfolios(
   return calc
 }
 
-export function _getTradeRecommendations(
+export function _appendRecommendations(
   mergedPortfolios: MergedPortfolios,
   totalValue: number,
-  tokensData: {}
-): Array<string> {
-  const recommendations = mergedPortfolios.map(({ symbol, diff }) => {
+  tokensData: {},
+  baseFiat: string
+): Array<MergedPortfolios> {
+  return mergedPortfolios.map(item => {
+    const { symbol, diff } = item
     const direction = diff > 0 ? 'Buy' : 'Sell'
     let price = Math.abs((diff * totalValue) / 100)
-
+    let reco
     if (symbol === config.targetPortfolio.smallGroup) {
-      return diff
-        ? `${direction} ${price.toFixed(2)} worth of assets less than %1`
-        : ''
+      reco = diff
+        ? `${direction} ${price.toFixed(2)} ${baseFiat} worth of these assets`
+        : 'none'
     } else {
       const tokenObj = _symbolSelector(tokensData, symbol)
       const units = (price / tokenObj.price).toFixed(2)
-      return diff
-        ? `${direction} ${units} ${symbol} for ${price.toFixed(2)}`
-        : ''
+      reco = diff
+        ? `${direction} ${units} ${symbol} for ${price.toFixed(2)} ${baseFiat}`
+        : 'none'
     }
+    item.recommendation = reco
+    return item
   })
-
-  return recommendations
 }
 
 export const _groupAssetsBySymbol = (
