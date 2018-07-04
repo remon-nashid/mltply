@@ -3,9 +3,11 @@
 import { Platform } from 'react-native'
 import { combineReducers } from 'redux'
 import ccxt, { AuthenticationError, NetworkError, BaseError } from 'ccxt'
+import equal from 'deep-equal'
 
 import type { Dispatch } from 'redux'
-import { save, removeBySource } from './assets'
+import { _getAssetsBySourceId } from './_selectors'
+import { save, removeBySource, saveMultiple } from './assets'
 import config from '../../config'
 
 import type { Asset } from './assets'
@@ -126,7 +128,7 @@ function ccxtBalance2Local(ccxtBalance, id): Array<Asset> {
     .map(key => {
       const { asset, free } = ccxtBalance[key]
       // used, total
-      return { symbol: asset, amount: free, sourceId: id }
+      return { symbol: asset, amount: Number(free), sourceId: id }
     })
     .filter(({ amount }) => amount > 0)
 }
@@ -209,22 +211,28 @@ export function authenticate(connection: ExchangeConnection, navigation: any) {
 }
 
 export function loadBalance(connection: ExchangeConnection) {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<any>, getState: Function) => {
     dispatch(loadingBalance(connection))
     dispatch(ccxtRequest(connection, 'fetchBalance'))
       .then(response => {
         dispatch(balanceReceived(connection))
 
         if ('info' in response) {
-          // Remove existing assets that are related to this connection.
-          dispatch(removeBySource(connection.id))
+          const sourceId = connection.id
+          if (!response.info.balances) return
           const filteredAssets = ccxtBalance2Local(
             response.info.balances,
-            connection.id
-          )
-          filteredAssets.forEach(({ sourceId, symbol, amount }) => {
-            dispatch(save(sourceId, symbol, amount))
-          })
+            sourceId
+          ).sort((a, b) => (a.symbol > b.symbol ? 1 : -1))
+
+          const existingAssets = _getAssetsBySourceId(
+            getState().assets,
+            sourceId
+          ).sort((a, b) => (a.symbol > b.symbol ? 1 : -1))
+          // Only update state if exchange assets have changed
+          if (!equal(existingAssets, filteredAssets)) {
+            dispatch(saveMultiple(sourceId, filteredAssets))
+          }
         }
       })
       .catch(err => {

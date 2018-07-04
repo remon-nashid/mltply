@@ -208,3 +208,12 @@ export const _getCurrentPortfolio = (
 
   return currentPortfolio
 }
+
+export const _getAssetsBySourceId = (
+  assets: Array<Asset>,
+  sourceId: string
+): Array<Asset> => {
+  return assets
+    .filter(asset => asset.sourceId === sourceId)
+    .sort((a, b) => a.symbol > b.symbol)
+}
