@@ -11,9 +11,7 @@ import {
   Input,
   Button,
   View,
-  Spinner,
-  Card,
-  Content
+  Spinner
 } from 'native-base'
 import uuidv4 from 'uuid/v4'
 
@@ -43,11 +41,11 @@ type State = {
   connection?: ExchangeConnection | null,
   credentials: {
     apiKey: string | false,
-    secret: string | false,
-    uid: string | false,
-    login: string | false,
-    password: string | false,
-    twofa: string | false
+    secret?: string | false,
+    uid?: string | false,
+    login?: string | false,
+    password?: string | false,
+    twofa?: string | false
   }
 }
 
@@ -62,12 +60,14 @@ const labelsMap = {
 
 class ExchangesFormScreen extends React.Component<Props, State> {
   exchangeProps: Array<ExchangeProps>
-  _sub: any
+  _sub: Object
 
   constructor(props: Props) {
     super(props)
     this.exchangeProps = this.props.exchangeProps
-    const connection = this.props.navigation.getParam('connection')
+    const connection: ExchangeConnection = this.props.navigation.getParam(
+      'connection'
+    )
     this.state = {
       selected: -1,
       credentials: {
@@ -177,14 +177,13 @@ class ExchangesFormScreen extends React.Component<Props, State> {
 
   _goBack = function() {
     this.props.navigation.goBack()
-    this.props.resetUI()
   }
 
   render() {
     const { navigation, options, loading, error } = this.props
     const { selected, credentials, id, name } = this.state
     return (
-      <ScreenTemplate backButton={this._goBack} navigation={navigation}>
+      <ScreenTemplate backButton navigation={navigation}>
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <Form>
           <Item inlineLabel>

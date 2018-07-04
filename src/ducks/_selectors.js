@@ -40,7 +40,7 @@ export type MergedPortfolios = Array<{
   current: number,
   inTarget: boolean,
   diff: number,
-  recommendation?: string
+  recommendation: string
 }>
 
 export function _symbolSelector(tokensData: Object = {}, symbol: string) {
@@ -52,7 +52,7 @@ export function _getMergedPortfolios(
   assets: Array<Asset>,
   tokensData: {},
   minAssetBalance: number,
-  portfolio: {}
+  portfolio: Object
 ): MergedPortfolios {
   const currentPortfolio = _getCurrentPortfolio(
     assets,

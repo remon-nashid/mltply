@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import { FlatList, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { View, Text, Button, ListItem, Icon } from 'native-base'
 import ScreenTemplate from '../ScreenTemplate'
 import { LongPressButton, MonoText, ErrorMessage } from '../misc'
@@ -11,7 +11,7 @@ import type { MergedPortfolios } from '../../ducks/_selectors'
 type Props = {
   mergedPortfolios?: MergedPortfolios,
   reset: Function,
-  navigation: any,
+  navigation: Object,
   add: Function,
   initiate: Function,
   increment: Function,
@@ -22,7 +22,6 @@ type Props = {
   resetEnabled: boolean,
   addEnabled: boolean,
   status?: string,
-  recommendations: Array<string>,
   unallocated: number,
   incrementEnabled: boolean,
   decrementEnabled: boolean,

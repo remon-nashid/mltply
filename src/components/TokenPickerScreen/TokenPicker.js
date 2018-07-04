@@ -30,7 +30,7 @@ export default class TokenPicker extends React.PureComponent<Props, State> {
     name: string,
     symbol: string,
     selectHandler: Function,
-    navigation: any
+    navigation: Object
   ) {
     return (
       <ListItem>

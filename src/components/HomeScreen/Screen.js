@@ -8,7 +8,7 @@ import Chart from './Chart'
 import Table from './Table'
 import Values from './Values'
 
-import type { Allocation } from '../../ducks/_selectors'
+import type { Allocation, HistoricalValues } from '../../ducks/_selectors'
 
 type Props = {
   allocations: Array<Allocation>,
@@ -17,7 +17,8 @@ type Props = {
   descending: boolean,
   pressHandler: Function,
   totalValue: number,
-  baseFiat: string
+  baseFiat: string,
+  historicalValues: HistoricalValues
 }
 
 export default class Screen extends React.PureComponent<Props> {

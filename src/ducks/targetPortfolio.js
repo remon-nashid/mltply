@@ -5,7 +5,6 @@ export type Allocation = {
   token: string,
   percentage: number
 }
-export type TargetPortfolio = {}
 
 export const INIT = 'mltply/targetPortfolio/INIT'
 export const ADD = 'mltply/targetPortfolio/ADD'
@@ -17,7 +16,7 @@ export const MAX = 'mltply/targetPortfolio/MAX'
 export const EDIT = 'mltply/targetPortfolio/EDIT'
 export const SAVE = 'mltply/targetPortfolio/SAVE'
 
-export function init(targetPortfolio: TargetPortfolio) {
+export function init(targetPortfolio: Object) {
   return { type: INIT, targetPortfolio }
 }
 
@@ -62,7 +61,7 @@ type Action =
   | ExtractReturn<typeof decrement>
   | ExtractReturn<typeof max>
 
-const _sum = (targetPortfolio: TargetPortfolio): number => {
+const _sum = (targetPortfolio: Object): number => {
   return Object.values(targetPortfolio).reduce(
     (acc: number, val: number) => acc + val,
     0

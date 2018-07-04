@@ -12,7 +12,7 @@ const Chart = ({
   <View style={{ maxWidth: 480, width: '100%' }}>
     <VictoryPie
       theme={VictoryTheme.material}
-      labels={({ x, y }) => {
+      labels={({ x, y }: { x: string, y: number }) => {
         // Avoid displaying overlappig labels for lesser assets.
         return y >= config.chartLabelThreshold ? `${x}\n${y.toFixed(2)}%` : ''
       }}

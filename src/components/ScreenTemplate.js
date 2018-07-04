@@ -20,7 +20,7 @@ export default ({
 }: {
   children: React.Node,
   backButton?: boolean,
-  navigation?: any
+  navigation?: Object
 }) => (
   <Container {...props}>
     <Header>

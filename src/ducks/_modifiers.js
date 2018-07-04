@@ -4,10 +4,7 @@ import { _symbolSelector } from './_selectors'
 import type { Asset } from './assets'
 import type { Allocation } from './_selectors'
 
-export const groupAssetsBySymbolReducer = (
-  acc: Array<Allocation>,
-  asset: Asset
-) => {
+export const groupAssetsBySymbolReducer = (acc: Array<Asset>, asset: Asset) => {
   let i: number = acc.findIndex(item => item.symbol === asset.symbol)
   if (i > -1) {
     acc[i].amount += asset.amount
@@ -20,7 +17,7 @@ export const groupAssetsBySymbolReducer = (
 }
 
 export const appendPercentageMapper = (totalValue: number) => {
-  return function(asset: Asset) {
+  return function(asset: Allocation) {
     return {
       ...asset,
       percentage: (asset.value * 100) / totalValue
@@ -28,7 +25,7 @@ export const appendPercentageMapper = (totalValue: number) => {
   }
 }
 
-export const appendTokenDetailsMapper = (tokensData: {}) => {
+export const appendTokenDetailsMapper = (tokensData: {}): Allocation => {
   return ({ sourceId, symbol, amount }: Allocation) => {
     const tokenDetails = _symbolSelector(tokensData, symbol)
     return {

@@ -40,7 +40,7 @@ export default class AssetEditForm extends React.Component<Props, State> {
             keyboardType="numeric"
             ref={this.textInput}
             value={amount}
-            onChangeText={text => {
+            onChangeText={(text: string) => {
               // FIXME for some reason plus and minus signs are still
               // accepted despite the expression below.
               const moneyFomat = /^\d+(\.\d+)?$/

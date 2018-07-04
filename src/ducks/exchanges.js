@@ -34,7 +34,7 @@ export type ExchangeProps = {
   slug: string,
   name: string,
   docUrl: string,
-  requiredCredentials: {}
+  requiredCredentials: Object
 }
 
 /********************

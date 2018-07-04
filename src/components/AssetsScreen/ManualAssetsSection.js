@@ -11,7 +11,7 @@ import { save, remove } from '../../ducks/assets'
 import type { Asset } from '../../ducks/assets'
 
 type Props = {
-  navigation: any,
+  navigation: Object,
   assets: Array<Asset>,
   save: Function,
   remove: Function

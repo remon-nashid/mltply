@@ -9,7 +9,7 @@ import { deleteConnection } from '../../ducks/exchanges'
 import type { ExchangeConnection, ExchangeProps } from '../../ducks/exchanges'
 
 type Props = {
-  navigation: any,
+  navigation: Object,
   connections: Array<ExchangeConnection>,
   deleteConnection: Function,
   exchangeProps: Array<ExchangeProps>
@@ -85,7 +85,7 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = dispatch => {
   return {
     deleteConnection: (id: string) => dispatch(deleteConnection(id))
   }

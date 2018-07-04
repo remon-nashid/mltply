@@ -9,7 +9,7 @@ import ExchangesSection from './ExchangesSection'
 import ExchangeFormScreen from './ExchangeFormScreen'
 import TokenPickerScreen from '../TokenPickerScreen'
 
-const Screen = ({ navigation }: { navigation: any }) => (
+const Screen = ({ navigation }: { navigation: Object }) => (
   <ScreenTemplate>
     <ManualAssetsSection navigation={navigation} />
     <ExchangesSection navigation={navigation} />

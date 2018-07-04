@@ -9,13 +9,19 @@ import {
 import { sort } from '../../ducks/home'
 import Screen from './Screen'
 
+import type { Asset } from '../../ducks/assets'
+
 const mapStateToProps = state => {
   const {
     assets,
     settings: { minAssetBalance, baseFiat },
     home: { orderBy, descending }
+  }: {
+    assets: Array<Asset>,
+    settings: { minAssetBalance: number, baseFiat: string },
+    home: { orderBy: string, descending: boolean }
   } = state
-  const tokensData = state.tokens.data
+  const tokensData: Object = state.tokens.data
 
   const allocations = _getAllocations(assets, tokensData, minAssetBalance)
   return {

@@ -8,7 +8,12 @@ import { _changePercentageStyle, _formatAmount } from '../../theme'
 
 import type { Allocation } from '../../ducks/_selectors'
 
-type Props = { allocations: Array<Allocation>, pressHandler: Function }
+type Props = {
+  allocations: Array<Allocation>,
+  pressHandler: Function,
+  orderBy: string,
+  descending: boolean
+}
 
 const styles = StyleSheet.create({
   container: { flexWrap: 'nowrap', flex: 1 },
@@ -38,16 +43,16 @@ const Cell = ({
   textStyle
 }: {
   children: any,
-  style?: {},
+  style?: Object,
   KEY: string,
-  textStyle?: {}
+  textStyle?: Object
 }) => (
   <View style={[styles.cell, style]}>
     <Text style={[styles.text, textStyle]}>{children}</Text>
   </View>
 )
 
-const ChangePercentageCell = ({ children }) => (
+const ChangePercentageCell = ({ children }: { children: any }) => (
   <Cell style={[_changePercentageStyle(children), { minWidth: 70 }]}>
     {children}%
   </Cell>
