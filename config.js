@@ -52,7 +52,7 @@ export default {
       'ZAR'
     ],
     minAssetBalance: 1,
-    minimumBalanceOptions: [1, 10, 100]
+    minimumBalanceOptions: [0, 1, 10, 100]
   },
   ccxtRateLimit: 1000,
   corsProxyURL: 'http://localhost:8080/',
