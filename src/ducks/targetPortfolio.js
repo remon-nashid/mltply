@@ -83,7 +83,7 @@ export type State = {
 }
 
 export const initialState: State = {
-  portfolio: undefined,
+  portfolio: {},
   status: 'empty',
   sum: 0,
   resetEnabled: false,

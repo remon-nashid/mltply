@@ -59,7 +59,6 @@ export function _getMergedPortfolios(
     tokensData,
     minAssetValue
   )
-
   let mergedSymbols: Array<string> = [
     ...Object.keys(currentPortfolio),
     ...Object.keys(portfolio)
@@ -182,6 +181,7 @@ export const _getCurrentPortfolio = (
   tokensData: {},
   minAssetValue: number
 ) => {
+  if (assets.length === 0) return {}
   let groupedAssets = _groupAssetsBySymbol(assets, tokensData, minAssetValue)
   const totalValue = groupedAssets.reduce(totalBalanceReducer, 0)
   groupedAssets = groupedAssets.map(appendPercentageMapper(totalValue))

@@ -32,13 +32,14 @@ const mapStateToProps = state => {
   const { portfolio, initiateEnabled } = targetPortfolio
   const tokensData = data
 
-  if (initiateEnabled) {
+  if (initiateEnabled && assets.length > 0) {
     const currentPortfolio = _getCurrentPortfolio(
       assets,
       tokensData,
       minAssetValue
     )
     if (Object.values(currentPortfolio).length > 0) {
+      // this one includes (<% 1 group) when assets are empty
       return { ...targetPortfolio, currentPortfolio }
     }
   }
@@ -60,7 +61,7 @@ const mapStateToProps = state => {
       baseFiat
     )
 
-  return { ...targetPortfolio, mergedPortfolios }
+  return { ...targetPortfolio, initiateEnabled: false, mergedPortfolios }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {

@@ -78,7 +78,7 @@ export default class TargetPortfolio extends PureComponent<Props> {
             >{`Sum of allocations should be 100%. ${unallocated}% remains`}</ErrorMessage>
           )}
 
-          {mergedPortfolios && (
+          {mergedPortfolios.length > 0 && (
             <ListItem style={{ justifyContent: 'space-between' }}>
               <MonoText style={styles.columnHeader}>Symbol</MonoText>
               <MonoText style={styles.columnHeader}>Current (%)</MonoText>
@@ -88,7 +88,7 @@ export default class TargetPortfolio extends PureComponent<Props> {
               </MonoText>
             </ListItem>
           )}
-          {mergedPortfolios &&
+          {mergedPortfolios.length > 0 &&
             mergedPortfolios.map(
               ({ symbol, target, inTarget, current, recommendation }) => {
                 return (
@@ -123,7 +123,11 @@ export default class TargetPortfolio extends PureComponent<Props> {
 
                     {(editing && (
                       <View
-                        style={{ flex: 1, flexDirection: 'row', height: 20 }}
+                        style={{
+                          flex: 1,
+                          flexDirection: 'row',
+                          height: 20
+                        }}
                       >
                         <Button
                           transparent
