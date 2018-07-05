@@ -92,17 +92,11 @@ export function _appendRecommendations(
     const direction = diff > 0 ? 'Buy' : 'Sell'
     let price = Math.abs((diff * totalValue) / 100)
     let reco
-    if (symbol === config.targetPortfolio.smallGroup) {
-      reco = diff
-        ? `${direction} ${price.toFixed(2)} ${baseFiat} worth of these assets`
-        : 'none'
-    } else {
-      const tokenObj = _symbolSelector(tokensData, symbol)
-      const units = (price / tokenObj.price).toFixed(2)
-      reco = diff
-        ? `${direction} ${units} ${symbol} for ${price.toFixed(2)} ${baseFiat}`
-        : 'none'
-    }
+    const tokenObj = _symbolSelector(tokensData, symbol)
+    const units = (price / tokenObj.price).toFixed(2)
+    reco = diff
+      ? `${direction} ${units} ${symbol} for ${price.toFixed(2)} ${baseFiat}`
+      : 'none'
     item.recommendation = reco
     return item
   })

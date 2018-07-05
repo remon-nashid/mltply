@@ -12,7 +12,7 @@ import commonColors from './native-base-theme/variables/commonColor'
 import store, { persistor } from './reduxStore'
 import { fetchResource } from './ducks/tokens'
 import { loadBalance, initExchangeProps } from './ducks/exchanges'
-
+import config from '../config'
 const mapStateToProps = state => {
   return {
     baseFiat: state.settings.baseFiat,
@@ -45,7 +45,7 @@ class App extends React.Component<any> {
     )
 
     // Load crypto info.
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < (config.cmcPagesN || 10); i++) {
       fetchResource(
         'tokens',
         `https://api.coinmarketcap.com/v2/ticker/?start=${i * 100 +

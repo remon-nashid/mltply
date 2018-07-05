@@ -1,17 +1,6 @@
 // @flow
 
 export default {
-  targetPortfolio: {
-    smallGroup: 'Other (< 1%)'
-  },
-  exchanges: {
-    options: [
-      { value: 'quadrigacx', label: 'QuadrigaCX' },
-      { value: 'bittrex', label: 'Bittrex' },
-      { value: 'kraken', label: 'Kraken' },
-      { value: 'binance', label: 'Binance' }
-    ]
-  },
   settings: {
     baseFiat: 'USD',
     // NOTE List of currencies supported by fixer.io, minus what's not supported
@@ -57,5 +46,6 @@ export default {
   ccxtRateLimit: 1000,
   corsProxyURL: 'http://localhost:8080/',
   fetchProxy: false,
-  chartLabelThreshold: 2
+  chartLabelThreshold: 2,
+  cmcPagesN: 5 // FIXME change to 10 before deployment
 }
