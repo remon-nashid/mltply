@@ -78,17 +78,19 @@ export default class TargetPortfolio extends PureComponent<Props> {
             >{`Sum of allocations should be 100%. ${unallocated}% remains`}</ErrorMessage>
           )}
 
-          {mergedPortfolios.length > 0 && (
-            <ListItem style={{ justifyContent: 'space-between' }}>
-              <MonoText style={styles.columnHeader}>Symbol</MonoText>
-              <MonoText style={styles.columnHeader}>Current (%)</MonoText>
-              <MonoText style={styles.columnHeader}>Target (%)</MonoText>
-              <MonoText style={styles.columnHeader}>
-                {(editing && 'Actions') || 'Recommendation'}
-              </MonoText>
-            </ListItem>
-          )}
-          {mergedPortfolios.length > 0 &&
+          {mergedPortfolios &&
+            mergedPortfolios.length > 0 && (
+              <ListItem style={{ justifyContent: 'space-between' }}>
+                <MonoText style={styles.columnHeader}>Symbol</MonoText>
+                <MonoText style={styles.columnHeader}>Current (%)</MonoText>
+                <MonoText style={styles.columnHeader}>Target (%)</MonoText>
+                <MonoText style={styles.columnHeader}>
+                  {(editing && 'Actions') || 'Recommendation'}
+                </MonoText>
+              </ListItem>
+            )}
+          {mergedPortfolios &&
+            mergedPortfolios.length > 0 &&
             mergedPortfolios.map(
               ({ symbol, target, inTarget, current, recommendation }) => {
                 return (

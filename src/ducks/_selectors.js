@@ -1,5 +1,6 @@
 // @flow
 
+import { largestRemainderRound } from '../utils'
 import config from '../../config'
 
 import {
@@ -186,24 +187,14 @@ export const _getCurrentPortfolio = (
   const totalValue = groupedAssets.reduce(totalBalanceReducer, 0)
   groupedAssets = groupedAssets.map(appendPercentageMapper(totalValue))
 
-  let currentPortfolio = groupedAssets
-    .map(({ symbol, percentage }) => {
-      return { symbol, percentage: Math.floor(percentage) }
-    })
-    .filter(({ symbol, percentage }) => percentage > 0)
-    .reduce(
-      (acc, { symbol, percentage }) => {
-        acc[symbol] = percentage
-        acc[config.targetPortfolio.smallGroup] =
-          acc[config.targetPortfolio.smallGroup] - percentage
-        return acc
-      },
-      { [config.targetPortfolio.smallGroup]: 100 }
-    )
-
-  if (currentPortfolio[config.targetPortfolio.smallGroup] === 0) {
-    delete currentPortfolio[config.targetPortfolio.smallGroup]
-  }
+  const percentages = groupedAssets.map(asset => asset.percentage)
+  const roundedPercentages = largestRemainderRound(percentages, 100)
+  let currentPortfolio = groupedAssets.reduce((acc, { symbol }, i) => {
+    if (roundedPercentages[i] > 0) {
+      acc[symbol] = roundedPercentages[i]
+    }
+    return acc
+  }, {})
 
   return currentPortfolio
 }
