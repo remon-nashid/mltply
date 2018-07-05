@@ -24,7 +24,7 @@ const RouteIconsMap = {
 }
 
 export default createBottomTabNavigator(RouteConfigs, {
-  initialRouteName: 'Portfolio',
+  initialRouteName: 'TargetPortfolio',
   tabBarComponent: props => {
     return (
       <Footer>

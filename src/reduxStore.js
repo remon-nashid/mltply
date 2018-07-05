@@ -32,7 +32,7 @@ let middlewares =
   process.env.NODE_ENV !== 'production'
     ? [
         require('redux-immutable-state-invariant').default({
-          ignore: ['exchanges.pool']
+          ignore: ['exchanges.pool', 'exchanges.props']
         }),
         thunk
       ]

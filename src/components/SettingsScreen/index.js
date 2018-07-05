@@ -9,11 +9,11 @@ import config from '../../../config'
 
 const mapStateToProps = state => {
   const {
-    settings: { baseFiat, minAssetBalance }
+    settings: { baseFiat, minAssetValue }
   } = state
   return {
     baseFiat,
-    minAssetBalance,
+    minAssetValue,
     // FIXME this is not state
     baseFiatOptions: config.settings.baseFiatOptions,
     minimumBalanceOptions: config.settings.minimumBalanceOptions

@@ -14,24 +14,24 @@ import type { Asset } from '../../ducks/assets'
 const mapStateToProps = state => {
   const {
     assets,
-    settings: { minAssetBalance, baseFiat },
+    settings: { minAssetValue, baseFiat },
     home: { orderBy, descending }
   }: {
     assets: Array<Asset>,
-    settings: { minAssetBalance: number, baseFiat: string },
+    settings: { minAssetValue: number, baseFiat: string },
     home: { orderBy: string, descending: boolean }
   } = state
   const tokensData: Object = state.tokens.data
 
-  const allocations = _getAllocations(assets, tokensData, minAssetBalance)
+  const allocations = _getAllocations(assets, tokensData, minAssetValue)
   return {
     chartData: allocations.map(({ symbol, percentage }) => ({
       x: symbol,
       y: percentage
     })),
     allocations,
-    historicalValues: _getHistorialValues(assets, tokensData, minAssetBalance),
-    totalValue: _getTotalValue(assets, tokensData, minAssetBalance),
+    historicalValues: _getHistorialValues(assets, tokensData, minAssetValue),
+    totalValue: _getTotalValue(assets, tokensData, minAssetValue),
     orderBy,
     descending,
     baseFiat

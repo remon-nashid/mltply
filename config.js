@@ -51,7 +51,7 @@ export default {
       'USD',
       'ZAR'
     ],
-    minAssetBalance: 1,
+    minAssetValue: 0,
     minimumBalanceOptions: [0, 1, 10, 100]
   },
   ccxtRateLimit: 1000,

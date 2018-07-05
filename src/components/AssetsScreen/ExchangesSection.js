@@ -5,13 +5,14 @@ import { connect } from 'react-redux'
 import { FlatList } from 'react-native'
 import { Button, Text, Icon, View, ListItem } from 'native-base'
 import { deleteConnection } from '../../ducks/exchanges'
+import { removeBySource } from '../../ducks/assets'
 
 import type { ExchangeConnection, ExchangeProps } from '../../ducks/exchanges'
 
 type Props = {
   navigation: Object,
   connections: Array<ExchangeConnection>,
-  deleteConnection: Function,
+  deleteConnectionAndAssets: Function,
   exchangeProps: Array<ExchangeProps>
 }
 type State = {}
@@ -22,7 +23,7 @@ class Screen extends React.Component<Props, State> {
       connections,
       navigation,
       exchangeProps,
-      deleteConnection
+      deleteConnectionAndAssets
     } = this.props
     return (
       <FlatList
@@ -54,7 +55,11 @@ class Screen extends React.Component<Props, State> {
                 >
                   <Icon type="MaterialCommunityIcons" name="pencil" />
                 </Button>
-                <Button transparent danger onPress={() => deleteConnection(id)}>
+                <Button
+                  transparent
+                  danger
+                  onPress={() => deleteConnectionAndAssets(id)}
+                >
                   <Icon type="MaterialCommunityIcons" name="delete" danger />
                 </Button>
               </View>
@@ -87,7 +92,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    deleteConnection: (id: string) => dispatch(deleteConnection(id))
+    deleteConnectionAndAssets: (id: string) => {
+      dispatch(deleteConnection(id))
+      dispatch(removeBySource(id))
+    }
   }
 }
 

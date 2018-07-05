@@ -26,7 +26,7 @@ const mapStateToProps = state => {
     assets,
     targetPortfolio,
     tokens: { data },
-    settings: { minAssetBalance, baseFiat }
+    settings: { minAssetValue, baseFiat }
   } = state
 
   const { portfolio, initiateEnabled } = targetPortfolio
@@ -36,19 +36,19 @@ const mapStateToProps = state => {
     const currentPortfolio = _getCurrentPortfolio(
       assets,
       tokensData,
-      minAssetBalance
+      minAssetValue
     )
     if (Object.values(currentPortfolio).length > 0) {
       return { ...targetPortfolio, currentPortfolio }
     }
   }
 
-  const totalValue = _getTotalValue(assets, tokensData, minAssetBalance)
+  const totalValue = _getTotalValue(assets, tokensData, minAssetValue)
 
   let mergedPortfolios = _getMergedPortfolios(
     assets,
     tokensData,
-    minAssetBalance,
+    minAssetValue,
     portfolio
   )
 

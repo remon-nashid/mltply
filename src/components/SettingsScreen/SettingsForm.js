@@ -6,7 +6,7 @@ import { Label, Form, Item, Picker } from 'native-base'
 import ScreenTemplate from './../ScreenTemplate'
 
 type Props = {
-  minAssetBalance: number,
+  minAssetValue: number,
   minimumBalanceOptions: Array<number>,
   baseFiat: string,
   baseFiatOptions: Array<string>,
@@ -15,7 +15,7 @@ type Props = {
 }
 
 export default ({
-  minAssetBalance,
+  minAssetValue,
   minimumBalanceOptions,
   handleMinimumBalanceChange,
   baseFiat,
@@ -47,12 +47,9 @@ export default ({
         <Item fixedLabel>
           <Label>Minimum Balance ({baseFiat})</Label>
           <Picker
-            selectedValue={minAssetBalance}
+            selectedValue={minAssetValue}
             onValueChange={(itemValue, itemIndex) =>
-              handleMinimumBalanceChange(
-                'minAssetBalance',
-                parseFloat(itemValue)
-              )
+              handleMinimumBalanceChange('minAssetValue', parseFloat(itemValue))
             }
           >
             {minimumBalanceOptions.map(option => (

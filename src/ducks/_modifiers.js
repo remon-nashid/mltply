@@ -48,9 +48,9 @@ export const appendHistoricalAmountMapper = (asset: Asset) => {
   return asset
 }
 
-export const minAssetBalanceFilter = (minAssetBalance: number) => {
+export const minAssetValueFilter = (minAssetValue: number) => {
   return (asset: Asset) => {
-    return asset.value > minAssetBalance
+    return asset.value > minAssetValue
   }
 }
 

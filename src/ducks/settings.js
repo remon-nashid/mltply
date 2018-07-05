@@ -18,12 +18,12 @@ export function reset() {
 type Action = ExtractReturn<typeof saveSetting> | ExtractReturn<typeof reset>
 export type State = {
   baseFiat: string,
-  minAssetBalance: number
+  minAssetValue: number
 }
 
 const initialState: State = {
   baseFiat: config.settings.baseFiat,
-  minAssetBalance: config.settings.minAssetBalance
+  minAssetValue: config.settings.minAssetValue
 }
 const reducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {

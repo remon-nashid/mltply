@@ -103,6 +103,9 @@ export function fetchResource(key: string, url: string): Function {
                 }
               }
             })
+            .sort((a, b) => {
+              return a.Id < b.Id ? -1 : 1
+            })
             .reduce((acc, token) => {
               acc[token.Id] = token
               return acc
