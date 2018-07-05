@@ -92,13 +92,7 @@ export default class TargetPortfolio extends PureComponent<Props> {
             mergedPortfolios.map(
               ({ symbol, target, inTarget, current, recommendation }) => {
                 return (
-                  <ListItem
-                    style={{
-                      // otherwise height will differ between editing and recommendation modes.
-                      height: 50
-                    }}
-                    key={symbol}
-                  >
+                  <ListItem key={symbol}>
                     <MonoText
                       style={{
                         flex: 1,
@@ -128,10 +122,13 @@ export default class TargetPortfolio extends PureComponent<Props> {
                     </MonoText>
 
                     {(editing && (
-                      <View style={{ flex: 1, flexDirection: 'row' }}>
+                      <View
+                        style={{ flex: 1, flexDirection: 'row', height: 20 }}
+                      >
                         <Button
                           transparent
                           disabled={!inTarget || !incrementEnabled}
+                          style={{ alignSelf: 'center' }}
                           onPress={() => max(symbol)}
                         >
                           <Text>MAX</Text>
@@ -139,6 +136,7 @@ export default class TargetPortfolio extends PureComponent<Props> {
                         <LongPressButton
                           transparent
                           disabled={!inTarget || !incrementEnabled}
+                          style={{ alignSelf: 'center' }}
                           onPressOrHold={() => increment(symbol)}
                         >
                           <Icon type="MaterialCommunityIcons" name="plus" />
@@ -148,6 +146,7 @@ export default class TargetPortfolio extends PureComponent<Props> {
                           disabled={
                             !inTarget || !decrementEnabled || target <= 1
                           }
+                          style={{ alignSelf: 'center' }}
                           onPressOrHold={() => decrement(symbol)}
                         >
                           <Icon type="MaterialCommunityIcons" name="minus" />
@@ -156,6 +155,7 @@ export default class TargetPortfolio extends PureComponent<Props> {
                           transparent
                           danger
                           disabled={!inTarget}
+                          style={{ alignSelf: 'center' }}
                           onPress={() => remove(symbol)}
                         >
                           <Icon type="MaterialCommunityIcons" name="delete" />
