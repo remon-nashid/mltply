@@ -9,7 +9,8 @@ import {
   Title,
   Button,
   Icon,
-  Left
+  Left,
+  Text
 } from 'native-base'
 
 import { MonoText } from './misc'
@@ -37,7 +38,9 @@ export default ({
         )}
       <Body>
         <Title>
-          <MonoText>{config.appName}</MonoText>
+          <Text style={{ color: 'white', fontFamily: 'Roboto Mono Medium' }}>
+            {config.appName}
+          </Text>
         </Title>
       </Body>
     </Header>

@@ -12,6 +12,7 @@ import commonColors from './native-base-theme/variables/commonColor'
 import store, { persistor } from './reduxStore'
 import { fetchResource } from './ducks/tokens'
 import { loadBalance, initExchangeProps } from './ducks/exchanges'
+import { LoadingScreen } from './components/misc'
 import config from '../config'
 
 const mapStateToProps = state => {
@@ -23,52 +24,57 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, getState) => {
   return {
-    fetchResource: (key: string, url: string) =>
-      dispatch(fetchResource(key, url)),
-    loadBalance: connection => dispatch(loadBalance(connection)),
     initExchangeProps: (ccxt: any) => dispatch(initExchangeProps(ccxt)),
-    fetch3P: async (exchanges, baseFiat) => {
-      // Fetch fiat exchange rates
-      await dispatch(
-        fetchResource(
-          'fiat',
-          `https://exchangeratesapi.io/api/latest?base=${baseFiat}`
-        )
-      )
-
-      // Fetch crypto info
-      for (let i = 0; i < (config.cmcPagesN || 10); i++) {
-        await dispatch(
+    fetch3P: (exchanges, baseFiat, callback: Function) => {
+      Promise.all([
+        dispatch(
           fetchResource(
-            'crypto',
-            `https://api.coinmarketcap.com/v2/ticker/?start=${i * 100 +
-              1}&limit=100&convert=${baseFiat}`
+            'fiat',
+            `https://exchangeratesapi.io/api/latest?base=${baseFiat}`
           )
-        )
-      }
-
-      // Load exchange balance
-      exchanges.forEach(async connection => {
-        await dispatch(loadBalance(connection))
-      })
-
-      console.log('Finished loading')
+        ),
+        ...Array.from(Array(config.cmcPagesN || 10).keys()).map(i =>
+          dispatch(
+            fetchResource(
+              'crypto',
+              `https://api.coinmarketcap.com/v2/ticker/?start=${i * 100 +
+                1}&limit=100&convert=${baseFiat}`
+            )
+          )
+        ),
+        ...exchanges.map(connection => {
+          dispatch(loadBalance(connection))
+        })
+      ]).then(() => callback())
     }
   }
 }
 
-class App extends React.Component<any> {
+type State = {
+  loading: boolean
+}
+class App extends React.Component<any, State> {
+  constructor(props) {
+    super(props)
+    this.state = {
+      loading: true
+    }
+  }
+
   componentDidMount() {
     const { baseFiat, exchanges, initExchangeProps } = this.props
 
-    this.props.fetch3P(exchanges, baseFiat)
+    this.props.fetch3P(exchanges, baseFiat, () => {
+      this.setState({ loading: false })
+    })
 
     // Create exchange props array.
     initExchangeProps(ccxt)
   }
 
   render() {
-    return <Root />
+    if (this.state.loading) return <LoadingScreen />
+    else return <Root />
   }
 }
 

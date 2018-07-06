@@ -27,21 +27,23 @@ const mapDispatchToProps = dispatch => {
     },
     handleBaseFiatValueChange: (key: string, value: string) => {
       dispatch(saveSetting(key, value))
-      dispatch(
-        fetchResource(
-          'fiat',
-          `https://exchangeratesapi.io/api/latest?base=${value}`
-        )
-      )
-      for (let i = 0; i < 2; i++) {
+      Promise.all([
         dispatch(
           fetchResource(
-            'crypto',
-            `https://api.coinmarketcap.com/v2/ticker/?start=${i * 100 +
-              1}&limit=100&convert=${value}`
+            'fiat',
+            `https://exchangeratesapi.io/api/latest?base=${value}`
+          )
+        ),
+        ...Array.from(Array(config.cmcPagesN || 10).keys()).map(i =>
+          dispatch(
+            fetchResource(
+              'crypto',
+              `https://api.coinmarketcap.com/v2/ticker/?start=${i * 100 +
+                1}&limit=100&convert=${value}`
+            )
           )
         )
-      }
+      ])
     }
   }
 }

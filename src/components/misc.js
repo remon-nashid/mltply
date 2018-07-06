@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { StyleSheet } from 'react-native'
+import { StyleSheet, ActivityIndicator } from 'react-native'
 import { View, Text, Button, Card, Content } from 'native-base'
 // FIXME avoid accessing theme variables directly.
 import commonColors from '../native-base-theme/variables/commonColor'
@@ -96,3 +96,9 @@ export class LongPressButton extends React.PureComponent<{
     )
   }
 }
+
+export const LoadingScreen = () => (
+  <View style={{ flex: 1, justifyContent: 'center' }}>
+    <ActivityIndicator size="large" />
+  </View>
+)
