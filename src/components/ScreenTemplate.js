@@ -12,6 +12,9 @@ import {
   Left
 } from 'native-base'
 
+import { MonoText } from './misc'
+import config from '../../config'
+
 export default ({
   children,
   backButton = false,
@@ -33,7 +36,9 @@ export default ({
           </Left>
         )}
       <Body>
-        <Title>mltply</Title>
+        <Title>
+          <MonoText>{config.appName}</MonoText>
+        </Title>
       </Body>
     </Header>
     <Content padder>{children}</Content>

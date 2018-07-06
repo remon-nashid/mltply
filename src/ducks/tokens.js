@@ -85,7 +85,7 @@ export function fetchResource(key: string, url: string): Function {
       .then(status)
       .then(json)
       .then(data => {
-        if (key === 'tokens') {
+        if (key === 'crypto') {
           const tokens = Object.keys(data.data)
             .map(key => {
               var obj = data.data[key]

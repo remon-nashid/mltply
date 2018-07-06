@@ -36,7 +36,7 @@ const mapDispatchToProps = dispatch => {
       for (let i = 0; i < 2; i++) {
         dispatch(
           fetchResource(
-            'tokens',
+            'crypto',
             `https://api.coinmarketcap.com/v2/ticker/?start=${i * 100 +
               1}&limit=100&convert=${value}`
           )

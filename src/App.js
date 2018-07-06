@@ -13,6 +13,7 @@ import store, { persistor } from './reduxStore'
 import { fetchResource } from './ducks/tokens'
 import { loadBalance, initExchangeProps } from './ducks/exchanges'
 import config from '../config'
+
 const mapStateToProps = state => {
   return {
     baseFiat: state.settings.baseFiat,
@@ -20,41 +21,47 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, getState) => {
   return {
     fetchResource: (key: string, url: string) =>
       dispatch(fetchResource(key, url)),
     loadBalance: connection => dispatch(loadBalance(connection)),
-    initExchangeProps: (ccxt: any) => dispatch(initExchangeProps(ccxt))
+    initExchangeProps: (ccxt: any) => dispatch(initExchangeProps(ccxt)),
+    fetch3P: async (exchanges, baseFiat) => {
+      // Fetch fiat exchange rates
+      await dispatch(
+        fetchResource(
+          'fiat',
+          `https://exchangeratesapi.io/api/latest?base=${baseFiat}`
+        )
+      )
+
+      // Fetch crypto info
+      for (let i = 0; i < (config.cmcPagesN || 10); i++) {
+        await dispatch(
+          fetchResource(
+            'crypto',
+            `https://api.coinmarketcap.com/v2/ticker/?start=${i * 100 +
+              1}&limit=100&convert=${baseFiat}`
+          )
+        )
+      }
+
+      // Load exchange balance
+      exchanges.forEach(async connection => {
+        await dispatch(loadBalance(connection))
+      })
+
+      console.log('Finished loading')
+    }
   }
 }
 
 class App extends React.Component<any> {
   componentDidMount() {
-    // Load fiat exchange rates.
-    const {
-      fetchResource,
-      baseFiat,
-      exchanges,
-      loadBalance,
-      initExchangeProps
-    } = this.props
-    fetchResource(
-      'fiat',
-      `https://exchangeratesapi.io/api/latest?base=${baseFiat}`
-    )
+    const { baseFiat, exchanges, initExchangeProps } = this.props
 
-    // Load crypto info.
-    for (let i = 0; i < (config.cmcPagesN || 10); i++) {
-      fetchResource(
-        'tokens',
-        `https://api.coinmarketcap.com/v2/ticker/?start=${i * 100 +
-          1}&limit=100&convert=${baseFiat}`
-      )
-    }
-
-    // Load exchange balances
-    exchanges.forEach(connection => loadBalance(connection))
+    this.props.fetch3P(exchanges, baseFiat)
 
     // Create exchange props array.
     initExchangeProps(ccxt)
