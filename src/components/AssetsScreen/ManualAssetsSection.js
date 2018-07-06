@@ -5,6 +5,7 @@ import { Button, Icon, Text, View, ListItem } from 'native-base'
 import { FlatList } from 'react-native'
 import { connect } from 'react-redux'
 
+import { getAssets } from '../../ducks/_selectors'
 import AssetEditForm from './AssetEditForm'
 import { save, remove } from '../../ducks/assets'
 
@@ -127,7 +128,9 @@ class Screen extends React.Component<Props, State> {
 
 const mapStateToProps = state => {
   return {
-    assets: state.assets.filter(asset => asset.sourceId === 'manual')
+    assets: getAssets(state.assets, Object.keys(state.tokens.data)).filter(
+      asset => asset.sourceId === 'manual'
+    )
   }
 }
 

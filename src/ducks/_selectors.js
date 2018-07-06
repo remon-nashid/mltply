@@ -9,7 +9,8 @@ import {
   groupAssetsBySymbolReducer,
   appendHistoricalAmountMapper,
   minAssetValueFilter,
-  appendTokenDetailsMapper
+  appendTokenDetailsMapper,
+  knownSymbolFilter
 } from '../ducks/_modifiers'
 
 import type { Asset } from './assets'
@@ -46,6 +47,7 @@ export type MergedPortfolios = Array<{
 
 export function _symbolSelector(tokensData: Object = {}, symbol: string) {
   // FIXME
+
   return tokensData.hasOwnProperty(symbol) ? tokensData[symbol] : { price: 0 }
 }
 
@@ -100,6 +102,13 @@ export function _appendRecommendations(
     item.recommendation = reco
     return item
   })
+}
+
+export function getAssets(
+  assets: Array<Asset>,
+  symbols: Array<string>
+): Array<Asset> {
+  return assets.filter(knownSymbolFilter(symbols))
 }
 
 export const _groupAssetsBySymbol = (

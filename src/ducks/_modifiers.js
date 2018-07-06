@@ -58,3 +58,9 @@ export const totalBalanceReducer = (acc: number = 0, item: Asset) => {
   acc += item.value ? item.value : 0.0
   return acc
 }
+
+export const knownSymbolFilter = (symbols: Array<string>) => {
+  return (asset: Asset) => {
+    return symbols.includes(asset.symbol.toUpperCase())
+  }
+}

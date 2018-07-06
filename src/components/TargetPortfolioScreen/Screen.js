@@ -5,7 +5,8 @@ import {
   _getCurrentPortfolio,
   _getMergedPortfolios,
   _appendRecommendations,
-  _getTotalValue
+  _getTotalValue,
+  getAssets
 } from '../../ducks/_selectors'
 
 import {
@@ -31,10 +32,11 @@ const mapStateToProps = state => {
 
   const { portfolio, initiateEnabled } = targetPortfolio
   const tokensData = data
+  const filteredAssets = getAssets(assets, Object.keys(state.tokens.data))
 
   if (initiateEnabled && assets.length > 0) {
     const currentPortfolio = _getCurrentPortfolio(
-      assets,
+      filteredAssets,
       tokensData,
       minAssetValue
     )
@@ -44,10 +46,10 @@ const mapStateToProps = state => {
     }
   }
 
-  const totalValue = _getTotalValue(assets, tokensData, minAssetValue)
+  const totalValue = _getTotalValue(filteredAssets, tokensData, minAssetValue)
 
   let mergedPortfolios = _getMergedPortfolios(
-    assets,
+    filteredAssets,
     tokensData,
     minAssetValue,
     portfolio
