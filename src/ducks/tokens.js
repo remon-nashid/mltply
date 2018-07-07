@@ -2,7 +2,7 @@
 
 import { Platform } from 'react-native'
 
-import config from '../../config'
+import config from '../config'
 import type { ExtractReturn } from '../types'
 
 // Types

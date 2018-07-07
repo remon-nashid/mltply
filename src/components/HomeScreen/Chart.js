@@ -2,7 +2,7 @@
 import React from 'react'
 import { View } from 'native-base'
 import { VictoryPie, VictoryTheme, VictoryLabel } from 'victory-native'
-import config from '../../../config'
+import config from '../../config'
 
 const Chart = ({
   chartData

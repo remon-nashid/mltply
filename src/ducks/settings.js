@@ -1,6 +1,6 @@
 // @flow
 
-import config from '../../config'
+import config from '../config'
 
 import type { ExtractReturn } from '../types'
 
@@ -26,9 +26,9 @@ const initialState: State = {
   minAssetValue: config.settings.minAssetValue
 }
 const reducer = (state: State = initialState, action: Action): State => {
-  switch (action.type) {
+  const { type, key, value } = action
+  switch (type) {
     case SAVE_SETTING:
-      const { key, value } = action
       return Object.assign({}, state, { [key]: value })
 
     case RESET:

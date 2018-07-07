@@ -72,7 +72,6 @@ export default class TargetPortfolio extends PureComponent<Props> {
     return (
       <ScreenTemplate style={(editing && styles[status]) || {}}>
         <View>
-          <Text style={{ margin: 10 }}>{``}</Text>
           {status === 'review' && (
             <ErrorMessage
             >{`Sum of allocations should be 100%. ${unallocated}% remains`}</ErrorMessage>

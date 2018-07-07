@@ -7,8 +7,8 @@ import equal from 'deep-equal'
 
 import type { Dispatch } from 'redux'
 import { _getAssetsBySourceId } from './_selectors'
-import { save, removeBySource, saveMultiple } from './assets'
-import config from '../../config'
+import { saveMultiple } from './assets'
+import config from '../config'
 
 import type { Asset } from './assets'
 import type { ExtractReturn } from '../types'
@@ -147,8 +147,8 @@ export function ccxtRequest(
       enableRateLimit: true
     }
 
-    if (Platform.OS === 'web') {
-      credentials = { ...credentials, proxy: config.corsProxyURL }
+    if (Platform.OS === 'web' && process.env.REACT_APP_CORS_PROXY) {
+      credentials = { ...credentials, proxy: process.env.REACT_APP_CORS_PROXY }
     }
 
     if (!(connection.slug in ccxt)) {

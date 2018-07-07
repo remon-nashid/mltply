@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     paddingRight: 5
   },
   text: {
-    wordWrap: 'normal',
+    // wordWrap: 'normal',
     fontFamily: 'Roboto Mono',
     textAlign: 'right'
   }

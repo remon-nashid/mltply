@@ -1,3 +1,10 @@
+/* match mobile interface */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -14,22 +21,22 @@ body {
 
 @font-face {
   font-family: 'Roboto';
-  src: url('../fonts/Roboto.ttf') format('truetype');
+  src: url('./fonts/Roboto.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Roboto_medium';
-  src: url('../fonts/Roboto-Medium.ttf') format('truetype');
+  src: url('./fonts/Roboto-Medium.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Roboto Mono';
-  src: url('../fonts/RobotoMono.ttf') format('truetype');
+  src: url('./fonts/RobotoMono.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Roboto Mono Medium';
-  src: url('../fonts/RobotoMono-Medium.ttf') format('truetype');
+  src: url('./fonts/RobotoMono-Medium.ttf') format('truetype');
 }
 
 @font-face {

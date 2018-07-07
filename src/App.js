@@ -13,7 +13,7 @@ import store, { persistor } from './reduxStore'
 import { fetchResource } from './ducks/tokens'
 import { loadBalance, initExchangeProps } from './ducks/exchanges'
 import { LoadingScreen } from './components/misc'
-import config from '../config'
+import config from './config'
 
 const mapStateToProps = state => {
   return {

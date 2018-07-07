@@ -1,7 +1,6 @@
 // @flow
 
 import { largestRemainderRound } from '../utils'
-import config from '../../config'
 
 import {
   totalBalanceReducer,

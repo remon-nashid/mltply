@@ -22,13 +22,21 @@ export function save(sourceId: string, symbol: string, amount: number) {
 
 /*
 {
-  type: 'mltply/assets/SAVE_MULTIPLE', 'abc, [{
-  'sourceId: 'abc', symbol: 'BTC', amount: 1.1
-  }, {
+  type: 'mltply/assets/SAVE_MULTIPLE',
+  sourceId: 'abc',
+  assets: [
     {
-  'sourceId: 'abc', symbol: 'ETH', amount: 1.1
-  }
-  }]}
+      sourceId: 'abc',
+      symbol: 'BTC',
+      amount: 1.1
+    },
+    {
+      sourceId: 'abc',
+      symbol: 'ETH',
+      amount: 1.1
+    }
+  ]
+}
 */
 export function saveMultiple(sourceId: string, assets: Array<Asset>) {
   return { type: SAVE_MULTIPLE, sourceId, assets }

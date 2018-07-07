@@ -1,11 +1,11 @@
-import variable from "./../variables/platform";
+import variable from './../variables/platform'
 
 export default (variables = variable) => {
   const viewTheme = {
-    ".padder": {
+    '.padder': {
       padding: variables.contentPadding
     }
-  };
+  }
 
-  return viewTheme;
-};
+  return viewTheme
+}

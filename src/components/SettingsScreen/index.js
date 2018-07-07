@@ -5,7 +5,7 @@ import { fetchResource } from '../../ducks/tokens'
 
 import SettingsForm from './SettingsForm'
 import { saveSetting } from '../../ducks/settings'
-import config from '../../../config'
+import config from '../../config'
 
 const mapStateToProps = state => {
   const {

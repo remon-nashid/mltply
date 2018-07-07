@@ -13,8 +13,7 @@ import {
   Text
 } from 'native-base'
 
-import { MonoText } from './misc'
-import config from '../../config'
+import config from '../config'
 
 export default ({
   children,
