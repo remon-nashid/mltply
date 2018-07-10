@@ -24,14 +24,21 @@ const mapStateToProps = state => {
   const tokensData: Object = state.tokens.data
 
   const allocations = _getAllocations(assets, tokensData, minAssetValue)
+  const historicalValues = _getHistorialValues(
+    assets,
+    tokensData,
+    minAssetValue
+  )
+  const totalValue = _getTotalValue(assets, tokensData, minAssetValue)
+
   return {
     chartData: allocations.map(({ symbol, percentage }) => ({
       x: symbol,
       y: percentage
     })),
     allocations,
-    historicalValues: _getHistorialValues(assets, tokensData, minAssetValue),
-    totalValue: _getTotalValue(assets, tokensData, minAssetValue),
+    historicalValues,
+    totalValue,
     orderBy,
     descending,
     baseFiat

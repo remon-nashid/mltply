@@ -152,7 +152,7 @@ export const _getHistorialValues = (
 
   let historicalValues = groupedAssets.reduce(
     (acc, item) => {
-      if (item['1h']) {
+      if ('1h' in item) {
         acc['1h'].value += item.historicalValue['1h']
         acc['1d'].value += item.historicalValue['1d']
         acc['7d'].value += item.historicalValue['7d']
