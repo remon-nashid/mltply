@@ -10,6 +10,10 @@ type Props = {
 }
 type State = { amount?: string }
 
+const isPositiveNumber = n => {
+  return !isNaN(parseFloat(n)) && isFinite(n) && n >= 0
+}
+
 export default class AssetEditForm extends React.Component<Props, State> {
   textInput: any = null
 
@@ -41,10 +45,7 @@ export default class AssetEditForm extends React.Component<Props, State> {
             ref={this.textInput}
             value={amount}
             onChangeText={(text: string) => {
-              // FIXME for some reason plus and minus signs are still
-              // accepted despite the expression below.
-              const moneyFomat = /^\d+(\.\d+)?$/
-              if (moneyFomat.test(text) || text === '') {
+              if (isPositiveNumber(text) || text === '') {
                 this.setState({ amount: text })
               }
             }}
