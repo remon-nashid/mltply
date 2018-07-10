@@ -73,8 +73,7 @@ class App extends React.Component<any, State> {
   }
 
   render() {
-    if (this.state.loading) return <LoadingScreen />
-    else return <Root />
+    return <Root />
   }
 }
 
