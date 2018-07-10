@@ -19,11 +19,13 @@ export default ({
   children,
   backButton = false,
   navigation,
+  contentContainerStyle = {},
   ...props
 }: {
   children: React.Node,
   backButton?: boolean,
-  navigation?: Object
+  navigation?: Object,
+  contentContainerStyle?: Object
 }) => (
   <Container {...props}>
     <Header>
@@ -43,6 +45,8 @@ export default ({
         </Title>
       </Body>
     </Header>
-    <Content padder>{children}</Content>
+    <Content padder contentContainerStyle={contentContainerStyle}>
+      {children}
+    </Content>
   </Container>
 )

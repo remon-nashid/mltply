@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { View } from 'native-base'
+import { View, Button, Text } from 'native-base'
 
 import ScreenTemplate from '../ScreenTemplate'
 import Chart from './Chart'
@@ -18,7 +18,9 @@ type Props = {
   pressHandler: Function,
   totalValue: number,
   baseFiat: string,
-  historicalValues: HistoricalValues
+  historicalValues: HistoricalValues,
+  addAssetsButton: boolean,
+  navigation: Object
 }
 
 export default class Screen extends React.PureComponent<Props> {
@@ -31,12 +33,34 @@ export default class Screen extends React.PureComponent<Props> {
       pressHandler,
       historicalValues,
       totalValue,
-      baseFiat
+      baseFiat,
+      addAssetsButton,
+      navigation
     } = this.props
 
-    return (
-      <ScreenTemplate>
-        <View style={{ alignItems: 'center' }}>
+    if (addAssetsButton) {
+      return (
+        <ScreenTemplate
+          contentContainerStyle={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%'
+          }}
+        >
+          <Button
+            success
+            block
+            onPress={() => {
+              navigation.navigate('Assets')
+            }}
+          >
+            <Text>Start tracking some assets</Text>
+          </Button>
+        </ScreenTemplate>
+      )
+    } else {
+      return (
+        <ScreenTemplate contentContainerStyle={{ alignItems: 'center' }}>
           <Values
             baseFiat={baseFiat}
             totalValue={totalValue}
@@ -49,8 +73,8 @@ export default class Screen extends React.PureComponent<Props> {
             allocations={allocations}
             pressHandler={pressHandler}
           />
-        </View>
-      </ScreenTemplate>
-    )
+        </ScreenTemplate>
+      )
+    }
   }
 }
