@@ -2,10 +2,10 @@
 
 import { connect } from 'react-redux'
 import {
-  _getCurrentPortfolio,
+  getCurrentPortfolio,
   _getMergedPortfolios,
-  _appendRecommendations,
-  _getTotalValue,
+  appendRecommendations,
+  getTotalValue,
   getAssets
 } from '../../ducks/_selectors'
 
@@ -35,7 +35,7 @@ const mapStateToProps = state => {
   const filteredAssets = getAssets(assets, Object.keys(state.tokens.data))
 
   if (initiateEnabled && assets.length > 0) {
-    const currentPortfolio = _getCurrentPortfolio(
+    const currentPortfolio = getCurrentPortfolio(
       filteredAssets,
       tokensData,
       minAssetValue
@@ -46,7 +46,7 @@ const mapStateToProps = state => {
     }
   }
 
-  const totalValue = _getTotalValue(filteredAssets, tokensData, minAssetValue)
+  const totalValue = getTotalValue(filteredAssets, tokensData, minAssetValue)
 
   let mergedPortfolios = _getMergedPortfolios(
     filteredAssets,
@@ -56,7 +56,7 @@ const mapStateToProps = state => {
   )
 
   if (targetPortfolio.status === 'complete')
-    mergedPortfolios = _appendRecommendations(
+    mergedPortfolios = appendRecommendations(
       mergedPortfolios,
       totalValue,
       tokensData,

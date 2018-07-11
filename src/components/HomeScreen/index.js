@@ -2,9 +2,9 @@
 
 import { connect } from 'react-redux'
 import {
-  _getHistorialValues,
-  _getAllocations,
-  _getTotalValue
+  getHistorialValues,
+  getAllocations,
+  getTotalValue
 } from '../../ducks/_selectors'
 import { sort } from '../../ducks/home'
 import Screen from './Screen'
@@ -23,7 +23,7 @@ const mapStateToProps = state => {
   } = state
   const tokensData: Object = state.tokens.data
 
-  const allocations = _getAllocations(assets, tokensData, minAssetValue)
+  const allocations = getAllocations(assets, tokensData, minAssetValue)
 
   if (allocations.length === 0) {
     return {
@@ -31,12 +31,8 @@ const mapStateToProps = state => {
     }
   }
 
-  const historicalValues = _getHistorialValues(
-    assets,
-    tokensData,
-    minAssetValue
-  )
-  const totalValue = _getTotalValue(assets, tokensData, minAssetValue)
+  const historicalValues = getHistorialValues(assets, tokensData, minAssetValue)
+  const totalValue = getTotalValue(assets, tokensData, minAssetValue)
 
   return {
     addAssetsButton: false,

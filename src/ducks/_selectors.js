@@ -57,7 +57,7 @@ export function _getMergedPortfolios(
   minAssetValue: number,
   portfolio: Object
 ): MergedPortfolios {
-  const currentPortfolio = _getCurrentPortfolio(
+  const currentPortfolio = getCurrentPortfolio(
     assets,
     tokensData,
     minAssetValue
@@ -83,7 +83,7 @@ export function _getMergedPortfolios(
   return calc
 }
 
-export function _appendRecommendations(
+export function appendRecommendations(
   mergedPortfolios: MergedPortfolios,
   totalValue: number,
   tokensData: {},
@@ -111,7 +111,7 @@ export function getAssets(
   return assets.filter(knownSymbolFilter(symbols))
 }
 
-export const _groupAssetsBySymbol = (
+export const groupAssetsBySymbol = (
   assets: Array<Asset>,
   tokensData: {},
   minAssetValue: number
@@ -122,17 +122,17 @@ export const _groupAssetsBySymbol = (
     .filter(minAssetValueFilter(minAssetValue))
 }
 
-export const _getTotalValue = (assets, tokensData, minAssetValue) => {
-  let groupedAssets = _groupAssetsBySymbol(assets, tokensData, minAssetValue)
+export const getTotalValue = (assets, tokensData, minAssetValue) => {
+  let groupedAssets = groupAssetsBySymbol(assets, tokensData, minAssetValue)
   return groupedAssets.reduce(totalBalanceReducer, 0)
 }
 
-export const _getAllocations = (
+export const getAllocations = (
   assets: Array<Asset>,
   tokensData: {},
   minAssetValue: number
 ): Array<Allocation> => {
-  let groupedAssets = _groupAssetsBySymbol(assets, tokensData, minAssetValue)
+  let groupedAssets = groupAssetsBySymbol(assets, tokensData, minAssetValue)
   const totalValue = groupedAssets.reduce(totalBalanceReducer, 0)
 
   return groupedAssets
@@ -140,12 +140,12 @@ export const _getAllocations = (
     .map(appendHistoricalAmountMapper)
 }
 
-export const _getHistorialValues = (
+export const getHistorialValues = (
   assets: Array<Asset>,
   tokensData: {},
   minAssetValue: number
 ) => {
-  let groupedAssets = _groupAssetsBySymbol(assets, tokensData, minAssetValue)
+  let groupedAssets = groupAssetsBySymbol(assets, tokensData, minAssetValue)
   const totalValue = groupedAssets.reduce(totalBalanceReducer, 0)
   groupedAssets = groupedAssets
     .map(appendPercentageMapper(totalValue))
@@ -180,13 +180,13 @@ export const _getHistorialValues = (
   return historicalValues
 }
 
-export const _getCurrentPortfolio = (
+export const getCurrentPortfolio = (
   assets: Array<Asset>,
   tokensData: {},
   minAssetValue: number
 ) => {
   if (assets.length === 0) return {}
-  let groupedAssets = _groupAssetsBySymbol(assets, tokensData, minAssetValue)
+  let groupedAssets = groupAssetsBySymbol(assets, tokensData, minAssetValue)
   const totalValue = groupedAssets.reduce(totalBalanceReducer, 0)
   groupedAssets = groupedAssets.map(appendPercentageMapper(totalValue))
 
