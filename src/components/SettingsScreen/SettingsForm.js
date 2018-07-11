@@ -25,8 +25,9 @@ export default ({
     <ScreenTemplate>
       <Form>
         <Item fixedLabel>
-          <Label>Base Currency</Label>
+          <Label style={{ flex: 1 }}>Base Currency</Label>
           <Picker
+            style={{ flex: 1 }}
             selectedValue={baseFiat}
             onValueChange={(itemValue, itemIndex) =>
               handleBaseFiatValueChange('baseFiat', itemValue)
@@ -44,8 +45,12 @@ export default ({
           </Picker>
         </Item>
         <Item fixedLabel>
-          <Label>Minimum Balance ({baseFiat})</Label>
+          <Label style={{ flex: 1 }}>
+            Minimum Asset Value (in {baseFiat}). Assets with less value won't be
+            displayed
+          </Label>
           <Picker
+            style={{ flex: 1 }}
             selectedValue={minAssetValue}
             onValueChange={(itemValue, itemIndex) =>
               handleMinimumBalanceChange('minAssetValue', parseFloat(itemValue))
