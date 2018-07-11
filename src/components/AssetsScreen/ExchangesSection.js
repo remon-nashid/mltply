@@ -3,10 +3,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { FlatList } from 'react-native'
-import { Button, Text, Icon, View, ListItem } from 'native-base'
+import { Button, Text, Icon, View } from 'native-base'
 import { deleteConnection } from '../../ducks/exchanges'
 import { removeBySource } from '../../ducks/assets'
 
+import { AssetsListItem } from '../misc'
 import type { ExchangeConnection, ExchangeProps } from '../../ducks/exchanges'
 
 type Props = {
@@ -38,13 +39,7 @@ class Screen extends React.Component<Props, State> {
           const { id } = item
 
           return (
-            <ListItem
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between'
-              }}
-            >
+            <AssetsListItem>
               <Text style={{ flex: 1 }}>{name}</Text>
               <View style={{ flexDirection: 'row' }}>
                 <Button
@@ -63,21 +58,19 @@ class Screen extends React.Component<Props, State> {
                   <Icon type="MaterialCommunityIcons" name="delete" danger />
                 </Button>
               </View>
-            </ListItem>
+            </AssetsListItem>
           )
         }}
-        ListFooterComponent={() => {
-          return (
-            <Button
-              block
-              success
-              onPress={() => navigation.navigate('ExchangeForm')}
-            >
-              <Text>Connect an exchange</Text>
-              <Icon type="MaterialCommunityIcons" name="plus" />
-            </Button>
-          )
-        }}
+        ListHeaderComponent={
+          <Button
+            block
+            success
+            onPress={() => navigation.navigate('ExchangeForm')}
+          >
+            <Text>Connect an exchange</Text>
+            <Icon type="MaterialCommunityIcons" name="plus" />
+          </Button>
+        }
       />
     )
   }

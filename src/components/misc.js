@@ -3,7 +3,7 @@
 import React from 'react'
 
 import { StyleSheet, ActivityIndicator } from 'react-native'
-import { View, Text, Button, Card, Content } from 'native-base'
+import { View, Text, Button, Card, Content, ListItem } from 'native-base'
 // FIXME avoid accessing theme variables directly.
 import commonColors from '../native-base-theme/variables/commonColor'
 
@@ -101,4 +101,17 @@ export const LoadingScreen = () => (
   <View style={{ flex: 1, justifyContent: 'center' }}>
     <ActivityIndicator size="large" />
   </View>
+)
+
+export const AssetsListItem = ({ children }: { children: any }) => (
+  <ListItem
+    style={{
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      height: 52
+    }}
+  >
+    {children}
+  </ListItem>
 )

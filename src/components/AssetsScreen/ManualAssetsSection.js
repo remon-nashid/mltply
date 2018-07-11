@@ -1,13 +1,14 @@
 // @flow
 
 import React from 'react'
-import { Button, Icon, Text, View, ListItem } from 'native-base'
+import { Button, Icon, Text, View } from 'native-base'
 import { FlatList } from 'react-native'
 import { connect } from 'react-redux'
 
 import { getAssets } from '../../ducks/_selectors'
 import AssetEditForm from './AssetEditForm'
 import { save, remove } from '../../ducks/assets'
+import { AssetsListItem } from '../misc'
 
 import type { Asset } from '../../ducks/assets'
 
@@ -57,13 +58,7 @@ class Screen extends React.Component<Props, State> {
         renderItem={({ item: { symbol, amount } }) => {
           if (symbol !== toEdit) {
             return (
-              <ListItem
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between'
-                }}
-              >
+              <AssetsListItem>
                 <Text style={{ flex: 1, fontFamily: 'Roboto Mono' }}>
                   {symbol}
                 </Text>
@@ -78,7 +73,7 @@ class Screen extends React.Component<Props, State> {
                     <Icon type="MaterialCommunityIcons" name="delete" />
                   </Button>
                 </View>
-              </ListItem>
+              </AssetsListItem>
             )
           } else {
             return (
@@ -91,36 +86,32 @@ class Screen extends React.Component<Props, State> {
             )
           }
         }}
-        ListFooterComponent={() => {
-          const items = []
-          if (toAdd) {
-            items.push(
-              <AssetEditForm
-                key={'AddAsset'}
-                cancelHandler={this._cancelHander}
-                saveHandler={this._saveHandler}
-                symbol={toAdd}
-              />
-            )
-          }
-          items.push(
-            <Button
-              block
-              success
-              key={'TokenPicker'}
-              onPress={() =>
-                navigation.navigate('TokenPicker', {
-                  selectHandler: this._selectHandler,
-                  tokensToExclude: assets.map(asset => asset.symbol)
-                })
-              }
-            >
-              <Text>Enter an asset manually</Text>
-              <Icon type="MaterialCommunityIcons" name="plus" />
-            </Button>
+        ListFooterComponent={
+          toAdd && (
+            <AssetEditForm
+              key={'AddAsset'}
+              cancelHandler={this._cancelHander}
+              saveHandler={this._saveHandler}
+              symbol={toAdd}
+            />
           )
-          return items
-        }}
+        }
+        ListHeaderComponent={
+          <Button
+            block
+            success
+            key={'TokenPicker'}
+            onPress={() =>
+              navigation.navigate('TokenPicker', {
+                selectHandler: this._selectHandler,
+                tokensToExclude: assets.map(asset => asset.symbol)
+              })
+            }
+          >
+            <Text>Enter an asset manually</Text>
+            <Icon type="MaterialCommunityIcons" name="plus" />
+          </Button>
+        }
       />
     )
   }

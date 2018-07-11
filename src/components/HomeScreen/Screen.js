@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { View, Button, Text } from 'native-base'
+import { Button, Text } from 'native-base'
 
 import ScreenTemplate from '../ScreenTemplate'
 import Chart from './Chart'
