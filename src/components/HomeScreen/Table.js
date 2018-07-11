@@ -5,6 +5,7 @@ import { FlatList, StyleSheet } from 'react-native'
 import { Text, View, Button, Icon } from 'native-base'
 
 import { _changePercentageStyle, _formatAmount } from '../../theme'
+import { NumericText } from '../misc'
 
 import type { Allocation } from '../../ducks/_selectors'
 
@@ -53,7 +54,7 @@ const Cell = ({
 )
 
 const ChangePercentageCell = ({ children }: { children: any }) => (
-  <Cell style={[_changePercentageStyle(children), { minWidth: 70 }]}>
+  <Cell style={[_changePercentageStyle(children), { minWidth: 75 }]}>
     {children}%
   </Cell>
 )
@@ -101,7 +102,11 @@ export default class Table extends React.PureComponent<Props> {
     return (
       <Row>
         <Cell style={{ minWidth: 70 }}>{item.symbol}</Cell>
-        <Cell>{_formatAmount(item.amount)}</Cell>
+        <View style={[styles.cell, { minWidth: 115 }]}>
+          <NumericText fractionDigits={3} style={{ textAlign: 'right' }}>
+            {item.amount}
+          </NumericText>
+        </View>
         <Cell>{_formatAmount(item.price)}</Cell>
         <Cell>{_formatAmount(item.value)}</Cell>
         <Cell style={{ minWidth: 70 }}>{item.percentage.toFixed(2)}</Cell>
