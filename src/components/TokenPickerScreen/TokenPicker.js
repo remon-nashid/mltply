@@ -5,13 +5,13 @@ import { TouchableOpacity, FlatList } from 'react-native'
 import { Text, Input, Icon, Item, ListItem } from 'native-base'
 
 import ScreenTemplate from '../ScreenTemplate'
+import { filterTokens } from '../../ducks/tokens'
 
 type Props = {
   selectHandler: Function,
   tokens: Array<any>,
   navigation: any,
-  exclude: Array<string>,
-  filterTokens: Function
+  exclude: Array<string>
 }
 
 type State = {
@@ -50,7 +50,7 @@ export default class TokenPicker extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { tokens, navigation, filterTokens, exclude } = this.props
+    const { tokens, navigation, exclude } = this.props
     let selectHandler = this.props.navigation.state.params.selectHandler
     const filter = this.state.filter
     const filteredTokens = filterTokens(tokens, filter, exclude)

@@ -29,16 +29,14 @@ export type Action =
   | ExtractReturn<typeof received>
   | ExtractReturn<typeof reset>
 
-// FIXME proxy all requests for now. That will free us from caching 3rd party
-// resources on mobiles.
 export function proxiedFetch(url: string, ...args: Array<any>) {
   if (
     Platform.OS !== 'ios' &&
     Platform.OS !== 'android' &&
-    config.corsProxyURL &&
+    process.env.REACT_APP_CORS_PROXY &&
     config.fetchProxy
   ) {
-    url = config.corsProxyURL + url
+    url = config.REACT_APP_CORS_PROXY + url
   }
   return fetch(url, ...args)
 }
@@ -77,7 +75,6 @@ export function filterTokens(
     .splice(0, 50)
 }
 
-// FIXME refactor into resource specific code
 export function fetchResource(key: string, url: string): Function {
   return function(dispatch: Dispatch<any>, getState) {
     const baseFiat = getState().settings.baseFiat

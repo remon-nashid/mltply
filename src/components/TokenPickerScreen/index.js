@@ -3,7 +3,6 @@
 import { connect } from 'react-redux'
 
 import TokenPicker from './TokenPicker'
-import { filterTokens } from '../../ducks/tokens'
 
 const mapStateToProps = (state, ownProps) => {
   const tokens = Object.keys(state.tokens.data).map(
@@ -12,9 +11,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     tokens,
-    exclude: ownProps.navigation.state.params.tokensToExclude || [],
-    // FIXME this is not state
-    filterTokens
+    exclude: ownProps.navigation.state.params.tokensToExclude || []
   }
 }
 

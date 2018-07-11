@@ -45,9 +45,10 @@ export type MergedPortfolios = Array<{
 }>
 
 export function _symbolSelector(tokensData: Object = {}, symbol: string) {
-  // FIXME
-
-  return tokensData.hasOwnProperty(symbol) ? tokensData[symbol] : { price: 0 }
+  return tokensData.hasOwnProperty(symbol)
+    ? tokensData[symbol]
+    : // This case should not occur as assets are filtered earlier.
+      { price: 0 }
 }
 
 export function _getMergedPortfolios(

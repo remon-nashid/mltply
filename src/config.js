@@ -47,6 +47,6 @@ export default {
   corsProxyURL: 'http://localhost:8080/',
   fetchProxy: false,
   chartLabelThreshold: 2,
-  cmcPagesN: 5, // FIXME change to 10 before deployment
+  cmcPagesN: 5,
   appName: 'mltply'
 }

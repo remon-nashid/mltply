@@ -218,9 +218,13 @@ class ExchangesFormScreen extends React.Component<Props, State> {
                 <Text>{labelsMap[key] + ' *'}</Text>
               </Label>
               <Input
-                style={{ flex: 3, backgroundColor: 'rgb(255, 255, 255, 0.7)' }}
+                style={{
+                  flex: 3,
+                  backgroundColor: 'rgb(255, 255, 255, 0.7)'
+                }}
                 placeholder={labelsMap[key]}
                 onChangeText={this._handleValChange(key)}
+                secureTextEntry={key === 'secret'}
                 value={
                   typeof credentials[key] == 'string' ? credentials[key] : ''
                 }

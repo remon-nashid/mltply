@@ -13,10 +13,7 @@ const mapStateToProps = state => {
   } = state
   return {
     baseFiat,
-    minAssetValue,
-    // FIXME this is not state
-    baseFiatOptions: config.settings.baseFiatOptions,
-    minimumBalanceOptions: config.settings.minimumBalanceOptions
+    minAssetValue
   }
 }
 

@@ -180,7 +180,6 @@ export function ccxtRequest(
   }
 }
 
-// FIXME find a workaround to passing navigation object.
 export function authenticate(connection: ExchangeConnection, navigation: any) {
   return (dispatch: Dispatch<any>) => {
     dispatch(authenticating())

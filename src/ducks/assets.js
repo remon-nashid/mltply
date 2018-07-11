@@ -69,7 +69,6 @@ const isEqual = (sourceId: string, symbol: string) => {
     (symbol !== undefined ? asset.symbol === symbol : true)
 }
 
-// FIXME just negate previous funciton
 const isntEqual = (sourceId: string, symbol?: string) => {
   return (asset: Asset) =>
     asset.sourceId !== sourceId ||

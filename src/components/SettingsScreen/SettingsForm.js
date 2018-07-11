@@ -4,24 +4,23 @@ import React from 'react'
 import { Label, Form, Item, Picker } from 'native-base'
 
 import ScreenTemplate from './../ScreenTemplate'
+import config from '../../config'
 
 type Props = {
   minAssetValue: number,
-  minimumBalanceOptions: Array<number>,
   baseFiat: string,
-  baseFiatOptions: Array<string>,
   handleBaseFiatValueChange: Function,
   handleMinimumBalanceChange: Function
 }
 
 export default ({
   minAssetValue,
-  minimumBalanceOptions,
   handleMinimumBalanceChange,
   baseFiat,
-  baseFiatOptions,
   handleBaseFiatValueChange
 }: Props) => {
+  const baseFiatOptions = config.settings.baseFiatOptions
+  const minimumBalanceOptions = config.settings.minimumBalanceOptions
   return (
     <ScreenTemplate>
       <Form>

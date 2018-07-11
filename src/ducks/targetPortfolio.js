@@ -166,7 +166,6 @@ const reducer = (state: State = initialState, action: Action): State => {
       */
     case ADD:
       nextState = { ...state }
-      // FIXME check if exists and return error.
       nextState.portfolio = { ...nextState.portfolio, [symbol]: percentage }
       return _validate(state, nextState)
 
@@ -188,10 +187,6 @@ const reducer = (state: State = initialState, action: Action): State => {
 
     case DECREMENT:
       nextState = { ...state }
-      // FIXME for some reason the followig doesn't trigger UI update.
-      // Need to assign nextState.portfolio to a new object.
-      //
-      // nextState.portfolio[symbol]--
       nextState.portfolio = {
         ...nextState.portfolio,
         [symbol]: nextState.portfolio[symbol] - 1
