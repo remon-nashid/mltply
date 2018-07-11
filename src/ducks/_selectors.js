@@ -1,5 +1,6 @@
 // @flow
 
+import symbolMap from 'currency-symbol-map'
 import { largestRemainderRound } from '../utils'
 
 import {
@@ -97,7 +98,9 @@ export function appendRecommendations(
     const tokenObj = _symbolSelector(tokensData, symbol)
     const units = (price / tokenObj.price).toFixed(2)
     reco = diff
-      ? `${direction} ${units} ${symbol} for ${price.toFixed(2)} ${baseFiat}`
+      ? `${direction} ${units} ${symbol} for ${price.toFixed(2)}${symbolMap(
+          baseFiat
+        )}`
       : 'none'
     item.recommendation = reco
     return item

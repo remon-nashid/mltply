@@ -68,6 +68,7 @@ export default class Screen extends React.PureComponent<Props> {
           />
           <Chart chartData={chartData} />
           <Table
+            baseFiat={baseFiat}
             orderBy={orderBy}
             descending={descending}
             allocations={allocations}

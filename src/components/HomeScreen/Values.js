@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { View } from 'native-base'
+import symbolMap from 'currency-symbol-map'
 import { _changePercentageStyle } from '../../theme'
 import { NumericText, MonoText } from '../misc'
 import type { HistoricalValues } from '../../ducks/_selectors'
@@ -19,7 +20,7 @@ export default ({
     <View style={{ flexDirection: 'row', padding: 15 }}>
       <NumericText style={{ fontSize: 36 }}>{totalValue}</NumericText>
       <MonoText style={{ fontSize: 36, textTransform: 'uppercase' }}>
-        {' ' + baseFiat}
+        {symbolMap(baseFiat)}
       </MonoText>
     </View>
 

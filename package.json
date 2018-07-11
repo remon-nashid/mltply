@@ -75,6 +75,7 @@
   "dependencies": {
     "autoprefixer": "^8.6.5",
     "ccxt": "^1.15.9",
+    "currency-symbol-map": "^4.0.4",
     "deep-equal": "^1.0.1",
     "dotenv": "^6.0.0",
     "dotenv-expand": "^4.2.0",

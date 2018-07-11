@@ -3,6 +3,7 @@
 import React from 'react'
 import { FlatList, StyleSheet } from 'react-native'
 import { Text, View, Button, Icon } from 'native-base'
+import symbolMap from 'currency-symbol-map'
 
 import { _changePercentageStyle, _formatAmount } from '../../theme'
 import { NumericText } from '../misc'
@@ -13,7 +14,8 @@ type Props = {
   allocations: Array<Allocation>,
   pressHandler: Function,
   orderBy: string,
-  descending: boolean
+  descending: boolean,
+  baseFiat: string
 }
 
 const styles = StyleSheet.create({
@@ -117,7 +119,12 @@ export default class Table extends React.PureComponent<Props> {
     )
   }
 
-  _header(orderBy: string, descending: boolean, pressHandler: Function) {
+  _header(
+    orderBy: string,
+    descending: boolean,
+    pressHandler: Function,
+    symbol: string
+  ) {
     return (
       <Row>
         <Cell style={{ minWidth: 70 }} textStyle={{ color: 'gray' }}>
@@ -137,16 +144,14 @@ export default class Table extends React.PureComponent<Props> {
           KEY={'price'}
           descending={descending}
         >
-          Price
+          {`Price ${symbol}`}
         </HeaderCell>
         <HeaderCell
           orderBy={orderBy}
           pressHandler={pressHandler}
           KEY={'value'}
           descending={descending}
-        >
-          Value
-        </HeaderCell>
+        >{`Value ${symbol}`}</HeaderCell>
         <HeaderCell
           orderBy={orderBy}
           pressHandler={pressHandler}
@@ -188,7 +193,14 @@ export default class Table extends React.PureComponent<Props> {
   }
 
   render() {
-    const { orderBy, descending, allocations, pressHandler } = this.props
+    const {
+      orderBy,
+      descending,
+      allocations,
+      pressHandler,
+      baseFiat
+    } = this.props
+    const symbol = symbolMap(baseFiat)
     return (
       <FlatList
         style={styles.container}
@@ -198,7 +210,7 @@ export default class Table extends React.PureComponent<Props> {
         extraData={[orderBy, descending]}
         keyExtractor={(item, index) => item.symbol}
         ListHeaderComponent={() =>
-          this._header(orderBy, descending, pressHandler)
+          this._header(orderBy, descending, pressHandler, symbol)
         }
         renderItem={this._renderItem}
       />
