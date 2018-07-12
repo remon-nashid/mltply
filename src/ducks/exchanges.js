@@ -117,23 +117,6 @@ export type Action =
   | ExtractReturn<typeof resetExchangeProps>
 
 /********************
- * Utility functions
- *******************/
-
-function ccxtBalance2Local(ccxtBalance, id): Array<Asset> {
-  return Object.keys(ccxtBalance)
-    .filter(key => {
-      return !['free'].includes(key)
-    })
-    .map(key => {
-      const { asset, free } = ccxtBalance[key]
-      // used, total
-      return { symbol: asset, amount: Number(free), sourceId: id }
-    })
-    .filter(({ amount }) => amount > 0)
-}
-
-/********************
  * Async action creators
  *******************/
 
@@ -215,19 +198,17 @@ export function loadBalance(connection: ExchangeConnection) {
     dispatch(ccxtRequest(connection, 'fetchBalance'))
       .then(response => {
         dispatch(balanceReceived(connection))
-
-        if ('info' in response) {
+        if ('free' in response) {
           const sourceId = connection.id
-          if (!response.info.balances) return
-          const filteredAssets = ccxtBalance2Local(
-            response.info.balances,
-            sourceId
-          ).sort((a, b) => (a.symbol > b.symbol ? 1 : -1))
-
+          const filteredAssets: Array<Asset> = Object.entries(response.free)
+            .filter(pair => pair[1] > 0)
+            .map(pair => {
+              return { symbol: pair[0], amount: Number(pair[1]), sourceId }
+            })
           const existingAssets = _getAssetsBySourceId(
             getState().assets,
             sourceId
-          ).sort((a, b) => (a.symbol > b.symbol ? 1 : -1))
+          )
           // Only update state if exchange assets have changed
           if (!equal(existingAssets, filteredAssets)) {
             dispatch(saveMultiple(sourceId, filteredAssets))
