@@ -6,7 +6,7 @@
   "eslint.autoFixOnSave": true,
   "eslint.alwaysShowStatus": true,
   "prettier.disableLanguages": ["js"],
-  "flow.pathToFlow": "${workspaceRoot}/node_modules/.bin/flow",
+  "flow.useNPMPackagedFlow": true,
   "flow.stopFlowOnExit": true,
   "telemetry.enableTelemetry": false,
   "workbench.startupEditor": "newUntitledFile",
