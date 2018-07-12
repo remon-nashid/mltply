@@ -110,7 +110,11 @@ export default class Table extends React.PureComponent<Props> {
           </NumericText>
         </View>
         <Cell>{_formatAmount(item.price)}</Cell>
-        <Cell>{_formatAmount(item.value)}</Cell>
+        <View style={[styles.cell, { minWidth: 115 }]}>
+          <NumericText fractionDigits={2} style={{ textAlign: 'right' }}>
+            {item.value}
+          </NumericText>
+        </View>
         <Cell style={{ minWidth: 70 }}>{item.percentage.toFixed(2)}</Cell>
         <ChangePercentageCell>{item['1h']}</ChangePercentageCell>
         <ChangePercentageCell>{item['1d']}</ChangePercentageCell>
@@ -131,6 +135,7 @@ export default class Table extends React.PureComponent<Props> {
           Symbol
         </Cell>
         <HeaderCell
+          style={{ minWidth: 115 }}
           orderBy={orderBy}
           pressHandler={pressHandler}
           KEY={'amount'}
@@ -147,6 +152,7 @@ export default class Table extends React.PureComponent<Props> {
           {`Price ${symbol}`}
         </HeaderCell>
         <HeaderCell
+          style={{ minWidth: 115 }}
           orderBy={orderBy}
           pressHandler={pressHandler}
           KEY={'value'}
