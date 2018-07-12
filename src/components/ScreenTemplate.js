@@ -28,7 +28,17 @@ export default ({
   contentContainerStyle?: Object
 }) => (
   <Container {...props}>
-    <Header>
+    <Header
+      style={{
+        shadowOffset: {
+          width: 0,
+          height: 5
+        },
+        shadowColor: 'black',
+        shadowOpacity: 0.2,
+        shadowRadius: 5
+      }}
+    >
       {backButton &&
         navigation && (
           <Left>

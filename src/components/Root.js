@@ -27,7 +27,14 @@ export default createBottomTabNavigator(RouteConfigs, {
   initialRouteName: 'Portfolio',
   tabBarComponent: props => {
     return (
-      <Footer>
+      <Footer
+        style={{
+          shadowOffset: { width: 0, height: -5 },
+          shadowColor: 'black',
+          shadowOpacity: 0.2,
+          shadowRadius: 5
+        }}
+      >
         <FooterTab>
           {Object.keys(RouteConfigs).map((key, i) => (
             <Button
