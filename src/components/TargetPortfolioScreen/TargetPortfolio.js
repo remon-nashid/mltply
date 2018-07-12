@@ -4,7 +4,12 @@ import React, { PureComponent } from 'react'
 import { StyleSheet } from 'react-native'
 import { View, Text, Button, ListItem, Icon } from 'native-base'
 import ScreenTemplate from '../ScreenTemplate'
-import { LongPressButton, MonoText, ErrorMessage } from '../misc'
+import {
+  LongPressButton,
+  MonoText,
+  ErrorMessage,
+  SuccessMessage
+} from '../misc'
 
 import type { MergedPortfolios } from '../../ducks/_selectors'
 
@@ -31,9 +36,6 @@ type Props = {
 }
 
 const styles = StyleSheet.create({
-  review: { backgroundColor: 'rgba(255, 255, 0, 0.2)' },
-  complete: { backgroundColor: 'rgba(0, 255, 0, 0.2)' },
-  empty: { backgroundColor: 'rgba(0, 0, 0, 0.0)' },
   columnHeader: { fontWeight: 'bold', flex: 1 }
 })
 
@@ -70,12 +72,19 @@ export default class TargetPortfolio extends PureComponent<Props> {
     } = this.props
 
     return (
-      <ScreenTemplate style={(editing && styles[status]) || {}}>
+      <ScreenTemplate>
         <View>
           {status === 'review' && (
             <ErrorMessage
-            >{`Sum of allocations should be 100%. ${unallocated}% remains`}</ErrorMessage>
+            >{`Sum of allocations should be 100 (${unallocated}% remaining). Please increment the following allocations, or add a new one.`}</ErrorMessage>
           )}
+          {editing &&
+            status === 'complete' && (
+              <SuccessMessage>
+                If you finished editing, press on "save" button to reveal
+                rebalancing recommendations.
+              </SuccessMessage>
+            )}
 
           {mergedPortfolios &&
             mergedPortfolios.length > 0 && (

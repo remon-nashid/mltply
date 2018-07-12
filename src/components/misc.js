@@ -53,7 +53,22 @@ export const ErrorMessage = ({ children }: { children: string }) => (
   <Card
     style={{
       backgroundColor: commonColors.brandDanger,
-      borderColor: '#973a37'
+      borderColor: '#973a37',
+      marginBottom: 20
+    }}
+  >
+    <Content padder>
+      <Text style={{ color: 'white' }}>{children}</Text>
+    </Content>
+  </Card>
+)
+
+export const SuccessMessage = ({ children }: { children: string }) => (
+  <Card
+    style={{
+      backgroundColor: commonColors.brandSuccess,
+      borderColor: '#468c46',
+      marginBottom: 20
     }}
   >
     <Content padder>
