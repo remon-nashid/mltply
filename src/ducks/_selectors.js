@@ -205,7 +205,7 @@ export const getCurrentPortfolio = (
   return currentPortfolio
 }
 
-export const _getAssetsBySourceId = (
+export const getAssetsBySourceId = (
   assets: Array<Asset>,
   sourceId: string
 ): Array<Asset> => {

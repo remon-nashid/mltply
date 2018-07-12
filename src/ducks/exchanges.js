@@ -6,7 +6,7 @@ import ccxt, { AuthenticationError, NetworkError, BaseError } from 'ccxt'
 import equal from 'deep-equal'
 
 import type { Dispatch } from 'redux'
-import { _getAssetsBySourceId } from './_selectors'
+import { getAssetsBySourceId } from './_selectors'
 import { saveMultiple } from './assets'
 import config from '../config'
 
@@ -205,7 +205,7 @@ export function loadBalance(connection: ExchangeConnection) {
             .map(pair => {
               return { symbol: pair[0], amount: Number(pair[1]), sourceId }
             })
-          const existingAssets = _getAssetsBySourceId(
+          const existingAssets = getAssetsBySourceId(
             getState().assets,
             sourceId
           )

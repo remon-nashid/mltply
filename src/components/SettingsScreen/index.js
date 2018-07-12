@@ -25,12 +25,6 @@ const mapDispatchToProps = dispatch => {
     handleBaseFiatValueChange: (key: string, value: string) => {
       dispatch(saveSetting(key, value))
       Promise.all([
-        dispatch(
-          fetchResource(
-            'fiat',
-            `https://exchangeratesapi.io/api/latest?base=${value}`
-          )
-        ),
         ...Array.from(Array(config.cmcPagesN || 10).keys()).map(i =>
           dispatch(
             fetchResource(

@@ -27,12 +27,6 @@ const mapDispatchToProps = (dispatch, getState) => {
     initExchangeProps: (ccxt: any) => dispatch(initExchangeProps(ccxt)),
     fetch3P: (exchanges, baseFiat, callback: Function) => {
       Promise.all([
-        dispatch(
-          fetchResource(
-            'fiat',
-            `https://exchangeratesapi.io/api/latest?base=${baseFiat}`
-          )
-        ),
         ...Array.from(Array(config.cmcPagesN || 10).keys()).map(i =>
           dispatch(
             fetchResource(
