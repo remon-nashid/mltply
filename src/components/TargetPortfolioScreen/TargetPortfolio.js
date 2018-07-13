@@ -98,35 +98,16 @@ export default class TargetPortfolio extends PureComponent<Props> {
           )}
         {mergedPortfolios &&
           mergedPortfolios.length > 0 &&
-          mergedPortfolios.map(
-            ({ symbol, target, inTarget, current, recommendation }) => {
+          mergedPortfolios
+            .filter(({ inTarget }) => {
+              return !editing || inTarget
+            })
+            .map(({ symbol, target, current, recommendation }) => {
               return (
                 <ListItem key={symbol}>
-                  <MonoText
-                    style={{
-                      flex: 1,
-                      color: inTarget || !editing ? 'black' : 'rgba(0,0,0, 0.3)'
-                    }}
-                  >
-                    {symbol}
-                  </MonoText>
-                  <MonoText
-                    style={{
-                      flex: 1,
-                      color: inTarget || !editing ? 'black' : 'rgba(0,0,0, 0.3)'
-                    }}
-                  >
-                    {current.toString()}
-                  </MonoText>
-                  <MonoText
-                    style={{
-                      flex: 1,
-                      color: inTarget || !editing ? 'black' : 'rgba(0,0,0, 0.3)'
-                    }}
-                  >
-                    {target.toString()}
-                  </MonoText>
-
+                  <MonoText style={{ flex: 1 }}>{symbol}</MonoText>
+                  <MonoText style={{ flex: 1 }}>{current.toString()}</MonoText>
+                  <MonoText style={{ flex: 1 }}>{target.toString()}</MonoText>
                   {(editing && (
                     <View
                       style={{
@@ -137,7 +118,7 @@ export default class TargetPortfolio extends PureComponent<Props> {
                     >
                       <Button
                         transparent
-                        disabled={!inTarget || !incrementEnabled}
+                        disabled={!incrementEnabled}
                         style={{ alignSelf: 'center' }}
                         onPress={() => max(symbol)}
                       >
@@ -145,7 +126,7 @@ export default class TargetPortfolio extends PureComponent<Props> {
                       </Button>
                       <LongPressButton
                         transparent
-                        disabled={!inTarget || !incrementEnabled}
+                        disabled={!incrementEnabled}
                         style={{ alignSelf: 'center' }}
                         onPressOrHold={() => increment(symbol)}
                       >
@@ -153,7 +134,7 @@ export default class TargetPortfolio extends PureComponent<Props> {
                       </LongPressButton>
                       <LongPressButton
                         transparent
-                        disabled={!inTarget || !decrementEnabled || target <= 1}
+                        disabled={!decrementEnabled || target <= 1}
                         style={{ alignSelf: 'center' }}
                         onPressOrHold={() => decrement(symbol)}
                       >
@@ -162,7 +143,6 @@ export default class TargetPortfolio extends PureComponent<Props> {
                       <Button
                         transparent
                         danger
-                        disabled={!inTarget}
                         style={{ alignSelf: 'center' }}
                         onPress={() => remove(symbol)}
                       >
@@ -176,8 +156,7 @@ export default class TargetPortfolio extends PureComponent<Props> {
                   )}
                 </ListItem>
               )
-            }
-          )}
+            })}
         {(initiateEnabled && (
           <View
             key="xyz"

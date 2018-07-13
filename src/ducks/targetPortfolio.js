@@ -172,10 +172,11 @@ const reducer = (state: State = initialState, action: Action): State => {
     /*
       {type: 'mltply/targetPortfolio/REMOVE', symbol: 'BTC'}
       */
-    case REMOVE:
-      nextState = { ...state }
-      delete nextState.portfolio[symbol]
+    case REMOVE: {
+      const { [symbol]: removedSymbol, ...rest } = state.portfolio
+      nextState = { ...state, portfolio: rest }
       return _validate(state, nextState)
+    }
 
     case INCREMENT:
       nextState = { ...state }
