@@ -3,10 +3,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { FlatList } from 'react-native'
-import { Button, Text, Icon, View } from 'native-base'
+import { Button, Text, Icon, View, Spinner } from 'native-base'
 import { deleteConnection } from '../../ducks/exchanges'
 import { removeBySource } from '../../ducks/assets'
 
+import commonColors from '../../native-base-theme/variables/commonColor'
 import { AssetsListItem } from '../misc'
 import type { ExchangeConnection, ExchangeProps } from '../../ducks/exchanges'
 
@@ -36,11 +37,18 @@ class Screen extends React.Component<Props, State> {
           if (!props) throw new Error(`Missing props of exchange: ${item.slug}`)
 
           const { name } = props
-          const { id } = item
+          const {
+            id,
+            ui: { error, loading }
+          } = item
 
           return (
             <AssetsListItem>
-              <Text style={{ flex: 1 }}>{name}</Text>
+              <Text style={{ flex: 1 / 6 }}>{name}</Text>
+              {error && (
+                <Text style={{ color: commonColors.brandDanger }}>{error}</Text>
+              )}
+              {loading && <Spinner />}
               <View style={{ flexDirection: 'row' }}>
                 <Button
                   transparent

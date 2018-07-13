@@ -212,10 +212,24 @@ export function loadBalance(connection: ExchangeConnection) {
           }
         }
       })
-      .catch(err => {
-        console.log(typeof err, err)
+      .catch(ex => {
+        console.log(ex)
+        if (ex instanceof AuthenticationError) {
+          dispatch(
+            balanceError(
+              connection,
+              `Authentication Error. Please check your credentials.`
+            )
+          )
+        } else {
+          dispatch(
+            balanceError(
+              connection,
+              `An error has occurred while loading balance. Please try again later.`
+            )
+          )
+        }
         // FIXME dispatch a generic network error action.
-        dispatch(balanceError(connection, err.messages))
       })
   }
 }

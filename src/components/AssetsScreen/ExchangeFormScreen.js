@@ -251,9 +251,9 @@ class ExchangesFormScreen extends React.Component<Props, State> {
               }}
               onPress={this._authenticate}
             >
-              {(loading && (
-                <Spinner color="rgba(255, 255, 255, 0.6)">loading</Spinner>
-              )) || <Text>Connect</Text>}
+              {(loading && <Spinner color="rgba(255, 255, 255, 0.6)" />) || (
+                <Text>Connect</Text>
+              )}
             </Button>
             <Button light style={{ marginLeft: 5 }} onPress={this._goBack}>
               <Text>Cancel</Text>
