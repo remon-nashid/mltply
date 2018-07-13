@@ -8,6 +8,7 @@ import {
 } from '../../ducks/_selectors'
 import { sort } from '../../ducks/home'
 import Screen from './Screen'
+import config from '../../config'
 
 import type { Asset } from '../../ducks/assets'
 
@@ -33,13 +34,30 @@ const mapStateToProps = state => {
 
   const historicalValues = getHistorialValues(assets, tokensData, minAssetValue)
   const totalValue = getTotalValue(assets, tokensData, minAssetValue)
+  const chartData = allocations
+    .map(({ symbol, percentage }) => ({
+      x: symbol,
+      y: percentage
+    }))
+    .reduce(
+      (acc, item) => {
+        if (
+          item.y < config.chartLabelThreshold &&
+          acc[0].y < config.chartLabelThreshold
+        ) {
+          acc[0].y += item.y
+        } else {
+          acc.push(item)
+        }
+        return acc
+      },
+      [{ x: 'Other', y: 0 }]
+    )
+    .filter(item => !(item.x === 'Other' && item.y === 0))
 
   return {
     addAssetsButton: false,
-    chartData: allocations.map(({ symbol, percentage }) => ({
-      x: symbol,
-      y: percentage
-    })),
+    chartData,
     allocations,
     historicalValues,
     totalValue,
