@@ -73,117 +73,137 @@ export default class TargetPortfolio extends PureComponent<Props> {
 
     return (
       <ScreenTemplate>
-        <View>
-          {status === 'review' && (
-            <ErrorMessage
-            >{`Sum of allocations should be 100 (${unallocated}% remaining). Please increment the following allocations, or add a new one.`}</ErrorMessage>
+        {status === 'review' && (
+          <ErrorMessage
+          >{`Sum of allocations should be 100 (${unallocated}% remaining). Please increment the following allocations, or add a new one.`}</ErrorMessage>
+        )}
+        {editing &&
+          status === 'complete' && (
+            <SuccessMessage>
+              If you finished editing, press on "save" button to reveal
+              rebalancing recommendations.
+            </SuccessMessage>
           )}
-          {editing &&
-            status === 'complete' && (
-              <SuccessMessage>
-                If you finished editing, press on "save" button to reveal
-                rebalancing recommendations.
-              </SuccessMessage>
-            )}
 
-          {mergedPortfolios &&
-            mergedPortfolios.length > 0 && (
-              <ListItem style={{ justifyContent: 'space-between' }}>
-                <MonoText style={styles.columnHeader}>Symbol</MonoText>
-                <MonoText style={styles.columnHeader}>Current (%)</MonoText>
-                <MonoText style={styles.columnHeader}>Target (%)</MonoText>
-                <MonoText style={styles.columnHeader}>
-                  {(editing && 'Actions') || 'Recommendation'}
-                </MonoText>
-              </ListItem>
-            )}
-          {mergedPortfolios &&
-            mergedPortfolios.length > 0 &&
-            mergedPortfolios.map(
-              ({ symbol, target, inTarget, current, recommendation }) => {
-                return (
-                  <ListItem key={symbol}>
-                    <MonoText
-                      style={{
-                        flex: 1,
-                        color:
-                          inTarget || !editing ? 'black' : 'rgba(0,0,0, 0.3)'
-                      }}
-                    >
-                      {symbol}
-                    </MonoText>
-                    <MonoText
-                      style={{
-                        flex: 1,
-                        color:
-                          inTarget || !editing ? 'black' : 'rgba(0,0,0, 0.3)'
-                      }}
-                    >
-                      {current.toString()}
-                    </MonoText>
-                    <MonoText
-                      style={{
-                        flex: 1,
-                        color:
-                          inTarget || !editing ? 'black' : 'rgba(0,0,0, 0.3)'
-                      }}
-                    >
-                      {target.toString()}
-                    </MonoText>
+        {mergedPortfolios &&
+          mergedPortfolios.length > 0 && (
+            <ListItem style={{ justifyContent: 'space-between' }}>
+              <MonoText style={styles.columnHeader}>Symbol</MonoText>
+              <MonoText style={styles.columnHeader}>Current (%)</MonoText>
+              <MonoText style={styles.columnHeader}>Target (%)</MonoText>
+              <MonoText style={styles.columnHeader}>
+                {(editing && 'Actions') || 'Recommendation'}
+              </MonoText>
+            </ListItem>
+          )}
+        {mergedPortfolios &&
+          mergedPortfolios.length > 0 &&
+          mergedPortfolios.map(
+            ({ symbol, target, inTarget, current, recommendation }) => {
+              return (
+                <ListItem key={symbol}>
+                  <MonoText
+                    style={{
+                      flex: 1,
+                      color: inTarget || !editing ? 'black' : 'rgba(0,0,0, 0.3)'
+                    }}
+                  >
+                    {symbol}
+                  </MonoText>
+                  <MonoText
+                    style={{
+                      flex: 1,
+                      color: inTarget || !editing ? 'black' : 'rgba(0,0,0, 0.3)'
+                    }}
+                  >
+                    {current.toString()}
+                  </MonoText>
+                  <MonoText
+                    style={{
+                      flex: 1,
+                      color: inTarget || !editing ? 'black' : 'rgba(0,0,0, 0.3)'
+                    }}
+                  >
+                    {target.toString()}
+                  </MonoText>
 
-                    {(editing && (
-                      <View
-                        style={{
-                          flex: 1,
-                          flexDirection: 'row',
-                          height: 20
-                        }}
+                  {(editing && (
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        height: 20
+                      }}
+                    >
+                      <Button
+                        transparent
+                        disabled={!inTarget || !incrementEnabled}
+                        style={{ alignSelf: 'center' }}
+                        onPress={() => max(symbol)}
                       >
-                        <Button
-                          transparent
-                          disabled={!inTarget || !incrementEnabled}
-                          style={{ alignSelf: 'center' }}
-                          onPress={() => max(symbol)}
-                        >
-                          <Text>MAX</Text>
-                        </Button>
-                        <LongPressButton
-                          transparent
-                          disabled={!inTarget || !incrementEnabled}
-                          style={{ alignSelf: 'center' }}
-                          onPressOrHold={() => increment(symbol)}
-                        >
-                          <Icon type="MaterialCommunityIcons" name="plus" />
-                        </LongPressButton>
-                        <LongPressButton
-                          transparent
-                          disabled={
-                            !inTarget || !decrementEnabled || target <= 1
-                          }
-                          style={{ alignSelf: 'center' }}
-                          onPressOrHold={() => decrement(symbol)}
-                        >
-                          <Icon type="MaterialCommunityIcons" name="minus" />
-                        </LongPressButton>
-                        <Button
-                          transparent
-                          danger
-                          disabled={!inTarget}
-                          style={{ alignSelf: 'center' }}
-                          onPress={() => remove(symbol)}
-                        >
-                          <Icon type="MaterialCommunityIcons" name="delete" />
-                        </Button>
-                      </View>
-                    )) || (
-                      <View style={{ flex: 1, flexDirection: 'row' }}>
-                        <MonoText>{recommendation}</MonoText>
-                      </View>
-                    )}
-                  </ListItem>
-                )
+                        <Text>MAX</Text>
+                      </Button>
+                      <LongPressButton
+                        transparent
+                        disabled={!inTarget || !incrementEnabled}
+                        style={{ alignSelf: 'center' }}
+                        onPressOrHold={() => increment(symbol)}
+                      >
+                        <Icon type="MaterialCommunityIcons" name="plus" />
+                      </LongPressButton>
+                      <LongPressButton
+                        transparent
+                        disabled={!inTarget || !decrementEnabled || target <= 1}
+                        style={{ alignSelf: 'center' }}
+                        onPressOrHold={() => decrement(symbol)}
+                      >
+                        <Icon type="MaterialCommunityIcons" name="minus" />
+                      </LongPressButton>
+                      <Button
+                        transparent
+                        danger
+                        disabled={!inTarget}
+                        style={{ alignSelf: 'center' }}
+                        onPress={() => remove(symbol)}
+                      >
+                        <Icon type="MaterialCommunityIcons" name="delete" />
+                      </Button>
+                    </View>
+                  )) || (
+                    <View style={{ flex: 1, flexDirection: 'row' }}>
+                      <MonoText>{recommendation}</MonoText>
+                    </View>
+                  )}
+                </ListItem>
+              )
+            }
+          )}
+        {(initiateEnabled && (
+          <View
+            key="xyz"
+            style={{
+              flexDirection: 'column',
+              alignItems: 'center',
+              padding: 15
+            }}
+          >
+            <Button block success onPress={initiate}>
+              <Text>Start from current portfolio</Text>
+            </Button>
+            <Button
+              block
+              success
+              style={{ marginTop: 15 }}
+              onPress={() =>
+                navigation.navigate('TokenPicker', {
+                  selectHandler: this._selectHandler
+                })
               }
-            )}
+            >
+              <Text>Start from scratch</Text>
+            </Button>
+          </View>
+        )) || (
           <View
             style={{
               flexDirection: 'row',
@@ -194,11 +214,6 @@ export default class TargetPortfolio extends PureComponent<Props> {
             {resetEnabled && (
               <Button style={{ margin: 5 }} danger onPress={reset}>
                 <Text>RESET</Text>
-              </Button>
-            )}
-            {initiateEnabled && (
-              <Button style={{ margin: 5 }} onPress={initiate}>
-                <Text>COPY CURRENT PORTFOLIO</Text>
               </Button>
             )}
             {editing && (
@@ -230,7 +245,7 @@ export default class TargetPortfolio extends PureComponent<Props> {
               </Button>
             )}
           </View>
-        </View>
+        )}
       </ScreenTemplate>
     )
   }
