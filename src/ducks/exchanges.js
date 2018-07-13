@@ -179,12 +179,10 @@ export function authenticate(connection: ExchangeConnection, navigation: any) {
           dispatch(
             authFailed(`Authentication Error. Please check your credentials.`)
           )
-        } else if (ex instanceof NetworkError) {
-          dispatch(authFailed(`Network Error. Try again later.`))
-        } else if (ex instanceof BaseError) {
+        } else {
           dispatch(
             authFailed(
-              `An error has occurred while connecting. Please check your credentials.`
+              `An error has occurred while connecting. Please try again later.`
             )
           )
         }
@@ -194,7 +192,6 @@ export function authenticate(connection: ExchangeConnection, navigation: any) {
 
 export function loadBalance(connection: ExchangeConnection) {
   return (dispatch: Dispatch<any>, getState: Function) => {
-    dispatch(loadingBalance(connection))
     dispatch(ccxtRequest(connection, 'fetchBalance'))
       .then(response => {
         dispatch(balanceReceived(connection))
@@ -216,7 +213,8 @@ export function loadBalance(connection: ExchangeConnection) {
         }
       })
       .catch(err => {
-        console.log('err', err)
+        console.log(typeof err, err)
+        // FIXME dispatch a generic network error action.
         dispatch(balanceError(connection, err.messages))
       })
   }

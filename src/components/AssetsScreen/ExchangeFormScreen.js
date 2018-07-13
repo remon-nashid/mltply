@@ -101,7 +101,9 @@ class ExchangesFormScreen extends React.Component<Props, State> {
 
   componentDidMount() {
     this._sub = this.props.navigation.addListener('willBlur', payload => {
-      // Reset form loader and error before navigating away
+      this.props.resetUI()
+    })
+    this._sub = this.props.navigation.addListener('willFocus', payload => {
       this.props.resetUI()
     })
   }
