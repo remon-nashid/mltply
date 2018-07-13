@@ -8,7 +8,7 @@ import ccxt from 'ccxt'
 
 import Root from './components/Root'
 import getTheme from './native-base-theme/components'
-import commonColors from './native-base-theme/variables/commonColor'
+import commonColor from './native-base-theme/variables/commonColor'
 import store, { persistor } from './reduxStore'
 import { fetchResource } from './ducks/tokens'
 import { loadBalance, initExchangeProps } from './ducks/exchanges'
@@ -77,7 +77,7 @@ const ConnectedApp = connect(
 )(App)
 
 export default () => (
-  <StyleProvider style={getTheme(commonColors)}>
+  <StyleProvider style={getTheme(commonColor)}>
     <ReduxProvider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ConnectedApp />

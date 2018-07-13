@@ -27,7 +27,7 @@ export default ({
   navigation?: Object,
   contentContainerStyle?: Object
 }) => (
-  <Container {...props}>
+  <Container style={{ backgroundColor: '#F8F8F8' }} {...props}>
     <Header
       style={{
         shadowOffset: {
