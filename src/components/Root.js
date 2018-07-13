@@ -9,21 +9,33 @@ import SettingsScreen from './SettingsScreen'
 import AssetsScreen from './AssetsScreen'
 import TargetPortfolioScreen from './TargetPortfolioScreen'
 
-const RouteConfigs = {
+const routeConfigs = {
   Portfolio: HomeScreen,
   Assets: AssetsScreen,
   TargetPortfolio: TargetPortfolioScreen,
   Settings: SettingsScreen
 }
 
-const RouteIconsMap = {
-  Portfolio: <Icon type="MaterialCommunityIcons" name="chart-donut" />,
-  Assets: <Icon type="MaterialCommunityIcons" name="coins" />,
-  TargetPortfolio: <Icon type="MaterialCommunityIcons" name="target" />,
-  Settings: <Icon type="MaterialCommunityIcons" name="settings" />
+const routesMap = {
+  Portfolio: {
+    label: 'Portfolio',
+    icon: <Icon type="MaterialCommunityIcons" name="chart-donut" />
+  },
+  Assets: {
+    label: 'Assets',
+    icon: <Icon type="MaterialCommunityIcons" name="coins" />
+  },
+  TargetPortfolio: {
+    label: 'Target Porfolio',
+    icon: <Icon type="MaterialCommunityIcons" name="target" />
+  },
+  Settings: {
+    label: 'Settings',
+    icon: <Icon type="MaterialCommunityIcons" name="settings" />
+  }
 }
 
-export default createBottomTabNavigator(RouteConfigs, {
+export default createBottomTabNavigator(routeConfigs, {
   initialRouteName: 'Portfolio',
   tabBarComponent: props => {
     return (
@@ -36,7 +48,7 @@ export default createBottomTabNavigator(RouteConfigs, {
         }}
       >
         <FooterTab>
-          {Object.keys(RouteConfigs).map((key, i) => (
+          {Object.keys(routeConfigs).map((key, i) => (
             <Button
               key={i}
               vertical
@@ -45,8 +57,8 @@ export default createBottomTabNavigator(RouteConfigs, {
                 props.navigation.navigate(props.navigation.state.routes[i].key)
               }
             >
-              {RouteIconsMap[key]}
-              <Text>{props.navigation.state.routes[i].key}</Text>
+              {routesMap[key].icon}
+              <Text>{routesMap[key].label}</Text>
             </Button>
           ))}
         </FooterTab>
