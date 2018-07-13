@@ -2,12 +2,13 @@
 
 import { Platform } from 'react-native'
 import { combineReducers } from 'redux'
-import ccxt, { AuthenticationError, NetworkError, BaseError } from 'ccxt'
+import ccxt, { AuthenticationError } from 'ccxt'
 import equal from 'deep-equal'
 
 import type { Dispatch } from 'redux'
 import { getAssetsBySourceId } from './_selectors'
 import { saveMultiple } from './assets'
+import { addError, removeError } from './errors'
 import config from '../config'
 
 import type { Asset } from './assets'
@@ -195,6 +196,7 @@ export function loadBalance(connection: ExchangeConnection) {
     dispatch(ccxtRequest(connection, 'fetchBalance'))
       .then(response => {
         dispatch(balanceReceived(connection))
+        dispatch(removeError())
         if ('free' in response) {
           const sourceId = connection.id
           const filteredAssets: Array<Asset> = Object.entries(response.free)
@@ -215,21 +217,15 @@ export function loadBalance(connection: ExchangeConnection) {
       .catch(ex => {
         console.log(ex)
         if (ex instanceof AuthenticationError) {
-          dispatch(
-            balanceError(
-              connection,
-              `Authentication Error. Please check your credentials.`
-            )
-          )
+          const message = 'Authentication Error. Please check your credentials.'
+          dispatch(balanceError(connection, message))
+          dispatch(addError(`${connection.name}: ${message}`))
         } else {
-          dispatch(
-            balanceError(
-              connection,
-              `An error has occurred while loading balance. Please try again later.`
-            )
-          )
+          const message =
+            'An error has occurred while loading balance. Please try again later.'
+          dispatch(balanceError(connection, message))
+          dispatch(addError(`${connection.name}: ${message}`))
         }
-        // FIXME dispatch a generic network error action.
       })
   }
 }

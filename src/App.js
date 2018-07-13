@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { StyleProvider } from 'native-base'
+import { StyleProvider, Root as NBRoot, Toast } from 'native-base'
 import { Provider as ReduxProvider, connect } from 'react-redux'
 import { PersistGate } from 'redux-persist/lib/integration/react'
 import ccxt from 'ccxt'
@@ -12,13 +12,15 @@ import commonColor from './native-base-theme/variables/commonColor'
 import store, { persistor } from './reduxStore'
 import { fetchResource } from './ducks/tokens'
 import { loadBalance, initExchangeProps } from './ducks/exchanges'
+import { removeError } from './ducks/errors'
 
 import config from './config'
 
 const mapStateToProps = state => {
   return {
     baseFiat: state.settings.baseFiat,
-    exchanges: state.exchanges.connections
+    exchanges: state.exchanges.connections,
+    error: state.errors
   }
 }
 
@@ -40,7 +42,8 @@ const mapDispatchToProps = (dispatch, getState) => {
           dispatch(loadBalance(connection))
         })
       ]).then(() => callback())
-    }
+    },
+    removeError: () => dispatch(removeError())
   }
 }
 
@@ -66,8 +69,32 @@ class App extends React.Component<any, State> {
     initExchangeProps(ccxt)
   }
 
+  componentDidUpdate() {
+    // Display errors, if any.
+    const { error, removeError } = this.props
+    if (error) {
+      Toast.show({
+        duration: 1000000, // Error shall be visible, until dismissed.
+        text: error,
+        type: 'danger',
+        buttonText: 'okay',
+        onClose: removeError,
+        style: {
+          height: 75
+        },
+        buttonStyle: {
+          alignSelf: 'center'
+        }
+      })
+    }
+  }
+
   render() {
-    return <Root />
+    return (
+      <NBRoot>
+        <Root />
+      </NBRoot>
+    )
   }
 }
 

@@ -4,6 +4,7 @@ import { Platform } from 'react-native'
 
 import config from '../config'
 import type { ExtractReturn } from '../types'
+import { addError, removeError } from './errors'
 
 // Types
 export type Token = {
@@ -124,11 +125,18 @@ export function fetchResource(key: string, url: string): Function {
               acc[fiat.Id] = fiat
               return acc
             }, {})
-
+          dispatch(removeError())
           dispatch(received(fiat))
         }
       })
-      .catch(err => console.error(err))
+      .catch(err => {
+        console.error(err)
+        dispatch(
+          addError(
+            'Failed to fetch currency exchange rates. Please try again later.'
+          )
+        )
+      })
   }
 }
 
