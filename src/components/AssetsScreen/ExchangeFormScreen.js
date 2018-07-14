@@ -61,6 +61,7 @@ const labelsMap = {
 class ExchangesFormScreen extends React.Component<Props, State> {
   exchangeProps: Array<ExchangeProps>
   _sub: Object
+  _sub2: Object
 
   constructor(props: Props) {
     super(props)
@@ -103,12 +104,13 @@ class ExchangesFormScreen extends React.Component<Props, State> {
     this._sub = this.props.navigation.addListener('willBlur', payload => {
       this.props.resetUI()
     })
-    this._sub = this.props.navigation.addListener('willFocus', payload => {
+    this._sub2 = this.props.navigation.addListener('willFocus', payload => {
       this.props.resetUI()
     })
   }
   componentWillUnmount() {
     this._sub.remove()
+    this._sub2.remove()
   }
 
   _selectExchange = function(selected: number) {

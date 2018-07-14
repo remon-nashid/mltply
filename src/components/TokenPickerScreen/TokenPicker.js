@@ -19,11 +19,21 @@ type State = {
 }
 
 export default class TokenPicker extends React.PureComponent<Props, State> {
+  _sub: Object
+  searchBar: any
   constructor(props: Props) {
     super(props)
-    this.state = {
-      filter: ''
-    }
+    this.state = { filter: '' }
+    this.searchBar = React.createRef()
+  }
+
+  componentDidMount() {
+    this._sub = this.props.navigation.addListener('didFocus', payload => {
+      this.searchBar.current._root.focus()
+    })
+  }
+  componentWillUnmount() {
+    this._sub.remove()
   }
 
   _renderToken(
@@ -60,6 +70,7 @@ export default class TokenPicker extends React.PureComponent<Props, State> {
         <Item>
           <Icon type="MaterialCommunityIcons" name="magnify" />
           <Input
+            ref={this.searchBar}
             placeholder="Search..."
             value={filter}
             onChangeText={value => this.setState({ filter: value })}
