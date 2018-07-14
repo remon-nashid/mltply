@@ -282,6 +282,7 @@ function connectionsReducer(
   switch (action.type) {
     case SAVE_CONNECTION: {
       let nextState = state.filter(item => item.id !== connection.id)
+      connection.ui = { error: undefined, loading: false }
       nextState.push(connection)
       return nextState
     }
