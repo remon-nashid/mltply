@@ -11,6 +11,7 @@ const Chart = ({
   <View style={{ maxWidth: 480, width: '100%' }}>
     <VictoryPie
       theme={VictoryTheme.material}
+      labels={({ x, y }: { x: string, y: number }) => `${x}\n${y.toFixed(2)}%`}
       data={chartData}
       sortKey="y"
       sortOrder="descending"
