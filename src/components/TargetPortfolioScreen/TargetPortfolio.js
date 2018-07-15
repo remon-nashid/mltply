@@ -220,7 +220,7 @@ export default class TargetPortfolio extends PureComponent<Props> {
                   })
                 }
               >
-                <Text>ADD ALLOCATION</Text>
+                <Text>ADD TARGET ALLOCATION</Text>
               </Button>
             )}
           </View>

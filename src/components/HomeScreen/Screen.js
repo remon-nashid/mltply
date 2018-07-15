@@ -4,6 +4,7 @@ import React from 'react'
 import { Button, Text, Toast } from 'native-base'
 
 import ScreenTemplate from '../ScreenTemplate'
+import IntroScreen from '../IntroScreen'
 import Chart from './Chart'
 import Table from './Table'
 import Values from './Values'
@@ -39,25 +40,7 @@ export default class Screen extends React.PureComponent<Props> {
     } = this.props
 
     if (addAssetsButton) {
-      return (
-        <ScreenTemplate
-          contentContainerStyle={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100%'
-          }}
-        >
-          <Button
-            success
-            block
-            onPress={() => {
-              navigation.navigate('Assets')
-            }}
-          >
-            <Text>Start tracking some assets</Text>
-          </Button>
-        </ScreenTemplate>
-      )
+      return <IntroScreen navigation={navigation} />
     } else {
       return (
         <ScreenTemplate contentContainerStyle={{ alignItems: 'center' }}>
