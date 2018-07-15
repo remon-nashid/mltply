@@ -20,7 +20,7 @@ type Props = {
   totalValue: number,
   baseFiat: string,
   historicalValues: HistoricalValues,
-  addAssetsButton: boolean,
+  introScreen: boolean,
   navigation: Object
 }
 
@@ -35,11 +35,11 @@ export default class Screen extends React.PureComponent<Props> {
       historicalValues,
       totalValue,
       baseFiat,
-      addAssetsButton,
+      introScreen,
       navigation
     } = this.props
 
-    if (addAssetsButton) {
+    if (introScreen) {
       return <IntroScreen navigation={navigation} />
     } else {
       return (

@@ -27,7 +27,7 @@ const mapStateToProps = state => {
 
   if (allocations.length === 0) {
     return {
-      addAssetsButton: true
+      introScreen: true
     }
   }
 
@@ -50,7 +50,7 @@ const mapStateToProps = state => {
     .map(({ symbol, percentage }) => ({ x: symbol, y: percentage }))
 
   return {
-    addAssetsButton: false,
+    introScreen: false,
     chartData,
     allocations,
     historicalValues,
