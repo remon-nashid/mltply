@@ -49,7 +49,7 @@ export default class IntroScreen extends React.PureComponent<Props> {
           mltp.ly
         </Text>
         <Text>
-          Your privacy-oriented, crytpocurrency passive investing tool.
+          Your privacy-oriented, cryptocurrency passive investing tool.
         </Text>
 
         <View style={{ marginTop: 40, marginBottom: 40 }}>
