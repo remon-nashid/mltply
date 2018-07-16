@@ -41,12 +41,12 @@ export default class IntroScreen extends React.PureComponent<Props> {
       >
         <Text
           style={{
-            fontSize: 50,
-            fontFamily: 'Roboto_medium',
-            marginBottom: 10
+            fontSize: 55,
+            fontFamily: 'Roboto Mono Medium',
+            marginBottom: 20
           }}
         >
-          mltp.ly
+          mltply
         </Text>
         <Text>
           Your privacy-oriented, cryptocurrency passive investing tool.
