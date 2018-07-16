@@ -10,8 +10,11 @@ import commonColors from '../native-base-theme/variables/commonColor'
 export const HR = () => (
   <View
     style={{
-      padding: 4,
-      borderBottomColor: 'black',
+      paddingTop: 10,
+      paddingBottom: 10,
+      marginTop: 10,
+      marginBottom: 10,
+      borderBottomColor: 'gray',
       borderBottomWidth: StyleSheet.hairlineWidth
     }}
   />

@@ -48,5 +48,29 @@ export default {
   fetchProxy: false,
   chartLabelThreshold: 2,
   cmcPagesN: 5,
-  appName: 'mltply'
+  appName: 'mltply',
+  socialLinks: [
+    {
+      label: 'twitter',
+      url: 'https://twitter.com/mltp_ly'
+    },
+    {
+      label: 'reddit',
+      url: 'https://www.reddit.com/user/mltp_ly'
+    },
+    {
+      label: 'medium',
+      url: 'https://medium.com/me/stories/public'
+    },
+    {
+      label: 'facebook',
+      url: 'https://www.facebook.com/mltplyapp'
+    },
+    {
+      label: 'github',
+      iconName: 'github-circle',
+      url: 'https://github.com/remon-nashid/mltply'
+    }
+  ],
+  canny: 'https://mltply.canny.io/feature-requests'
 }

@@ -5,38 +5,44 @@ import { Text, Footer, FooterTab, Button, Icon } from 'native-base'
 import { createBottomTabNavigator } from 'react-navigation'
 
 import HomeScreen from './HomeScreen'
-import SettingsScreen from './SettingsScreen'
 import AssetsScreen from './AssetsScreen'
 import TargetPortfolioScreen from './TargetPortfolioScreen'
+import SettingsScreen from './SettingsScreen'
+import AboutScreen from './AboutScreen'
 
 const routeConfigs = {
   Portfolio: HomeScreen,
   Assets: AssetsScreen,
   TargetPortfolio: TargetPortfolioScreen,
-  Settings: SettingsScreen
+  Settings: SettingsScreen,
+  About: AboutScreen
 }
 
 const routesMap = {
   Portfolio: {
     label: 'Portfolio',
-    icon: <Icon type="MaterialCommunityIcons" name="chart-donut" />
+    iconName: 'chart-donut'
   },
   Assets: {
     label: 'Assets',
-    icon: <Icon type="MaterialCommunityIcons" name="coins" />
+    iconName: 'coins'
   },
   TargetPortfolio: {
     label: 'Target Porfolio',
-    icon: <Icon type="MaterialCommunityIcons" name="target" />
+    iconName: 'target'
   },
   Settings: {
     label: 'Settings',
-    icon: <Icon type="MaterialCommunityIcons" name="settings" />
+    iconName: 'settings'
+  },
+  About: {
+    label: 'About',
+    iconName: 'information-outline'
   }
 }
 
 export default createBottomTabNavigator(routeConfigs, {
-  initialRouteName: 'Portfolio',
+  initialRouteName: 'About',
   tabBarComponent: props => {
     return (
       <Footer
@@ -57,7 +63,10 @@ export default createBottomTabNavigator(routeConfigs, {
                 props.navigation.navigate(props.navigation.state.routes[i].key)
               }
             >
-              {routesMap[key].icon}
+              <Icon
+                type="MaterialCommunityIcons"
+                name={routesMap[key].iconName}
+              />
               <Text>{routesMap[key].label}</Text>
             </Button>
           ))}
