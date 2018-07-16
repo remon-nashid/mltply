@@ -8,21 +8,32 @@ type Props = {
   navigation: Object
 }
 
+const FooterIcon = ({ name }: { name: string }) => (
+  <Icon
+    type="MaterialCommunityIcons"
+    name={name}
+    style={{
+      alignSelf: 'flex-end',
+      marginBottom: 6
+    }}
+  />
+)
+
 const routesMap = {
   Portfolio: {
     label: 'Portfolio',
-    icon: <Icon type="MaterialCommunityIcons" name="chart-donut" />,
+    icon: <FooterIcon name="chart-donut" />,
     desc: 'View summary of your assets.'
   },
   Assets: {
     label: 'Assets',
-    icon: <Icon type="MaterialCommunityIcons" name="coins" />,
+    icon: <FooterIcon name="coins" />,
     desc:
       'Enter your assets either manually or through a connection to your exchange accounts.'
   },
   TargetPortfolio: {
     label: 'Target Porfolio',
-    icon: <Icon type="MaterialCommunityIcons" name="target" />,
+    icon: <FooterIcon name="target" />,
     desc:
       'Get trade recommendations to reach your target portfolio allocations.'
   }
@@ -52,7 +63,7 @@ export default class IntroScreen extends React.PureComponent<Props> {
           Your privacy-oriented, cryptocurrency passive investing tool.
         </Text>
 
-        <View style={{ marginTop: 40, marginBottom: 40 }}>
+        <View style={{ marginTop: 40, marginBottom: 40, width: '100%' }}>
           {Object.keys(routesMap).map((key, i) => (
             <View
               key={key}
@@ -67,8 +78,8 @@ export default class IntroScreen extends React.PureComponent<Props> {
                 active={navigation.state.index === i}
                 light
                 style={{
-                  alignSelf: 'center',
-                  flex: 1,
+                  alignSelf: 'flex-end',
+                  flex: 2,
                   backgroundColor: '#f8f8f8'
                 }}
                 onPress={() => {
@@ -76,9 +87,19 @@ export default class IntroScreen extends React.PureComponent<Props> {
                 }}
               >
                 {routesMap[key].icon}
-                <Text>{routesMap[key].label}</Text>
+                <Text
+                  style={{
+                    alignSelf: 'flex-end'
+                  }}
+                >
+                  {routesMap[key].label}
+                </Text>
               </Button>
-              <Text style={{ flex: 3 }}>{routesMap[key].desc}</Text>
+              <Text
+                style={{ flex: 3, alignSelf: 'flex-end', paddingBottom: 6 }}
+              >
+                {routesMap[key].desc}
+              </Text>
             </View>
           ))}
         </View>
