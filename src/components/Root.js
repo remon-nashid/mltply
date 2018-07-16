@@ -42,7 +42,7 @@ const routesMap = {
 }
 
 export default createBottomTabNavigator(routeConfigs, {
-  initialRouteName: 'About',
+  initialRouteName: 'Portfolio',
   tabBarComponent: props => {
     return (
       <Footer
