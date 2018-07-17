@@ -50,7 +50,9 @@
     "redux-immutable-state-invariant": "^2.1.0",
     "style-loader": "^0.21.0",
     "sw-precache-webpack-plugin": "^0.11.5",
-    "webpack-manifest-plugin": "^2.0.3"
+    "webpack-manifest-plugin": "^2.0.3",
+    "webpack": "3.*",
+    "webpack-dev-server": "2.*"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry-web.js",
   "scripts": {
@@ -73,8 +75,8 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "autoprefixer": "^8.6.5",
-    "ccxt": "^1.16.15",
+    "autoprefixer": "^9.0.0",
+    "ccxt": "^1.16.47",
     "currency-symbol-map": "^4.0.4",
     "deep-equal": "^1.0.1",
     "dotenv": "^6.0.0",
@@ -100,10 +102,8 @@
     "static-container": "^1.2.0",
     "url-loader": "^1.0.1",
     "uuid": "^3.3.2",
-    "victory": "^0.27.2",
+    "victory": "0.27.*",
     "victory-native": "^0.18.2",
-    "webpack": "3.*",
-    "webpack-dev-server": "2.*",
     "wolfy87-eventemitter": "^5.2.5"
   }
 }
