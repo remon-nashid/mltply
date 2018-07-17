@@ -91,7 +91,7 @@ export default class TargetPortfolio extends PureComponent<Props> {
               <MonoText style={styles.columnHeader}>Symbol</MonoText>
               <MonoText style={styles.columnHeader}>Current (%)</MonoText>
               <MonoText style={styles.columnHeader}>Target (%)</MonoText>
-              <MonoText style={styles.columnHeader}>
+              <MonoText style={[styles.columnHeader, { flex: 2 }]}>
                 {(editing && 'Actions') || 'Recommendation'}
               </MonoText>
             </ListItem>
@@ -111,7 +111,7 @@ export default class TargetPortfolio extends PureComponent<Props> {
                   {(editing && (
                     <View
                       style={{
-                        flex: 1,
+                        flex: 2,
                         flexDirection: 'row',
                         height: 20
                       }}
@@ -150,7 +150,7 @@ export default class TargetPortfolio extends PureComponent<Props> {
                       </Button>
                     </View>
                   )) || (
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <View style={{ flex: 2, flexDirection: 'row' }}>
                       <MonoText>{recommendation}</MonoText>
                     </View>
                   )}
