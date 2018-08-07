@@ -64,17 +64,6 @@ const SocialLinks = () => {
   )
 }
 
-const FeatureRequests = () => (
-  <View>
-    <Header>Vote for next feature</Header>
-    <Link
-      label={'Feature requests'}
-      url={config.canny}
-      iconName={'source-pull'}
-    />
-  </View>
-)
-
 const Disclaimer = () => (
   <View>
     <Header>Disclaimer</Header>
@@ -98,8 +87,6 @@ export default class AboutScreen extends React.PureComponent<any> {
     return (
       <ScreenTemplate>
         <SocialLinks />
-        <HR />
-        <FeatureRequests />
         <HR />
         <Disclaimer />
       </ScreenTemplate>
