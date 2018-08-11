@@ -47,7 +47,7 @@ export default {
   corsProxyURL: 'http://localhost:8080/',
   fetchProxy: false,
   chartLabelThreshold: 2,
-  cmcPagesN: 5,
+  cmcPagesN: 10,
   appName: 'mltply',
   socialLinks: [
     {
